@@ -1,0 +1,1 @@
+{"dependencies":[["vagrant-puppet-install",["= 7.0.0"]]],"checksum":"21a877834b1f16a377c78507e8e0ee2e8ab5805ebbf4006719e9b9e09a62fba2","vagrant_version":"2.2.19"}

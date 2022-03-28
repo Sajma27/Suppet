@@ -1,0 +1,51 @@
+BOX_IMAGE = "bento/ubuntu-20.04"
+AGENTS_COUNT = 1
+
+Vagrant.configure("2") do |config|
+
+	config.vm.define "puppet-master" do |master_config|
+
+		master_config.vm.box = BOX_IMAGE
+
+		master_config.vm.network "private_network", ip: "192.168.56.120"
+
+		master_config.vm.hostname = "puppet-master"
+
+		master_config.vm.provider "virtualbox" do |v|
+		  v.memory = 4096
+		  v.cpus = 4
+		end
+		
+		master_config.vm.provision "shell", inline: <<-SHELL
+		  wget https://apt.puppet.com/puppet7-release-focal.deb
+		  sudo dpkg -i puppet7-release-focal.deb
+		  sudo apt update -y 
+		  sudo apt install -y puppetserver 
+		  sudo echo "192.168.56.120 puppet" >> /etc/hosts
+		  sudo systemctl enable puppetserver.service
+		  sudo systemctl start puppetserver.service
+		SHELL
+  end
+  
+	(1..AGENTS_COUNT).each do |i|
+		config.vm.define "puppet-agent-#{i}" do |agent_config|
+			agent_config.vm.box = BOX_IMAGE
+			agent_config.vm.hostname = "puppet-agent-#{i}"
+			agent_config.vm.network "private_network", ip: "192.168.56.12#{i}"
+
+			agent_config.vm.provider "virtualbox" do |v|
+				v.memory = 1024
+				v.cpus = 1
+			end
+			
+			agent_config.vm.provision "shell", inline: <<-SHELL
+			  wget https://apt.puppet.com/puppet7-release-focal.deb
+			  sudo dpkg -i puppet7-release-focal.deb
+			  sudo apt update -y
+			  sudo apt install -y puppet-agent
+			  sudo echo "192.168.56.120 puppet" >> /etc/hosts
+			SHELL
+		end
+	end
+
+end
