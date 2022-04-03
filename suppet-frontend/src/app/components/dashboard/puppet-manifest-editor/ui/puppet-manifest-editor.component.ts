@@ -19,8 +19,8 @@ export class PuppetManifestEditorComponent implements OnInit {
   ngOnInit(): void {
     this.manifest.content = "Loading...";
     this.puppetManifestService.getCurrentManifestFile().subscribe((manifest: PuppetManifest) => {
-      this.manifest = manifest;
-      this.canSave = true;
+      this.manifest.content = manifest?.content || 'Cannot load current manifest';
+      this.canSave = manifest !== null;
     }, () => { this.manifest.content = "Cannot load current manifest" });
   }
 
