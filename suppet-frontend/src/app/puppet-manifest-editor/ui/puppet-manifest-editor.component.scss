@@ -1,0 +1,29 @@
+
+.form-container {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.set-manifest-btn {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.manifest-textarea {
+  width: 80%;
+}
+
+.success-result-info {
+  color: green;
+  font-size: 12px;
+}
+
+.error-result-info {
+  color: red;
+  font-size: 12px;
+}

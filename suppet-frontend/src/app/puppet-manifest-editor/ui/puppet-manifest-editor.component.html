@@ -1,0 +1,6 @@
+<form class="form-container">
+  <textarea [(ngModel)]="manifest.content" [disabled]="!canSave" name="manifestContent" rows="30" class="manifest-textarea"></textarea>
+  <button [disabled]="!canSave" (click)="onSetManifest()" class="set-manifest-btn">Ustaw nowy manifest</button>
+  <div *ngIf="lastSaveResult" class="success-result-info">Ustawiono nowy manifest</div>
+  <div *ngIf="lastSaveResult === false" class="error-result-info">Nie udało się ustawić nowego manifestu!</div>
+</form>
