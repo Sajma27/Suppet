@@ -1,6 +1,5 @@
-
-<div class="main-container">
-  <h2>{{ title }}</h2>
-  <app-puppet-manifest-editor class="sub-container"></app-puppet-manifest-editor>
+<div class="main-container" *ngIf="!(auth.isAuthenticated$ | async)">
+  <img [src]="logoImg">
+  <app-login-button></app-login-button>
 </div>
-
+<app-dashboard *ngIf="auth.isAuthenticated$ | async"></app-dashboard>
