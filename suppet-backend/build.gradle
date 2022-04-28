@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'com.dyplom'
-version = '0.0.2-SNAPSHOT'
+version = ''
 sourceCompatibility = '11'
 
 repositories {

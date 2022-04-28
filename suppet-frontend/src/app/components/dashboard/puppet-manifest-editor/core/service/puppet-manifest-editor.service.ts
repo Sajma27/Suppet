@@ -14,6 +14,10 @@ export class PuppetManifestEditorService {
   constructor(private http: HttpClient) {
   }
 
+  updateAgent(): Observable<void> {
+    return this.http.get<void>(environment.apiHostUrl + '/puppet/agents/updateAgent', { params: { agent: 'puppet-agent-1' } });
+  }
+
   getCurrentManifestFile(): Observable<PuppetManifest> {
     return this.http.get<PuppetManifest>(this.apiUrl + '/getCurrentManifestFile');
   }

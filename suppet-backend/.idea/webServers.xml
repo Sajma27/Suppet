@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="86441454-b684-44bc-9efe-2c9276e20485" name="PuppetMaster" url="http://192.168.56.120/">
+        <fileTransfer rootFolder="/home/suppet-remote" accessType="SFTP" host="192.168.56.120" port="22" sshConfigId="5410ad23-7166-422f-b863-adadfc758540" sshConfig="vagrant@192.168.56.120:22 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

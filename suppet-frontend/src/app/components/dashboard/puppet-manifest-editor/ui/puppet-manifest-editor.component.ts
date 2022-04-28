@@ -28,4 +28,8 @@ export class PuppetManifestEditorComponent implements OnInit {
     this.puppetManifestService.setNewManifestFile(this.manifest).subscribe(result => this.lastSaveResult = result);
   }
 
+  updateAgent(): void {
+    this.puppetManifestService.updateAgent().subscribe(() => alert('Pykło'));
+  }
+
 }

@@ -1,0 +1,2 @@
+#!/bin/sh
+sudo /usr/bin/java -jar suppet.jar 

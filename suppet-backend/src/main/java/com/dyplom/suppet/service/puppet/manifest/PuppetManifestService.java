@@ -3,11 +3,11 @@ package com.dyplom.suppet.service.puppet.manifest;
 import com.dyplom.suppet.service.puppet.manifest.model.PuppetManifest;
 import org.springframework.stereotype.Service;
 
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
 
 @Service
 public class PuppetManifestService {
@@ -16,12 +16,15 @@ public class PuppetManifestService {
         if (newContent == null) {
             return false;
         }
-        Path defaultManifestPath = Paths.get("/etc/puppetlabs/code/environments/production/manifests/default.pp");
 
         try {
-            Files.writeString(defaultManifestPath, newContent, StandardOpenOption.WRITE);
-            String content = Files.readString(defaultManifestPath);
+//            Files.writeString(defaultManifestPath, newContent, StandardOpenOption.WRITE);
+            FileWriter writer = new FileWriter("/etc/puppetlabs/code/environments/production/manifests/agents/puppet-agent-1.pp", false);
+            writer.write(newContent);
+            writer.close();
 
+            Path defaultManifestPath = Paths.get("/etc/puppetlabs/code/environments/production/manifests/agents/puppet-agent-1.pp");
+            String content = Files.readString(defaultManifestPath);
             if (content != null && content.equals(newContent)) {
                 return true;
             }
@@ -33,7 +36,7 @@ public class PuppetManifestService {
     }
 
     public PuppetManifest getCurrentManifestFile() {
-        Path defaultManifestPath = Paths.get("/etc/puppetlabs/code/environments/production/manifests/default.pp");
+        Path defaultManifestPath = Paths.get("/etc/puppetlabs/code/environments/production/manifests/agents/puppet-agent-1.pp");
 
         try {
             String content = Files.readString(defaultManifestPath);

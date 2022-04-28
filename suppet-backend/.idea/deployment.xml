@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData" serverName="PuppetMaster" createEmptyFolders="true" remoteFilesAllowedToDisappearOnAutoupload="false">
+    <serverData>
+      <paths name="PuppetMaster">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/home/suppet-remote/suppet-backend/src/test" local="$PROJECT_DIR$/src/test" web="/" />
+            <mapping deploy="/home/suppet-remote/suppet-backend" local="$PROJECT_DIR$" web="/" />
+            <mapping deploy="/home/suppet-remote/suppet-backend/src/main" local="$PROJECT_DIR$/src/main" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+    </serverData>
+  </component>
+</project>
