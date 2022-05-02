@@ -23,10 +23,17 @@ sudo apt-get upgrade -y
 sudo apt install default-jdk -y
 sudo apt install default-jre -y
 
+sudo group add puppeters
+sudo usermod -a -G puppeters puppet
+sudo usermod -a -G puppeters vagrant
 
-#sudo chown vagrant -hR etc/puppetlabs/
+sudo chgrp -R puppeters etc/puppetlabs
+sudo chmod -R 770 etc/puppetlabs
 
-sudo touch /etc/puppetlabs/code/environments/production/manifests/default.pp
-sudo echo "file { '/home/vagrant/agents/agent1.txt':
-      content => 'works!',
-}" >> /etc/puppetlabs/code/environments/production/manifests/default.pp
+sudo puppet module install puppetlabs-puppetdb --version 7.10.0
+
+sudo cp /vagrant/manifests/default.pp /etc/puppetlabs/code/environments/production/manifests/default.pp
+sudo cp /vagrant/manifests/agents.pp /etc/puppetlabs/code/environments/production/manifests/agents.pp
+sudo cp -r /vagrant/manifests/agents /etc/puppetlabs/code/environments/production/manifests/agents
+
+sudo puppet agent -t

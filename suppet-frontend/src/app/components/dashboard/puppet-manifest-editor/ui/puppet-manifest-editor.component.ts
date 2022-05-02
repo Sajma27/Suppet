@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {PuppetManifestEditorService} from "../core/service/puppet-manifest-editor.service";
 import {PuppetManifest} from "../core/model/puppet-manifest";
+import {PuppetDbNodesService} from "../../../../commons/puppet-db/nodes/puppet-db-nodes.service";
+import {PuppetDbCatalogsService} from "../../../../commons/puppet-db/catalogs/puppet-db-catalogs.service";
 
 @Component({
   selector: 'app-puppet-manifest-editor',
@@ -13,8 +15,12 @@ export class PuppetManifestEditorComponent implements OnInit {
   lastSaveResult: boolean | null = null;
 
   manifest: PuppetManifest = new PuppetManifest();
+  nodes: string = '';
+  catalogs: string = '';
 
-  constructor(private puppetManifestService: PuppetManifestEditorService) { }
+  constructor(private puppetManifestService: PuppetManifestEditorService,
+              private puppetDbNodesService: PuppetDbNodesService,
+              private puppetDbCatalogsService: PuppetDbCatalogsService) { }
 
   ngOnInit(): void {
     this.manifest.content = "Loading...";
@@ -32,4 +38,11 @@ export class PuppetManifestEditorComponent implements OnInit {
     this.puppetManifestService.updateAgent().subscribe(() => alert('Pykło'));
   }
 
+  getNodes(): void {
+    this.puppetDbNodesService.getAll().subscribe((response: any) => this.nodes = JSON.stringify(response));
+  }
+
+  getCatalogs(): void {
+    this.puppetDbCatalogsService.getAll().subscribe((response: any) => this.catalogs = JSON.stringify(response));
+  }
 }

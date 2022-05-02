@@ -4,4 +4,8 @@
   <button (click)="updateAgent()" class="set-manifest-btn">Uaktualnij agenta</button>
   <div *ngIf="lastSaveResult" class="success-result-info">Ustawiono nowy manifest</div>
   <div *ngIf="lastSaveResult === false" class="error-result-info">Nie udało się ustawić nowego manifestu!</div>
+  <textarea [(ngModel)]="nodes" name="nodes" rows="30" class="manifest-textarea"></textarea>
+  <button (click)="getNodes()" class="set-manifest-btn">Dawaj nołdy mordo</button>
+  <textarea [(ngModel)]="catalogs" name="catalogs" rows="30" class="manifest-textarea"></textarea>
+  <button (click)="getCatalogs()" class="set-manifest-btn">Dawaj katalogi mordo</button>
 </form>

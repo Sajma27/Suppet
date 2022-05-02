@@ -3,9 +3,13 @@ BOX_IMAGE_UBUNTU_20 = "bento/ubuntu-20.04"
 AGENTS_COUNT = 1
 
 IP_BASE = "192.168.56.12"
+PUPPET_DB_IP = "192.168.56.110"
+POSTGRES_DB_IP = "192.168.56.111"
 PUPPET_MASTER_IP = IP_BASE + "0"
 
 PUPPET_MASTER_NAME = "puppet-master"
+PUPPET_DB_NAME = "puppet-db"
+POSTGRES_DB_NAME = "postgres-db"
 PUPPET_AGENT_NAME_BASE = "puppet-agent-"
 
 Vagrant.configure("2") do |config|
@@ -28,13 +32,50 @@ Vagrant.configure("2") do |config|
 		  s.args = [PUPPET_MASTER_IP]
 		end
 		
+		master_config.vm.provision "shell" do |s|
+		  s.path = 'scripts/puppet-master-add-agent-to-hosts-file.sh'
+		  s.args = [PUPPET_DB_IP, PUPPET_DB_NAME]
+		end
+		
 		(1..AGENTS_COUNT).each do |i|
 		  master_config.vm.provision "shell" do |s|
 		    s.path = 'scripts/puppet-master-add-agent-to-hosts-file.sh'
-		    s.args = ["#{IP_BASE}#{i}", "#{i}"]
+		    s.args = ["#{IP_BASE}#{i}", "puppet-agent-#{i}"]
 		  end
 		end
     end
+	
+	config.vm.define PUPPET_DB_NAME do |agent_config|
+		agent_config.vm.box = BOX_IMAGE_UBUNTU_20
+		agent_config.vm.hostname = PUPPET_DB_NAME
+		agent_config.vm.network "private_network", ip: PUPPET_DB_IP
+
+		agent_config.vm.provider "virtualbox" do |v|
+			v.memory = 4096
+			v.cpus = 3
+		end
+		
+		agent_config.vm.provision "shell" do |s|
+		  s.path = 'scripts/install-puppet-agent.sh'
+		  s.args = [PUPPET_MASTER_IP]
+		end
+	end
+	
+#	config.vm.define POSTGRES_DB_NAME do |agent_config|
+#		agent_config.vm.box = BOX_IMAGE_UBUNTU_20
+#		agent_config.vm.hostname = POSTGRES_DB_NAME
+#		agent_config.vm.network "private_network", ip: POSTGRES_DB_IP
+
+#		agent_config.vm.provider "virtualbox" do |v|
+#			v.memory = 2048
+#			v.cpus = 1
+#		end
+		
+#		agent_config.vm.provision "shell" do |s|
+#		  s.path = 'scripts/install-puppet-agent.sh'
+#		  s.args = [PUPPET_MASTER_IP]
+#		end
+#	end
 	
 	(1..AGENTS_COUNT).each do |i|
 		config.vm.define "puppet-agent-#{i}" do |agent_config|
