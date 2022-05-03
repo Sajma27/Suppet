@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {AuthService} from "@auth0/auth0-angular";
+import { AuthService } from "@auth0/auth0-angular";
 
 @Component({
   selector: 'app-root',
@@ -7,7 +7,12 @@ import {AuthService} from "@auth0/auth0-angular";
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  logoImg: string = '/assets/logo-small-no-background.png';
 
-  constructor(public auth: AuthService) {}
+  constructor(public auth: AuthService) {
+    this.auth.isAuthenticated$.subscribe(logged => {
+      if (!logged) {
+        this.auth.loginWithRedirect();
+      }
+    });
+  }
 }

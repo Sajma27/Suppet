@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import {LoginButtonComponent} from "./login-button/login-button.component";
 import { LogoutButtonComponent } from './logout-button/logout-button.component';
 import { AuthenticationButtonComponent } from './authentication-button/authentication-button.component';
+import { MatIconModule } from "@angular/material/icon";
+import { MatButtonModule } from "@angular/material/button";
 
 
 
@@ -10,7 +12,9 @@ import { AuthenticationButtonComponent } from './authentication-button/authentic
   declarations: [LoginButtonComponent, LogoutButtonComponent, AuthenticationButtonComponent],
   exports: [AuthenticationButtonComponent, LoginButtonComponent, LogoutButtonComponent],
   imports: [
-    CommonModule
+    CommonModule,
+    MatIconModule,
+    MatButtonModule
   ]
 })
 export class AuthenticationModule { }

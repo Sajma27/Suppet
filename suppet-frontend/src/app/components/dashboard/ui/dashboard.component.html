@@ -1,24 +1,83 @@
-<div class="main-container">
-  <img [src]="logoImg">
-  <app-logout-button></app-logout-button>
-  <app-puppet-manifest-editor class="sub-container"></app-puppet-manifest-editor>
-  <div *ngIf="auth.user$ | async as user">
-    <div class="row align-items-center profile-header">
-      <div class="col-md-2 mb-3">
-        <img
-          [src]="user.picture"
-          alt="User's profile picture"
-          class="rounded-circle img-fluid profile-picture"
-        />
-      </div>
-      <div class="col-md text-center text-md-left">
-        <h2>{{ user.name }}</h2>
-        <p class="lead text-muted">{{ user.email }}</p>
-      </div>
-    </div>
+<mat-sidenav-container>
+  <mat-sidenav class="mat-elevation-z8" [mode]="'side'" [opened]="true">
+    <div>
+    <img [src]="logoSrc" />
 
-    <div class="row" *ngIf="profileJson">
-      <pre class="col-12 text-light bg-dark p-4">{{ profileJson }}</pre>
+    <mat-divider style="margin-top: 0"></mat-divider>
+      <button mat-button
+              (click)="toggledButton.toggleMenu()"
+              [ngClass]="toggledButton.menu ? 'menu-button-clicked' : 'menu-button'">
+        <mat-icon>home</mat-icon>
+        <span>Menu główne</span>
+      </button>
+    <mat-divider></mat-divider>
+      <button mat-button
+              (click)="toggledButton.toggleAgents()"
+              [ngClass]="toggledButton.agents ? 'menu-button-clicked' : 'menu-button'">
+        <mat-icon>people</mat-icon>
+        <span>Agenci</span>
+      </button>
+      <button mat-button
+              (click)="toggledButton.toggleCerts()"
+              [ngClass]="toggledButton.certs ? 'menu-button-clicked' : 'menu-button'">
+        <mat-icon>shield</mat-icon>
+        <span>Certyfikaty</span>
+      </button>
+      <button mat-button
+              (click)="toggledButton.toggleCatalogs()"
+              [ngClass]="toggledButton.catalogs ? 'menu-button-clicked' : 'menu-button'">
+        <mat-icon>store_mall_directory</mat-icon>
+        <span>Katalogi</span>
+      </button>
+    <mat-divider></mat-divider>
+      <button mat-button
+              (click)="toggledButton.toggleTasks()"
+              [ngClass]="toggledButton.tasks ? 'menu-button-clicked' : 'menu-button'">
+        <mat-icon>tasks</mat-icon>
+        <span>Zadania</span>
+      </button>
+    <mat-divider></mat-divider>
+      <button mat-button
+              (click)="toggledButton.toggleModules()"
+              [ngClass]="toggledButton.modules ? 'menu-button-clicked' : 'menu-button'">
+        <mat-icon>folder</mat-icon>
+        <span>Moduły</span>
+      </button>
+      <button mat-button
+              (click)="toggledButton.toggleClasses()"
+              [ngClass]="toggledButton.classes ? 'menu-button-clicked' : 'menu-button'">
+        <mat-icon>classes</mat-icon>
+        <span>Klasy</span>
+      </button>
+      <button mat-button
+              (click)="toggledButton.toggleManifests()"
+              [ngClass]="toggledButton.manifests ? 'menu-button-clicked' : 'menu-button'">
+        <mat-icon>receipt</mat-icon>
+        <span>Manifesty</span>
+      </button>
     </div>
-  </div>
-</div>
+      <div class="account-section">
+        <div style="width: 100%">
+          <img class="avatar mat-elevation-z8" [src]="this.getUserImg()" />
+          <button mat-button class="menu-button">
+            <mat-icon>face</mat-icon>
+            <span>Moje konto</span>
+          </button>
+          <app-logout-button></app-logout-button>
+        </div>
+      </div>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <div class="content mat-elevation-z8">
+      <div *ngIf="toggledButton.menu"><app-dashboard-main-menu></app-dashboard-main-menu></div>
+      <div *ngIf="toggledButton.agents"><app-dashboard-agents></app-dashboard-agents></div>
+      <div *ngIf="toggledButton.certs"><app-dashboard-certs></app-dashboard-certs></div>
+      <div *ngIf="toggledButton.catalogs"><app-dashboard-catalogs></app-dashboard-catalogs></div>
+      <div *ngIf="toggledButton.tasks"><app-dashboard-tasks></app-dashboard-tasks></div>
+      <div *ngIf="toggledButton.modules"><app-dashboard-modules></app-dashboard-modules></div>
+      <div *ngIf="toggledButton.classes"><app-dashboard-classes></app-dashboard-classes></div>
+      <div *ngIf="toggledButton.manifests"><app-dashboard-manifests></app-dashboard-manifests></div>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

@@ -1,11 +1,91 @@
-.main-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
+$side-menu-padding: 16px;
+
+mat-sidenav-container {
+  height: 100%;
+  background: #5d5d5d;
 }
 
-.sub-container {
+mat-sidenav {
+  margin: 16px;
+  width: 200px;
+  border-right: none;
+  background: #3c3c3c;
+  color: white;
+  border-radius: 10px;
+  padding: $side-menu-padding;
+  text-align: center;
+  font-weight: lighter;
+}
+
+::ng-deep .mat-drawer-inner-container {
+  display: flex;
+  flex-flow: column;
+}
+
+.content {
+  height: calc(100vh - 32px);
+  border-radius: 10px;
+  margin: 16px;
+  margin-left: 32px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 2rem;
+  color: white;
+  background: #3c3c3c;
+  font-weight: lighter;
+}
+
+.menu-button {
   width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  font-size: 1rem;
+  font-weight: normal;
+
+  mat-icon {
+    margin-right: 8px;
+  }
+}
+
+.menu-button-clicked {
+  @extend .menu-button;
+  background: rgba(89,187,53, 0.7);
+}
+
+.menu-button ::ng-deep .mat-button-focus-overlay {
+  background-color: rgba(89,187,53);
+}
+
+.account-section {
+  flex-grow : 1;
+  display: flex;
+  align-items: flex-end;
+}
+
+.avatar {
+  margin-top: 16px;
+  margin-bottom: 8px;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+}
+
+.name {
+  margin-top: 8px;
+}
+
+.designation {
+  margin-top: 2px;
+  font-size: 0.7rem;
+  color: lightgrey;
+}
+
+mat-divider {
+  margin-top: 16px;
+  margin-bottom: 16px;
+  background-color: rgba(89,187,53, 0.5);
 }

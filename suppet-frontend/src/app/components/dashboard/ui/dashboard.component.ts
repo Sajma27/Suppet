@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {AuthService} from "@auth0/auth0-angular";
+import { AuthService, User } from "@auth0/auth0-angular";
+import { DashboardToggledButtons } from "../model/dashboard-toggled-buttons";
 
 @Component({
   selector: 'app-dashboard',
@@ -7,18 +8,24 @@ import {AuthService} from "@auth0/auth0-angular";
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-  profileJson: string = '';
-  logoImg: string = '/assets/logo-small-no-background.png';
+  user: User = null;
+  readonly logoSrc: string = '/assets/logo-white-small.png';
 
-  constructor(public auth: AuthService) {}
+  readonly toggledButton: DashboardToggledButtons = new DashboardToggledButtons();
+  private readonly defaultAvatar: string = '/assets/default-avatar.png';
+
+  constructor(private auth: AuthService) {}
 
   ngOnInit(): void {
-    this.auth.user$.subscribe(
+    const userObservable = this.auth.user$.subscribe(
       (profile) => {
-        this.profileJson = JSON.stringify(profile, null, 2);
-        console.log(this.profileJson);
+        this.user = profile;
+        userObservable.unsubscribe();
       },
     );
   }
 
+  getUserImg(): string {
+    return this.user?.picture || this.defaultAvatar;
+  }
 }

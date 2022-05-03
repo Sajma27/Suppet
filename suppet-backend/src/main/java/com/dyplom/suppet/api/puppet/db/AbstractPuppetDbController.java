@@ -1,6 +1,7 @@
 package com.dyplom.suppet.api.puppet.db;
 
 import com.dyplom.suppet.service.puppet.db.AbstractPuppetDbService;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -14,8 +15,8 @@ public abstract class AbstractPuppetDbController<SERVICE extends AbstractPuppetD
         this.service = service;
     }
 
-    @RequestMapping(value = "/getAll", method = RequestMethod.GET)
-    public String getAll() throws IOException, InterruptedException {
-        return service.getAll();
+    @RequestMapping(value = "/getAll", method = RequestMethod.POST)
+    public String getAll(@RequestBody PuppetDbParams params) throws IOException, InterruptedException {
+        return service.getAllWithParams(params);
     }
 }

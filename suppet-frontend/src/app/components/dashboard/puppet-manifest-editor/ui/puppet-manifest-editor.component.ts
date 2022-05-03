@@ -39,10 +39,10 @@ export class PuppetManifestEditorComponent implements OnInit {
   }
 
   getNodes(): void {
-    this.puppetDbNodesService.getAll().subscribe((response: any) => this.nodes = JSON.stringify(response));
+    this.puppetDbNodesService.fetchData().subscribe((response: any) => this.nodes = JSON.stringify(response));
   }
 
   getCatalogs(): void {
-    this.puppetDbCatalogsService.getAll().subscribe((response: any) => this.catalogs = JSON.stringify(response));
+    this.puppetDbCatalogsService.fetchData().subscribe((response: any) => this.catalogs = JSON.stringify(response));
   }
 }
