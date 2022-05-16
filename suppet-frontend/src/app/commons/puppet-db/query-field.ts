@@ -1,6 +1,6 @@
 export type operator = '=' | '>=' | '<=' | '<' | '>' | 'in';
 
-export class PuppetDbQueryField {
+export class QueryField {
   op: operator;
   field: string;
   value: string;

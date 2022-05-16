@@ -1,20 +1,28 @@
-import {Observable} from "rxjs";
-import {environment} from "../../../environments/environment";
-import {HttpClient} from "@angular/common/http";
-import { PuppetDbParams } from "./puppet-db-params";
+import { Observable } from "rxjs";
+import { HttpClient } from "@angular/common/http";
+import { UniversalBrowserParams } from "../../components/universal-browser/model/universal-browser-params";
+import { UniversalBrowserFullDto } from "../../components/universal-browser/model/universal-browser-full-dto";
+import {
+  AbstractUniversalBrowserService
+} from "../../components/universal-browser/core/abstract-universal-browser.service";
 
-export abstract class AbstractPuppetDbService {
+export abstract class AbstractPuppetDbService extends AbstractUniversalBrowserService {
 
-  protected constructor(private http: HttpClient) {
+  protected constructor(http: HttpClient) {
+    super(http);
   }
 
   protected abstract getBaseUrl(): string;
 
-  fetchData(params: PuppetDbParams = new PuppetDbParams()): Observable<any> {
-    return this.http.post<any>(this.getApiUrl(), params);
+  fetchData(params: UniversalBrowserParams = new UniversalBrowserParams()): Observable<any[]> {
+    return this.http.post<any[]>(this.getApiUrl() + '/fetchData', params);
   }
 
-  private getApiUrl(): string {
-    return environment.apiHostUrl + this.getBaseUrl();
+  getUniversalBrowserFullDto(params: UniversalBrowserParams = new UniversalBrowserParams()): Observable<UniversalBrowserFullDto> {
+    return this.http.post<UniversalBrowserFullDto>(this.getApiUrl() + '/getFullPuppetData', params);
+  }
+
+  getTotalRowCount(params: UniversalBrowserParams = new UniversalBrowserParams()): Observable<number> {
+    return this.http.post<number>(this.getApiUrl() + '/getTotalRowCount', params);
   }
 }

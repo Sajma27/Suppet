@@ -1,4 +1,4 @@
-export class PuppetDbOrderByField {
+export class OrderByField {
   field: string;
   order: 'desc' | 'asc';
 

@@ -5,13 +5,13 @@ import {HttpClient} from "@angular/common/http";
 @Injectable({
   providedIn: 'root'
 })
-export class PuppetDbNodesService extends AbstractPuppetDbService {
+export class PuppetDbEventCountsService extends AbstractPuppetDbService {
 
   constructor(http: HttpClient) {
     super(http);
   }
 
   protected getBaseUrl(): string {
-    return "/puppet-db/nodes";
+    return "/puppet-db/event-counts";
   }
 }

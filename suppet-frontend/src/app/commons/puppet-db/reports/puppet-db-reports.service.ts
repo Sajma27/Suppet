@@ -5,13 +5,13 @@ import {HttpClient} from "@angular/common/http";
 @Injectable({
   providedIn: 'root'
 })
-export class PuppetDbCatalogsService extends AbstractPuppetDbService {
+export class PuppetDbReportsService extends AbstractPuppetDbService {
 
   constructor(http: HttpClient) {
     super(http);
   }
 
   protected getBaseUrl(): string {
-    return "/puppet/catalogs";
+    return "/puppet-db/reports";
   }
 }

@@ -40,12 +40,12 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 /* width */
 ::-webkit-scrollbar {
-  width: 4px;
+  width: 5px;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
-  background: #3c3c3c;
+  background: transparent;
 }
 
 /* Handle */

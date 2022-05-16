@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService, User } from "@auth0/auth0-angular";
 import { DashboardToggledButtons } from "../model/dashboard-toggled-buttons";
+import { take } from "rxjs/operators";
 
 @Component({
   selector: 'app-dashboard',
@@ -14,13 +15,13 @@ export class DashboardComponent implements OnInit {
   readonly toggledButton: DashboardToggledButtons = new DashboardToggledButtons();
   private readonly defaultAvatar: string = '/assets/default-avatar.png';
 
-  constructor(private auth: AuthService) {}
+  constructor(private auth: AuthService) {
+  }
 
   ngOnInit(): void {
-    const userObservable = this.auth.user$.subscribe(
+    this.auth.user$.pipe(take(1)).subscribe(
       (profile) => {
         this.user = profile;
-        userObservable.unsubscribe();
       },
     );
   }

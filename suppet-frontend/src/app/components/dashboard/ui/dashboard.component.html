@@ -23,12 +23,12 @@
         <mat-icon>shield</mat-icon>
         <span>Certyfikaty</span>
       </button>
-      <button mat-button
-              (click)="toggledButton.toggleCatalogs()"
-              [ngClass]="toggledButton.catalogs ? 'menu-button-clicked' : 'menu-button'">
-        <mat-icon>store_mall_directory</mat-icon>
-        <span>Katalogi</span>
-      </button>
+<!--      <button mat-button-->
+<!--              (click)="toggledButton.toggleCatalogs()"-->
+<!--              [ngClass]="toggledButton.catalogs ? 'menu-button-clicked' : 'menu-button'">-->
+<!--        <mat-icon>store_mall_directory</mat-icon>-->
+<!--        <span>Katalogi</span>-->
+<!--      </button>-->
     <mat-divider></mat-divider>
       <button mat-button
               (click)="toggledButton.toggleTasks()"
@@ -49,12 +49,12 @@
         <mat-icon>classes</mat-icon>
         <span>Klasy</span>
       </button>
-      <button mat-button
-              (click)="toggledButton.toggleManifests()"
-              [ngClass]="toggledButton.manifests ? 'menu-button-clicked' : 'menu-button'">
-        <mat-icon>receipt</mat-icon>
-        <span>Manifesty</span>
-      </button>
+<!--      <button mat-button-->
+<!--              (click)="toggledButton.toggleManifests()"-->
+<!--              [ngClass]="toggledButton.manifests ? 'menu-button-clicked' : 'menu-button'">-->
+<!--        <mat-icon>receipt</mat-icon>-->
+<!--        <span>Manifesty</span>-->
+<!--      </button>-->
     </div>
       <div class="account-section">
         <div style="width: 100%">
@@ -70,14 +70,14 @@
 
   <mat-sidenav-content>
     <div class="content mat-elevation-z8">
-      <div *ngIf="toggledButton.menu"><app-dashboard-main-menu></app-dashboard-main-menu></div>
-      <div *ngIf="toggledButton.agents"><app-dashboard-agents></app-dashboard-agents></div>
-      <div *ngIf="toggledButton.certs"><app-dashboard-certs></app-dashboard-certs></div>
-      <div *ngIf="toggledButton.catalogs"><app-dashboard-catalogs></app-dashboard-catalogs></div>
-      <div *ngIf="toggledButton.tasks"><app-dashboard-tasks></app-dashboard-tasks></div>
-      <div *ngIf="toggledButton.modules"><app-dashboard-modules></app-dashboard-modules></div>
-      <div *ngIf="toggledButton.classes"><app-dashboard-classes></app-dashboard-classes></div>
-      <div *ngIf="toggledButton.manifests"><app-dashboard-manifests></app-dashboard-manifests></div>
+      <app-dashboard-main-menu *ngIf="toggledButton.menu" class="submenu"></app-dashboard-main-menu>
+      <app-dashboard-agents *ngIf="toggledButton.agents" class="submenu"></app-dashboard-agents>
+      <app-dashboard-certs *ngIf="toggledButton.certs" class="submenu"></app-dashboard-certs>
+      <app-dashboard-catalogs *ngIf="toggledButton.catalogs" class="submenu"></app-dashboard-catalogs>
+      <app-dashboard-tasks *ngIf="toggledButton.tasks" class="submenu"></app-dashboard-tasks>
+      <app-dashboard-modules *ngIf="toggledButton.modules" class="submenu"></app-dashboard-modules>
+      <app-dashboard-classes *ngIf="toggledButton.classes" class="submenu"></app-dashboard-classes>
+      <app-dashboard-manifests *ngIf="toggledButton.manifests" class="submenu"></app-dashboard-manifests>
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>

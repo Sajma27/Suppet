@@ -1,0 +1,24 @@
+
+.button-icon-name-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.action-button {
+  width: 70px;
+  height: 60px;
+  margin-right: 10px;
+  background: rgba(89, 187, 53, 0.5) !important;
+  font-size: medium;
+  font-weight: normal;
+}
+
+.action-button-text {
+  height: 25px;
+}
+
+.action-button-icon {
+  transform: scale(1.3);
+}

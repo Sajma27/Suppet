@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {PuppetManifestEditorService} from "../core/service/puppet-manifest-editor.service";
 import {PuppetManifest} from "../core/model/puppet-manifest";
 import {PuppetDbNodesService} from "../../../../commons/puppet-db/nodes/puppet-db-nodes.service";
-import {PuppetDbCatalogsService} from "../../../../commons/puppet-db/catalogs/puppet-db-catalogs.service";
+import {PuppetDbEventsService} from "../../../../commons/puppet-db/events/puppet-db-events.service";
 
 @Component({
   selector: 'app-puppet-manifest-editor',
@@ -20,7 +20,7 @@ export class PuppetManifestEditorComponent implements OnInit {
 
   constructor(private puppetManifestService: PuppetManifestEditorService,
               private puppetDbNodesService: PuppetDbNodesService,
-              private puppetDbCatalogsService: PuppetDbCatalogsService) { }
+              private puppetDbCatalogsService: PuppetDbEventsService) { }
 
   ngOnInit(): void {
     this.manifest.content = "Loading...";

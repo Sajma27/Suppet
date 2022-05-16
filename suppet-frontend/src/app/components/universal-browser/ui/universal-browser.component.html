@@ -1,0 +1,46 @@
+<div class="main-browser-container mat-elevation-z8">
+  <div class="main-browser-title">
+    {{config.title}}
+  </div>
+  <div class="action-buttons-wrapper">
+    <app-universal-browser-action-button *ngFor="let action of config.actions"
+                                         [row]="getClickedRow()"
+                                         [universalBrowserAction]="action">
+    </app-universal-browser-action-button>
+  </div>
+  <div *ngIf="config" class="browser-container">
+    <table mat-table [dataSource]="data">
+      <ng-container *ngIf="config.showPositionNumber" matColumnDef="idx">
+        <th mat-header-cell *matHeaderCellDef>Lp.</th>
+        <td mat-cell *matCellDef="let element; let i = index">{{i + 1}}</td>
+      </ng-container>
+
+      <ng-container *ngFor="let header of headers" matColumnDef="{{header.dataField}}">
+        <th mat-header-cell *matHeaderCellDef>{{header.name}}</th>
+        <td mat-cell *matCellDef="let element">{{element[header.dataField]}}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="columns; sticky: true" class="browser-table-header"></tr>
+      <tr
+        mat-row
+        (click)="onRowClicked({idx: idx, row})"
+        [class.clicked-row]="isRowClicked({idx: idx, row})"
+        class="browser-table-row"
+        *matRowDef="let row; columns: columns; let idx = index"
+      ></tr>
+    </table>
+    <button mat-button *ngIf="showLoadMoreButton()" (click)="loadMoreRows()" class="load-more-button">
+      Załaduj pozostałe
+      <mat-icon>refresh</mat-icon>
+    </button>
+    <div *ngIf="showLoadingSpinner()" class="spinner-wrapper">
+      <mat-spinner style="margin:0 auto;" [diameter]="40"></mat-spinner>
+    </div>
+    <div *ngIf="showLoadingError()" class="loading-error">
+      Podczas pobierania wystąpił błąd...
+    </div>
+  </div>
+  <div *ngIf="!config">
+    Brak konfiguracji
+  </div>
+</div>

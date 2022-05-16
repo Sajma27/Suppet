@@ -1,6 +1,6 @@
 export class DashboardToggledButtons {
-  private _menu: boolean = true;
-  private _agents: boolean = false;
+  private _menu: boolean = false;
+  private _agents: boolean = true;
   private _certs: boolean = false;
   private _catalogs: boolean = false;
   private _tasks: boolean = false;

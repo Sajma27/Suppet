@@ -8,6 +8,8 @@ import { DashboardTasksComponent } from './dashboard-tasks/dashboard-tasks.compo
 import { DashboardModulesComponent } from './dashboard-modules/dashboard-modules.component';
 import { DashboardClassesComponent } from './dashboard-classes/dashboard-classes.component';
 import { DashboardManifestsComponent } from './dashboard-manifests/dashboard-manifests.component';
+import { PuppetManifestEditorModule } from "../puppet-manifest-editor/puppet-manifest-editor.module";
+import { UniversalBrowserModule } from "../../universal-browser/universal-browser.module";
 
 
 
@@ -33,7 +35,9 @@ import { DashboardManifestsComponent } from './dashboard-manifests/dashboard-man
     DashboardMainMenuComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    PuppetManifestEditorModule,
+    UniversalBrowserModule
   ]
 })
 export class DashboardMenusModule { }

@@ -1,0 +1,10 @@
+
+<button mat-button
+        class="action-button"
+        [disabled]="isDisabled()"
+        (click)="universalBrowserAction.callback(this.row)">
+  <div class="button-icon-name-wrapper">
+    <mat-icon class="action-button-icon">{{universalBrowserAction.icon}}</mat-icon>
+    <div class="action-button-text">{{universalBrowserAction.name}}</div>
+  </div>
+</button>
