@@ -23,6 +23,11 @@ sudo apt-get upgrade -y
 sudo apt install default-jdk -y
 sudo apt install default-jre -y
 
+# add suppet user
+#sudo useradd suppet -s /bin/bash -m
+#echo suppet:suppet | sudo chpasswd
+#sudo usermod -aG sudo suppet
+
 sudo group add puppeters
 sudo usermod -a -G puppeters puppet
 sudo usermod -a -G puppeters vagrant
