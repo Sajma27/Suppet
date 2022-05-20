@@ -1,1 +1,6 @@
-<p>dashboard-certs works!</p>
+<div class="agents-browser-wrapper">
+  <app-universal-browser [config]="getSignedCertsBrowserConfig()" [service]="service"></app-universal-browser>
+</div>
+<div class="agents-browser-wrapper">
+  <app-universal-browser [config]="getRevokedCertsBrowserConfig()" [service]="service"></app-universal-browser>
+</div>

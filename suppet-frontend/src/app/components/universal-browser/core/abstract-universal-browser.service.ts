@@ -11,11 +11,17 @@ export abstract class AbstractUniversalBrowserService {
 
   protected abstract getBaseUrl(): string;
 
-  abstract fetchData(params: UniversalBrowserParams): Observable<any[]>;
+  fetchData(params: UniversalBrowserParams = new UniversalBrowserParams()): Observable<any[]> {
+    return this.http.post<any[]>(this.getApiUrl() + '/fetchData', params);
+  }
 
-  abstract getUniversalBrowserFullDto(params: UniversalBrowserParams): Observable<UniversalBrowserFullDto>;
+  getUniversalBrowserFullDto(params: UniversalBrowserParams = new UniversalBrowserParams()): Observable<UniversalBrowserFullDto> {
+    return this.http.post<UniversalBrowserFullDto>(this.getApiUrl() + '/getFullBrowserData', params);
+  }
 
-  abstract getTotalRowCount(params: UniversalBrowserParams): Observable<number>;
+  getTotalRowCount(params: UniversalBrowserParams = new UniversalBrowserParams()): Observable<number> {
+    return this.http.post<number>(this.getApiUrl() + '/getTotalRowCount', params);
+  }
 
   protected getApiUrl(): string {
     return environment.apiHostUrl + this.getBaseUrl();

@@ -15,7 +15,7 @@ export class UniversalBrowserComponent implements OnInit {
 
   @Input() set puppetData(puppetData: UniversalBrowserFullDto) {
     this._puppetData = puppetData;
-    this.numOfRows = puppetData?.data.length;
+    this.numOfRows = puppetData?.data.length || 0;
   };
 
   get data(): any[] {
@@ -53,8 +53,12 @@ export class UniversalBrowserComponent implements OnInit {
     return this.loading;
   }
 
+  showNoDataMessage(): boolean {
+    return this.numOfRows === 0 && !this.showLoadingSpinner() && !this.loadingError;
+  }
+
   showLoadingError(): boolean {
-    return !this.showLoadingSpinner() && this.loadingError;
+    return this.loadingError && !this.showLoadingSpinner();
   }
 
   loadMoreRows(): void {

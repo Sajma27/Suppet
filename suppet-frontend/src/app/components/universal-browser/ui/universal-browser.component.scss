@@ -92,21 +92,28 @@ tbody {
   background: rgba(89, 187, 53, 0.5) !important;
 }
 
-.load-more-button {
+
+.base-browser-message {
+  background: #3c3c3c;
   width: calc(100% - 20px);
-  background: rgba(89, 187, 53, 0.5) !important;
   font-size: medium;
   height: 40px;
-  margin: 10px;
   font-weight: normal;
-}
-
-.loading-error {
-  @extend .load-more-button;
-  background: rgba(218, 18, 18, 0.56) !important;
   margin: 0;
   padding: 10px;
   align-items: center;
   display: flex;
   justify-content: center;
+}
+
+.load-more-button {
+  @extend .base-browser-message;
+  background: rgba(89, 187, 53, 0.5) !important;
+  margin: 10px;
+  padding: 0;
+}
+
+.loading-error {
+  @extend .load-more-button;
+  background: rgba(218, 18, 18, 0.56) !important;
 }

@@ -36,6 +36,9 @@
     <div *ngIf="showLoadingSpinner()" class="spinner-wrapper">
       <mat-spinner style="margin:0 auto;" [diameter]="40"></mat-spinner>
     </div>
+    <div *ngIf="showNoDataMessage()" class="base-browser-message">
+      Brak danych
+    </div>
     <div *ngIf="showLoadingError()" class="loading-error">
       Podczas pobierania wystąpił błąd...
     </div>
