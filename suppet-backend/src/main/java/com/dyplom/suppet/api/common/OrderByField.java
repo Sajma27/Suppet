@@ -1,6 +1,6 @@
-package com.dyplom.suppet.api.db;
+package com.dyplom.suppet.api.common;
 
-public class PuppetDbOrderByField {
+public class OrderByField {
     String field;
     String order;
 

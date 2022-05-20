@@ -1,6 +1,6 @@
-package com.dyplom.suppet.api.db;
+package com.dyplom.suppet.api.common;
 
-public class PuppetDbQueryField {
+public class QueryField {
     String op;
     String field;
     String value;

@@ -1,15 +1,13 @@
-package com.dyplom.suppet.api.db;
+package com.dyplom.suppet.api.common;
 
-import java.util.Map;
-
-public class PuppetDbParams {
-    PuppetDbQueryField[] query;
+public class UniversalBrowserParams {
+    QueryField[] query;
     long offset;
     long limit;
-    PuppetDbOrderByField[] orderBy;
-    Map<String, String> additionalParams;
+    OrderByField[] orderBy;
+    UniversalBrowserAdditionalParam[] additionalParams;
 
-    public PuppetDbQueryField[] getQuery() {
+    public QueryField[] getQuery() {
         return query;
     }
 
@@ -20,7 +18,7 @@ public class PuppetDbParams {
         StringBuilder query = new StringBuilder();
         if (this.query.length > 1) {
             query.append("[");
-            for (PuppetDbQueryField field: this.query) {
+            for (QueryField field: this.query) {
                 query.append(field);
             }
             query.append("]");
@@ -30,7 +28,7 @@ public class PuppetDbParams {
         return query.toString();
     }
 
-    public void setQuery(PuppetDbQueryField[] query) {
+    public void setQuery(QueryField[] query) {
         this.query = query;
     }
 
@@ -50,19 +48,19 @@ public class PuppetDbParams {
         this.limit = limit;
     }
 
-    public PuppetDbOrderByField[] getOrderBy() {
+    public OrderByField[] getOrderBy() {
         return orderBy;
     }
 
-    public void setOrderBy(PuppetDbOrderByField[] orderBy) {
+    public void setOrderBy(OrderByField[] orderBy) {
         this.orderBy = orderBy;
     }
 
-    public Map<String, String> getAdditionalParams() {
+    public UniversalBrowserAdditionalParam[] getAdditionalParams() {
         return additionalParams;
     }
 
-    public void setAdditionalParams(Map<String, String> additionalParams) {
+    public void setAdditionalParams(UniversalBrowserAdditionalParam[] additionalParams) {
         this.additionalParams = additionalParams;
     }
 }

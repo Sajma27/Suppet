@@ -1,6 +1,7 @@
 package com.dyplom.suppet.service.puppetdb;
 
-import com.dyplom.suppet.api.db.PuppetDbParams;
+import com.dyplom.suppet.api.common.UniversalBrowserAdditionalParam;
+import com.dyplom.suppet.api.common.UniversalBrowserParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,7 +14,7 @@ import java.util.Arrays;
 public class PuppetDbCurlUtils {
     private static final Logger log = LoggerFactory.getLogger("PuppetDbCurlUtils");
 
-    public static ArrayList<String> getDataCommand(PuppetDbParams params, String url) {
+    public static ArrayList<String> getDataCommand(UniversalBrowserParams params, String url) {
         ArrayList<String> command = new ArrayList<>(Arrays.asList(
                 "sudo", "curl", "-G", url,
                 "--tlsv1", "--cacert", "/etc/puppetlabs/puppet/ssl/certs/ca.pem",
@@ -24,15 +25,15 @@ public class PuppetDbCurlUtils {
                 "--data-urlencode", "offset=" + params.getOffset(),
                 "--data-urlencode", "order_by=" + Arrays.toString(params.getOrderBy())
         ));
-        params.getAdditionalParams().forEach((key, value) -> {
+        for (UniversalBrowserAdditionalParam param: params.getAdditionalParams()) {
             command.add("--data-urlencode");
-            command.add(key + "=");
-            command.add(value);
-        });
+            command.add(param.getName() + "=");
+            command.add(param.getValue());
+        }
         return command;
     }
 
-    public static ArrayList<String> getTotalRowCountCommand(PuppetDbParams params, String url) {
+    public static ArrayList<String> getTotalRowCountCommand(UniversalBrowserParams params, String url) {
         ArrayList<String> command = new ArrayList<>(Arrays.asList(
                 "sudo", "curl", "-vv", "-G", url,
                 "--tlsv1", "--cacert", "/etc/puppetlabs/puppet/ssl/certs/ca.pem",
@@ -42,11 +43,11 @@ public class PuppetDbCurlUtils {
                 "--data-urlencode", "limit=1",
                 "--data-urlencode", "include_total=true"
         ));
-        params.getAdditionalParams().forEach((key, value) -> {
+        for (UniversalBrowserAdditionalParam param: params.getAdditionalParams()) {
             command.add("--data-urlencode");
-            command.add(key + "=");
-            command.add(value);
-        });
+            command.add(param.getName() + "=");
+            command.add(param.getValue());
+        }
         return command;
     }
 

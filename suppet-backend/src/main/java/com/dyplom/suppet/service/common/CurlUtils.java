@@ -40,6 +40,13 @@ public class CurlUtils {
         return builder;
     }
 
+    public static int getResultFromProcess(Process p) throws InterruptedException {
+        int result = p.waitFor();
+        log.info(String.valueOf(result));
+        p.destroy();
+        return result;
+    }
+
     public static JsonNode getJsonNodeFromData(StringBuilder data) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
         return mapper.readTree(data.toString());
