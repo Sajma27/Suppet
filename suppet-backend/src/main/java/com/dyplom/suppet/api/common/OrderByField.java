@@ -23,8 +23,8 @@ public class OrderByField {
     @Override
     public String toString() {
         return "{" +
-                "\"field\"=\"" + field + '\"' +
-                ", \"order\"=\"" + order + '\"' +
+                "\"field\":\"" + field + '\"' +
+                ", \"order\":\"" + order + '\"' +
                 '}';
     }
 }
