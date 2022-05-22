@@ -5,6 +5,9 @@ import { UniversalBrowserHeader } from "../model/universal-browser-header";
 import { UniversalBrowserAction } from "../model/universal-browser-action";
 import { UniversalBrowserFullDto } from "../model/universal-browser-full-dto";
 import { AbstractUniversalBrowserService } from "../core/abstract-universal-browser.service";
+import { QueryField } from "../core/query-field";
+import { OrderByField } from "../core/order-by-field";
+import { Sort } from "@angular/material/sort";
 
 @Component({
   selector: 'app-universal-browser',
@@ -43,6 +46,10 @@ export class UniversalBrowserComponent implements OnInit {
   ngOnInit(): void {
     this.addRefreshAction();
     this.refresh();
+    const queryField = new QueryField();
+    queryField.field = 'certname';
+    queryField.value = 'puppet-master.home';
+    this.config.params.query.push(queryField);
   }
 
   showLoadMoreButton(): boolean {
@@ -65,15 +72,16 @@ export class UniversalBrowserComponent implements OnInit {
     if (!this.loading) {
       this.loading = true;
       this.loadingError = false;
+      this.config.params.offset += this.config.params.limit;
       this.service?.fetchData(this.config.params)
         .pipe(take(1))
         .subscribe((data: any[]) => {
-          this.puppetData.data = data;
+          this._puppetData.data = [...this._puppetData.data, ...data];
           this.loading = false;
           this.loadingError = false;
-          this.config.params.offset += this.config.pageLimit;
-          this.numOfRows += this.config.pageLimit;
+          this.numOfRows += this.config.params.limit;
         }, () => {
+          this.config.params.offset -= this.config.params.limit;
           this.loading = false;
           this.loadingError = true;
         });
@@ -92,6 +100,25 @@ export class UniversalBrowserComponent implements OnInit {
 
   getClickedRow(): any {
     return this.clickedRow;
+  }
+
+  onFilterRemoved(idx: number) {
+    this.config.params.query.splice(idx, 1);
+    this.refresh();
+  }
+
+  onSortChange(sortState: Sort) {
+    if (this.config.params.orderBy.length > 0) {
+      if (sortState.direction !== '') {
+        this.config.params.orderBy[0].field = sortState.active;
+        this.config.params.orderBy[0].order = sortState.direction;
+      } else {
+        this.config.params.orderBy = [];
+      }
+    } else if (sortState.direction !== '') {
+      this.config.params.orderBy.push(new OrderByField(sortState.active, sortState.direction));
+    }
+    this.refresh();
   }
 
   private addRefreshAction(): void {

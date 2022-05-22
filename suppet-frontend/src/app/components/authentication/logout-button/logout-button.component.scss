@@ -1,3 +1,5 @@
+@import "src/assets/styles/variables";
+
 .menu-button {
   width: 100%;
   display: flex;
@@ -12,5 +14,5 @@
 }
 
 .menu-button ::ng-deep .mat-button-focus-overlay {
-  background-color: rgba(89,187,53);
+  background-color: $suppet-green;
 }

@@ -1,16 +1,16 @@
 <mat-sidenav-container>
   <mat-sidenav class="mat-elevation-z8" [mode]="'side'" [opened]="true">
     <div>
-    <img [src]="logoSrc" />
+      <img [src]="logoSrc"/>
 
-    <mat-divider style="margin-top: 0"></mat-divider>
+      <mat-divider style="margin-top: 0"></mat-divider>
       <button mat-button
               (click)="toggledButton.toggleMenu()"
               [ngClass]="toggledButton.menu ? 'menu-button-clicked' : 'menu-button'">
         <mat-icon>home</mat-icon>
         <span>Menu główne</span>
       </button>
-    <mat-divider></mat-divider>
+      <mat-divider></mat-divider>
       <button mat-button
               (click)="toggledButton.toggleAgents()"
               [ngClass]="toggledButton.agents ? 'menu-button-clicked' : 'menu-button'">
@@ -23,20 +23,20 @@
         <mat-icon>shield</mat-icon>
         <span>Certyfikaty</span>
       </button>
-<!--      <button mat-button-->
-<!--              (click)="toggledButton.toggleCatalogs()"-->
-<!--              [ngClass]="toggledButton.catalogs ? 'menu-button-clicked' : 'menu-button'">-->
-<!--        <mat-icon>store_mall_directory</mat-icon>-->
-<!--        <span>Katalogi</span>-->
-<!--      </button>-->
-    <mat-divider></mat-divider>
+      <!--      <button mat-button-->
+      <!--              (click)="toggledButton.toggleCatalogs()"-->
+      <!--              [ngClass]="toggledButton.catalogs ? 'menu-button-clicked' : 'menu-button'">-->
+      <!--        <mat-icon>store_mall_directory</mat-icon>-->
+      <!--        <span>Katalogi</span>-->
+      <!--      </button>-->
+      <mat-divider></mat-divider>
       <button mat-button
               (click)="toggledButton.toggleTasks()"
               [ngClass]="toggledButton.tasks ? 'menu-button-clicked' : 'menu-button'">
         <mat-icon>tasks</mat-icon>
         <span>Zadania</span>
       </button>
-    <mat-divider></mat-divider>
+      <mat-divider></mat-divider>
       <button mat-button
               (click)="toggledButton.toggleModules()"
               [ngClass]="toggledButton.modules ? 'menu-button-clicked' : 'menu-button'">
@@ -49,23 +49,23 @@
         <mat-icon>classes</mat-icon>
         <span>Klasy</span>
       </button>
-<!--      <button mat-button-->
-<!--              (click)="toggledButton.toggleManifests()"-->
-<!--              [ngClass]="toggledButton.manifests ? 'menu-button-clicked' : 'menu-button'">-->
-<!--        <mat-icon>receipt</mat-icon>-->
-<!--        <span>Manifesty</span>-->
-<!--      </button>-->
+      <!--      <button mat-button-->
+      <!--              (click)="toggledButton.toggleManifests()"-->
+      <!--              [ngClass]="toggledButton.manifests ? 'menu-button-clicked' : 'menu-button'">-->
+      <!--        <mat-icon>receipt</mat-icon>-->
+      <!--        <span>Manifesty</span>-->
+      <!--      </button>-->
     </div>
-      <div class="account-section">
-        <div style="width: 100%">
-          <img class="avatar mat-elevation-z8" [src]="this.getUserImg()" />
-          <button mat-button class="menu-button">
-            <mat-icon>face</mat-icon>
-            <span>Moje konto</span>
-          </button>
-          <app-logout-button></app-logout-button>
-        </div>
+    <div class="account-section">
+      <div style="width: 100%">
+        <img class="avatar mat-elevation-z8" [src]="this.getUserImg()"/>
+        <button mat-button class="menu-button">
+          <mat-icon>face</mat-icon>
+          <span>Moje konto</span>
+        </button>
+        <app-logout-button></app-logout-button>
       </div>
+    </div>
   </mat-sidenav>
 
   <mat-sidenav-content>

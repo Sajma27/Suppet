@@ -1,15 +1,17 @@
+@import "/src/assets/styles/variables";
+
 $side-menu-padding: 16px;
 
 mat-sidenav-container {
   height: 100%;
-  background: #5d5d5d;
+  background: $suppet-light-grey;
 }
 
 mat-sidenav {
   margin: 16px;
   width: 200px;
   border-right: none;
-  background: #3c3c3c;
+  background: $suppet-grey;
   color: white;
   border-radius: 10px;
   padding: $side-menu-padding;
@@ -34,7 +36,7 @@ mat-sidenav {
 
   font-size: 2rem;
   color: white;
-  background: #3c3c3c;
+  background: $suppet-grey;
   font-weight: lighter;
 }
 
@@ -57,11 +59,11 @@ mat-sidenav {
 
 .menu-button-clicked {
   @extend .menu-button;
-  background: rgba(89,187,53, 0.7);
+  background: $suppet-green-07-opacity;
 }
 
 .menu-button ::ng-deep .mat-button-focus-overlay {
-  background-color: rgba(89,187,53);
+  background-color: $suppet-green;
 }
 
 .account-section {
@@ -89,7 +91,7 @@ mat-sidenav {
 }
 
 mat-divider {
-  margin-top: 16px;
-  margin-bottom: 16px;
-  background-color: rgba(89,187,53, 0.5);
+  margin-top: 10px;
+  margin-bottom: 10px;
+  background-color: $suppet-green-half-opacity;
 }

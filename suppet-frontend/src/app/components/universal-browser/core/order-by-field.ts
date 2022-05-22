@@ -1,8 +1,8 @@
 export class OrderByField {
   field: string;
-  order: 'desc' | 'asc';
+  order: 'asc' | 'desc';
 
-  constructor(field: string, orderBy: "desc" | "asc" = 'desc') {
+  constructor(field: string, orderBy: 'asc' | 'desc' = 'asc') {
     this.field = field;
     this.order = orderBy;
   }

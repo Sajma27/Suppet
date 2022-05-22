@@ -1,0 +1,56 @@
+@import "src/assets/styles/variables";
+
+.universal-browser-filters-container {
+  height: 40px;
+  background: $suppet-grey;
+  font-size: medium;
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  padding-left: 10px;
+  border-top: solid 1px $suppet-green-half-opacity;
+  overflow: auto;
+}
+
+.universal-browser-filter-badge {
+  margin: 5px;
+  padding-left: 7px;
+  padding-right: 7px;
+  height: 25px;
+  width: fit-content;
+  background: $suppet-green-half-opacity;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: left;
+}
+
+.universal-browser-filter-badge-x-button {
+  margin-left: 5px;
+  height: 20px;
+  width: 20px !important;
+  min-width: unset !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: $suppet-red;
+
+  .mat-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    height: fit-content;
+    transform: scale(0.5);
+  }
+}
+
+.universal-browser-filter-badge-plus-button {
+  @extend .universal-browser-filter-badge-x-button;
+  background: $suppet-green-half-opacity;
+
+  .mat-icon {
+    transform: scale(0.6);
+  }
+}

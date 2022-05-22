@@ -1,0 +1,17 @@
+<div class="universal-browser-filters-container">
+  Filtry:
+  <div class="universal-browser-filter-badge" *ngFor="let filter of config.params.query; let idx = index">
+    {{filter.field}} {{filter.op}} "{{filter.value}}"
+    <button mat-icon-button (click)="onXClicked(idx)" class="universal-browser-filter-badge-x-button">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <button mat-icon-button (click)="onShowAddingMenuClicked()" class="universal-browser-filter-badge-plus-button">
+    <mat-icon>add</mat-icon>
+  </button>
+</div>
+<app-universal-browser-filters-adding-menu *ngIf="addingMenuVisible"
+                                           [headers]="headers"
+                                           (addButtonClicked)="onAddClicked($event)"
+                                           (closeButtonClicked)="onCloseAddingMenuClicked()">
+</app-universal-browser-filters-adding-menu>

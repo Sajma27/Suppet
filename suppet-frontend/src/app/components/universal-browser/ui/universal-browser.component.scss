@@ -1,10 +1,14 @@
+@import "src/assets/styles/variables";
+
 .main-browser-container {
   height: 100%;
   overflow: auto;
   border-radius: 10px;
   width: calc(100% - 20px);
   margin: 10px;
-  background: #5d5d5d;
+  background: $suppet-light-grey;
+  display: flex;
+  flex-flow: column;
 }
 
 .main-browser-title {
@@ -17,25 +21,24 @@
 }
 
 .action-buttons-wrapper {
-  background: #3c3c3c;
+  background: $suppet-grey;
   width: calc(100% - 20px);
-  height: 60px;
   padding: 10px;
 }
 
 .spinner-wrapper {
   padding-top: 10px;
   padding-bottom: 10px;
-  background: #3c3c3c;
+  background: $suppet-grey;
 }
 
 .spinner-wrapper ::ng-deep .mat-progress-spinner circle, .mat-spinner circle {
-  stroke: rgba(89, 187, 53, 0.7);
+  stroke: $suppet-green-07-opacity;
   width: 100%;
 }
 
 .browser-container {
-  height: calc(100% - 127px);
+  flex-grow: 1;
   overflow: auto;
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
@@ -47,13 +50,17 @@ tbody {
   overflow-y: scroll;
 }
 
-.browser-table-header {
+.browser-table-header-row {
   height: 40px;
-  background: #5d5d5d;
+  background: $suppet-light-grey;
+}
+
+::ng-deep .mat-sort-header-arrow {
+  color: $suppet-green-07-opacity;
 }
 
 .mat-table {
-  background: #5d5d5d;
+  background: $suppet-light-grey;
   width: 100%;
 }
 
@@ -68,19 +75,19 @@ tbody {
 }
 
 .browser-table-row {
-  background: #3c3c3c;
+  background: $suppet-grey;
   height: 40px;
 }
 
 .browser-table-row:hover {
-  background: #343434;
+  background: $suppet-dark-grey;
 }
 
 .mat-row .mat-cell {
   border-bottom: 1px solid transparent;
   border-top: 1px solid transparent;
   cursor: pointer;
-  border-bottom: 1px solid rgba(89, 187, 53, 0.5);
+  border-bottom: 1px solid $suppet-green-half-opacity;
 }
 
 .mat-row {
@@ -89,31 +96,34 @@ tbody {
 }
 
 .clicked-row {
-  background: rgba(89, 187, 53, 0.5) !important;
+  background: $suppet-green-half-opacity !important;
 }
 
-
 .base-browser-message {
-  background: #3c3c3c;
+  background: $suppet-grey;
   width: calc(100% - 20px);
   font-size: medium;
-  height: 40px;
+  height: 30px;
   font-weight: normal;
   margin: 0;
   padding: 10px;
   align-items: center;
   display: flex;
   justify-content: center;
+
+  .mat-icon {
+    transform: scale(0.9);
+  }
 }
 
 .load-more-button {
   @extend .base-browser-message;
-  background: rgba(89, 187, 53, 0.5) !important;
+  background: $suppet-green-half-opacity !important;
   margin: 10px;
   padding: 0;
 }
 
 .loading-error {
   @extend .load-more-button;
-  background: rgba(218, 18, 18, 0.56) !important;
+  background: $suppet-red !important;
 }

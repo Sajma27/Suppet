@@ -33,6 +33,8 @@ $suppet-frontend-theme: mat.define-light-theme((
 // that you are using.
 @include mat.all-component-themes($suppet-frontend-theme);
 
+@import "assets/styles/variables";
+
 /* You can add global styles to this file, and also import other style files */
 
 html, body { height: 100%; }
@@ -40,7 +42,8 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 /* width */
 ::-webkit-scrollbar {
-  width: 5px;
+  width: 7px;
+  height: 7px;
 }
 
 /* Track */
@@ -50,11 +53,12 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: rgba(89,187,53, 0.5);
+  background: $suppet-green-half-opacity;
   border-radius: 15px;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   width: 20px;
+  height: 20px;
 }
