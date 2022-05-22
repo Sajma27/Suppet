@@ -1,0 +1,7 @@
+<div class="action-buttons-wrapper">
+  <app-universal-browser-action-button *ngFor="let action of actions"
+                                       [disabled]="disabled"
+                                       [row]="row"
+                                       [universalBrowserAction]="action">
+  </app-universal-browser-action-button>
+</div>

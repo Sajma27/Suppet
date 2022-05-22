@@ -8,6 +8,7 @@ export class UniversalBrowserConfig {
   params: UniversalBrowserParams = new UniversalBrowserParams();
   addRefreshAction: boolean = true;
   clickableRows: boolean = true;
-  disableFiltering: boolean = false;
-  disableSorting: boolean = false;
+  browserDisabled: boolean = false;
+  filteringDisabled: boolean = false;
+  sortingDisabled: boolean = false;
 }

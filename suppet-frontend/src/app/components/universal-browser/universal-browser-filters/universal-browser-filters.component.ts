@@ -22,7 +22,7 @@ export class UniversalBrowserFiltersComponent {
   }
 
   onShowAddingMenuClicked(): void {
-    this.addingMenuVisible = !this.addingMenuVisible;
+    this.addingMenuVisible = true;
   }
 
   onAddClicked(query: QueryField): void {

@@ -1,32 +1,37 @@
-import { Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { dateOperators, numberOperators, operators, QueryField, stringOperators } from "../../core/query-field";
-import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
+import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { UniversalBrowserHeader } from "../../model/universal-browser-header";
 import { Subscription } from "rxjs";
 import { UniversalBrowserHeaderTypes } from "../../model/universal-browser-header-types";
+import { UniversalBrowserConfig } from "../../model/universal-browser-config";
 
 @Component({
   selector: 'app-universal-browser-filters-adding-menu',
   templateUrl: './universal-browser-filters-adding-menu.component.html',
   styleUrls: ['./universal-browser-filters-adding-menu.component.scss']
 })
-export class UniversalBrowserFiltersAddingMenuComponent implements OnDestroy {
+export class UniversalBrowserFiltersAddingMenuComponent implements OnInit, OnDestroy {
 
   formGroup: FormGroup;
 
   potentialOperators: string[] = operators;
 
+  @Input() config: UniversalBrowserConfig;
   @Input() headers: UniversalBrowserHeader[] = [];
   @Output() addButtonClicked: EventEmitter<QueryField> = new EventEmitter<QueryField>();
   @Output() closeButtonClicked: EventEmitter<void> = new EventEmitter<void>();
 
-  fieldNameControl: FormControl = new FormControl(this.headers?.length > 0 ? this.headers[0] : null);
-  operatorControl: FormControl = new FormControl('=');
-  valueControl: FormControl = new FormControl();
+  fieldNameControl: FormControl = new FormControl(this.headers?.length > 0 ? this.headers[0] : null, Validators.required);
+  operatorControl: FormControl = new FormControl({ value: '=', disabled: true }, Validators.required);
+  valueControl: FormControl = new FormControl({ value: null, disabled: true }, Validators.required);
 
+  isAddButtonDisabled: boolean = true;
   isAddButtonClicked: boolean = false;
 
   private fieldNameValueChangeListener: Subscription;
+  private operatorValueChangeListener: Subscription;
+  private valueControlValueChangeListener: Subscription;
 
   constructor(fb: FormBuilder) {
     this.formGroup = fb.group({
@@ -35,27 +40,19 @@ export class UniversalBrowserFiltersAddingMenuComponent implements OnDestroy {
       valueControl: this.valueControl,
     });
 
-    this.fieldNameValueChangeListener = this.fieldNameControl.valueChanges.subscribe((value: UniversalBrowserHeader) => {
-      switch (value.type) {
-        case UniversalBrowserHeaderTypes.STRING:
-           this.potentialOperators = stringOperators;
-           break;
-        case UniversalBrowserHeaderTypes.DATE:
-        case UniversalBrowserHeaderTypes.DATETIME:
-          this.potentialOperators = dateOperators;
-          break;
-        case UniversalBrowserHeaderTypes.NUMBER:
-          this.potentialOperators = numberOperators;
-          break;
-        default:
-          this.potentialOperators = operators;
-          break;
-      }
-    });
+    this.addFieldNameValueChangeListener();
+    this.addOperatorValueChangeListener();
+    this.addValueControlValueChangeListener();
+  }
+
+  ngOnInit() {
+    this.config.browserDisabled = true;
   }
 
   ngOnDestroy(): void {
     this.fieldNameValueChangeListener?.unsubscribe();
+    this.operatorValueChangeListener?.unsubscribe();
+    this.config.browserDisabled = false;
   }
 
   onAddClicked(): void {
@@ -69,6 +66,48 @@ export class UniversalBrowserFiltersAddingMenuComponent implements OnDestroy {
 
   onCloseClicked(): void {
     this.closeButtonClicked.emit();
+  }
+
+  private addFieldNameValueChangeListener(): void {
+    this.fieldNameValueChangeListener = this.fieldNameControl.valueChanges.subscribe((value: UniversalBrowserHeader) => {
+      switch (value.type) {
+        case UniversalBrowserHeaderTypes.STRING:
+          this.potentialOperators = stringOperators;
+          break;
+        case UniversalBrowserHeaderTypes.DATE:
+        case UniversalBrowserHeaderTypes.DATETIME:
+          this.potentialOperators = dateOperators;
+          break;
+        case UniversalBrowserHeaderTypes.NUMBER:
+          this.potentialOperators = numberOperators;
+          break;
+        default:
+          this.potentialOperators = operators;
+          break;
+      }
+      if (this.fieldNameControl.invalid) {
+        this.operatorControl.disable();
+        this.valueControl.disable();
+      } else {
+        this.operatorControl.enable();
+      }
+    });
+  }
+
+  private addOperatorValueChangeListener(): void {
+    this.operatorValueChangeListener = this.operatorControl.valueChanges.subscribe((value: string) => {
+      if (value) {
+        this.valueControl.enable();
+      } else {
+        this.valueControl.disable();
+      }
+    });
+  }
+
+  private addValueControlValueChangeListener(): void {
+    this.valueControlValueChangeListener = this.valueControl.valueChanges.subscribe((value: string) => {
+      this.isAddButtonDisabled = !value;
+    });
   }
 
 }

@@ -6,7 +6,7 @@
   border-radius: 10px;
   width: calc(100% - 20px);
   margin: 10px;
-  background: $suppet-light-grey;
+  background: $suppet-grey;
   display: flex;
   flex-flow: column;
 }
@@ -18,12 +18,6 @@
   font-size: medium;
   font-weight: normal;
   text-align: center;
-}
-
-.action-buttons-wrapper {
-  background: $suppet-grey;
-  width: calc(100% - 20px);
-  padding: 10px;
 }
 
 .spinner-wrapper {
@@ -52,7 +46,7 @@ tbody {
 
 .browser-table-header-row {
   height: 40px;
-  background: $suppet-light-grey;
+  background: $suppet-dark-grey;
 }
 
 ::ng-deep .mat-sort-header-arrow {
@@ -60,7 +54,7 @@ tbody {
 }
 
 .mat-table {
-  background: $suppet-light-grey;
+  background: $suppet-dark-grey;
   width: 100%;
 }
 

@@ -15,12 +15,12 @@ export class DashboardCertsComponent implements OnInit {
 
   constructor(public readonly service: CertsBrowserService) {
     this.signedCertsBrowserConfig.title = 'Aktywne certyfikaty';
-    this.signedCertsBrowserConfig.disableSorting = true;
-    this.signedCertsBrowserConfig.disableFiltering = true;
+    this.signedCertsBrowserConfig.sortingDisabled = true;
+    this.signedCertsBrowserConfig.filteringDisabled = true;
     this.revokedCertsBrowserConfig.title = 'Nieaktywne certyfikaty';
     this.revokedCertsBrowserConfig.params.additionalParams.push(new UniversalBrowserAdditionalParam('revoked', 'true'));
-    this.revokedCertsBrowserConfig.disableSorting = true;
-    this.revokedCertsBrowserConfig.disableFiltering = true;
+    this.revokedCertsBrowserConfig.sortingDisabled = true;
+    this.revokedCertsBrowserConfig.filteringDisabled = true;
   }
 
   ngOnInit(): void {

@@ -9,21 +9,20 @@
 
     <mat-form-field appearance="fill">
       <mat-label>Operator</mat-label>
-      <mat-select [required]="true" [formControl]="operatorControl" [disabled]="fieldNameControl.invalid">
+      <mat-select [required]="true" [formControl]="operatorControl">
         <mat-option *ngFor="let op of potentialOperators" value="{{op}}">{{op}}</mat-option>
       </mat-select>
     </mat-form-field>
 
     <mat-form-field appearance="fill">
       <mat-label>Wartość</mat-label>
-      <input matInput [required]="true" [formControl]="valueControl" [disabled]="fieldNameControl.invalid || operatorControl.invalid">
+      <input matInput [required]="true" [formControl]="valueControl">
     </mat-form-field>
-
-    <button mat-icon-button (click)="onAddClicked()" [disabled]="formGroup.invalid || isAddButtonClicked" class="universal-browser-filter-badge-plus-button">
-      <mat-icon>add</mat-icon>
-    </button>
-    <button mat-icon-button (click)="onCloseClicked()" class="universal-browser-filter-badge-x-button">
-      <mat-icon>close</mat-icon>
-    </button>
   </form>
+  <button mat-button (click)="onAddClicked()" [disabled]="isAddButtonDisabled || isAddButtonClicked" class="universal-browser-filters-adding-plus-button">
+    Dodaj filtr
+  </button>
+  <button mat-button (click)="onCloseClicked()" class="universal-browser-filters-adding-close-button">
+    Zamknij formularz
+  </button>
 </div>
