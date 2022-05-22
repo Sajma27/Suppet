@@ -1,12 +1,50 @@
 @import "src/assets/styles/variables";
 
 .universal-browser-filters-adding-menu {
-  //display: flex;
-  //align-items: center;
-  //justify-content: left;
-  width: 100%;
+  padding-left: 10px;
+  padding-right: 10px;
+  width: calc(100% - 20px);
   height: fit-content;
   background: $suppet-grey;
   font-size: small;
+  color: white;
+}
+
+::ng-deep .mat-focused .mat-form-field-label {
+  color: white !important;
+}
+
+::ng-deep .mat-form-field-label {
+  color: white !important;
+}
+
+::ng-deep .mat-form-field {
+  color: white !important;
+  margin-right: 5px;
+}
+
+::ng-deep .mat-label {
+  color: white !important;
+}
+
+::ng-deep .mat-select {
+  color: white !important;
+}
+
+.mat-form-field.mat-focused .mat-form-field-ripple{
+  background-color: white;
+}
+.mat-form-field.mat-focused.mat-primary .mat-select-arrow {
+  color: white;
+}
+.mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
+  color: white;
+}
+
+::ng-deep .mat-select-arrow {
+  color: white;
+}
+
+::ng-deep .mat-select-value {
   color: white;
 }

@@ -8,6 +8,7 @@ import { AbstractUniversalBrowserService } from "../core/abstract-universal-brow
 import { QueryField } from "../core/query-field";
 import { OrderByField } from "../core/order-by-field";
 import { Sort } from "@angular/material/sort";
+import { flatMap } from "rxjs/internal/operators";
 
 @Component({
   selector: 'app-universal-browser',
@@ -102,6 +103,11 @@ export class UniversalBrowserComponent implements OnInit {
     return this.clickedRow;
   }
 
+  onFilterAdded(query: QueryField) {
+    this.config.params.query.push(query);
+    this.refresh();
+  }
+
   onFilterRemoved(idx: number) {
     this.config.params.query.splice(idx, 1);
     this.refresh();
@@ -138,13 +144,11 @@ export class UniversalBrowserComponent implements OnInit {
       this.loadingError = false;
       this.config.params.offset = 0;
       this.service.getTotalRowCount(this.config.params)
-        .pipe(take(1))
-        .subscribe((totalNumOfRows: number) => {
-          this.totalNumOfRows = totalNumOfRows;
-        }, () => {
-          this.totalNumOfRows = null;
-        });
-      this.service.getUniversalBrowserFullDto(this.config.params)
+        .pipe(
+          flatMap((totalNumOfRows: number) => {
+            this.totalNumOfRows = totalNumOfRows;
+            return this.service.getUniversalBrowserFullDto(this.config.params);
+          }))
         .pipe(take(1))
         .subscribe((puppetFullDataDto: UniversalBrowserFullDto) => {
           puppetFullDataDto.columns = ['idx', ...puppetFullDataDto.columns];
@@ -152,6 +156,7 @@ export class UniversalBrowserComponent implements OnInit {
           this.loading = false;
           this.loadingError = false;
         }, () => {
+          this.totalNumOfRows = null;
           this.loading = false;
           this.loadingError = true;
         });

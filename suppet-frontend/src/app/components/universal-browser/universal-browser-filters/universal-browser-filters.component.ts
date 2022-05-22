@@ -12,6 +12,7 @@ export class UniversalBrowserFiltersComponent {
 
   @Input() config: UniversalBrowserConfig;
   @Input() headers: UniversalBrowserHeader[];
+  @Output() onFilterAdded: EventEmitter<QueryField> = new EventEmitter<QueryField>();
   @Output() onFilterRemoved: EventEmitter<number> = new EventEmitter<number>();
 
   addingMenuVisible: boolean = false;
@@ -25,7 +26,8 @@ export class UniversalBrowserFiltersComponent {
   }
 
   onAddClicked(query: QueryField): void {
-    this.config.params.query.push(query);
+    this.onFilterAdded.emit(query);
+    this.onCloseAddingMenuClicked();
   }
 
   onCloseAddingMenuClicked(): void {

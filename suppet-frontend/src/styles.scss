@@ -12,8 +12,45 @@
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$suppet-frontend-primary: mat.define-palette(mat.$grey-palette);
-$suppet-frontend-accent: mat.define-palette(mat.$green-palette, A200, A100, A400);
+
+@import "assets/styles/variables";
+
+$dark-primary-text: rgba(black, 0.87);
+$dark-secondary-text: rgba(black, 0.54);
+$dark-disabled-text: rgba(black, 0.38);
+$dark-dividers: rgba(black, 0.12);
+$dark-focused: rgba(black, 0.12);
+$light-primary-text: white;
+$light-secondary-text: rgba(white, 0.7);
+$light-disabled-text: rgba(white, 0.5);
+$light-dividers: rgba(white, 0.12);
+$light-focused: rgba(white, 0.12);
+
+$suppet-green-palette: (
+  700: $suppet-green,
+  800: $suppet-green-07-opacity,
+  900: $suppet-green-half-opacity,
+  contrast: (
+    700: $light-primary-text,
+    800: $light-primary-text,
+    900: $light-primary-text
+  )
+);
+
+$suppet-grey-palette: (
+  700: $suppet-light-grey,
+  800: $suppet-grey,
+  900: $suppet-dark-grey,
+  contrast: (
+    700: $light-primary-text,
+    800: $light-primary-text,
+    900: $light-primary-text
+  )
+);
+
+
+$suppet-frontend-primary: mat.define-palette($suppet-grey-palette);
+$suppet-frontend-accent: mat.define-palette($suppet-green-palette, A200, A100, A400);
 
 // The warn palette is optional (defaults to red).
 $suppet-frontend-warn: mat.define-palette(mat.$red-palette);
@@ -32,8 +69,6 @@ $suppet-frontend-theme: mat.define-light-theme((
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
 @include mat.all-component-themes($suppet-frontend-theme);
-
-@import "assets/styles/variables";
 
 /* You can add global styles to this file, and also import other style files */
 
