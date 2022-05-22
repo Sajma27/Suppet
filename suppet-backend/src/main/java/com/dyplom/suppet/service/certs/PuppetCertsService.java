@@ -4,6 +4,7 @@ import com.dyplom.suppet.api.common.UniversalBrowserParams;
 import com.dyplom.suppet.service.common.AbstractBrowserService;
 import com.dyplom.suppet.service.common.CurlUtils;
 import com.dyplom.suppet.service.common.UniversalBrowserHeader;
+import com.dyplom.suppet.service.common.UniversalBrowserHeaderTypes;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,8 +23,8 @@ public class PuppetCertsService extends AbstractBrowserService {
     protected UniversalBrowserHeader[] getHeaders() {
         return new UniversalBrowserHeader[]{
                 new UniversalBrowserHeader("name", "Nazwa"),
-                new UniversalBrowserHeader("not_before", "Ważny od"),
-                new UniversalBrowserHeader("not_after", "Ważny do"),
+                new UniversalBrowserHeader("not_before", "Ważny od", UniversalBrowserHeaderTypes.DATETIME),
+                new UniversalBrowserHeader("not_after", "Ważny do", UniversalBrowserHeaderTypes.DATETIME),
         };
     }
 

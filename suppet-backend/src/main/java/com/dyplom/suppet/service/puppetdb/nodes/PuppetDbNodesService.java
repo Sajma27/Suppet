@@ -1,6 +1,7 @@
 package com.dyplom.suppet.service.puppetdb.nodes;
 
 import com.dyplom.suppet.service.common.UniversalBrowserHeader;
+import com.dyplom.suppet.service.common.UniversalBrowserHeaderTypes;
 import com.dyplom.suppet.service.puppetdb.AbstractPuppetDbService;
 import org.springframework.stereotype.Service;
 
@@ -20,8 +21,8 @@ public class PuppetDbNodesService extends AbstractPuppetDbService {
     protected UniversalBrowserHeader[] getHeaders() {
         return new UniversalBrowserHeader[]{
                 new UniversalBrowserHeader("certname", "Agent"),
-                new UniversalBrowserHeader("report_timestamp", "Data ostatniego raportu"),
-                new UniversalBrowserHeader("latest_report_status", "Status ostatniego raportu"),
+                new UniversalBrowserHeader("report_timestamp", "Data ostatniego raportu", UniversalBrowserHeaderTypes.DATETIME),
+                new UniversalBrowserHeader("latest_report_status", "Status ostatniego raportu", UniversalBrowserHeaderTypes.DATETIME),
         };
     }
 }

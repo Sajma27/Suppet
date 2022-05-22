@@ -17,9 +17,9 @@ public class UniversalBrowserParams {
         }
         StringBuilder query = new StringBuilder();
         if (this.query.length > 1) {
-            query.append("[");
+            query.append("[\"and\"");
             for (QueryField field: this.query) {
-                query.append(field);
+                query.append(",").append(field);
             }
             query.append("]");
         } else if (this.query.length > 0) {
