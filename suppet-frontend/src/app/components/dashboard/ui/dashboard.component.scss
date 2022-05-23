@@ -1,4 +1,4 @@
-@import "/src/assets/styles/variables";
+@import "/src/assets/styles/buttons";
 
 $side-menu-padding: 16px;
 
@@ -42,28 +42,6 @@ mat-sidenav {
 
 .submenu {
   width: 100%;
-}
-
-.menu-button {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  font-size: 1rem;
-  font-weight: normal;
-
-  mat-icon {
-    margin-right: 8px;
-  }
-}
-
-.menu-button-clicked {
-  @extend .menu-button;
-  background: $suppet-green-07-opacity;
-}
-
-.menu-button ::ng-deep .mat-button-focus-overlay {
-  background-color: $suppet-green;
 }
 
 .account-section {

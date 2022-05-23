@@ -17,40 +17,36 @@ import { flatMap } from "rxjs/internal/operators";
 })
 export class UniversalBrowserComponent implements OnInit {
 
-  @Input() set puppetData(puppetData: UniversalBrowserFullDto) {
-    this._puppetData = puppetData;
+  @Input() set browserData(puppetData: UniversalBrowserFullDto) {
+    this._browserData = puppetData;
     this.numOfRows = puppetData?.data.length || 0;
   };
 
   get data(): any[] {
-    return this._puppetData?.data;
+    return this._browserData?.data;
   }
 
   get columns(): string[] {
-    return this._puppetData?.columns;
+    return this._browserData?.columns;
   }
 
   get headers(): UniversalBrowserHeader[] {
-    return this._puppetData?.headers || [new UniversalBrowserHeader('-', 'Ładowanie...')];
+    return this._browserData?.headers || [new UniversalBrowserHeader('-', 'Ładowanie...')];
   }
 
   @Input() service: AbstractUniversalBrowserService;
   @Input() config: UniversalBrowserConfig;
 
-  private numOfRows: number = 0;
-  private totalNumOfRows: number = null;
-  private _puppetData: UniversalBrowserFullDto;
-  private loading: boolean = false;
-  private loadingError: boolean = false;
-  private clickedRow: any = null;
+  protected numOfRows: number = 0;
+  protected totalNumOfRows: number = null;
+  protected _browserData: UniversalBrowserFullDto;
+  protected loading: boolean = false;
+  protected loadingError: boolean = false;
+  protected clickedRow: any = null;
 
   ngOnInit(): void {
     this.addRefreshAction();
     this.refresh();
-    const queryField = new QueryField();
-    queryField.field = 'certname';
-    queryField.value = 'puppet-master.home';
-    this.config.params.query.push(queryField);
   }
 
   showLoadMoreButton(): boolean {
@@ -77,7 +73,7 @@ export class UniversalBrowserComponent implements OnInit {
       this.service?.fetchData(this.config.params)
         .pipe(take(1))
         .subscribe((data: any[]) => {
-          this._puppetData.data = [...this._puppetData.data, ...data];
+          this._browserData.data = [...this._browserData.data, ...data];
           this.loading = false;
           this.loadingError = false;
           this.numOfRows += this.config.params.limit;
@@ -127,7 +123,7 @@ export class UniversalBrowserComponent implements OnInit {
     this.refresh();
   }
 
-  private addRefreshAction(): void {
+  protected addRefreshAction(): void {
     if (this.config.addRefreshAction) {
       this.config.actions = [
         new UniversalBrowserAction('Odśwież', 'refresh', () => this.refresh()),
@@ -136,10 +132,10 @@ export class UniversalBrowserComponent implements OnInit {
     }
   }
 
-  private refresh(): void {
+  protected refresh(): void {
     if (!this.loading) {
       this.clickedRow = null;
-      this.puppetData = null;
+      this.browserData = null;
       this.loading = true;
       this.loadingError = false;
       this.config.params.offset = 0;
@@ -152,7 +148,7 @@ export class UniversalBrowserComponent implements OnInit {
         .pipe(take(1))
         .subscribe((puppetFullDataDto: UniversalBrowserFullDto) => {
           puppetFullDataDto.columns = ['idx', ...puppetFullDataDto.columns];
-          this.puppetData = puppetFullDataDto;
+          this.browserData = puppetFullDataDto;
           this.loading = false;
           this.loadingError = false;
         }, () => {

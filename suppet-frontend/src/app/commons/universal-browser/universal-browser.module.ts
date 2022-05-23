@@ -21,6 +21,7 @@ import {
 import {
   UniversalBrowserActionButtonComponent
 } from "./universal-browser-action-buttons/universal-browser-action-button/universal-browser-action-button.component";
+import { CommonComponentsModule } from "../common-components/common-components.module";
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import {
     ReactiveFormsModule,
     MatFormFieldModule,
     MatSelectModule,
-    MatInputModule
+    MatInputModule,
+    CommonComponentsModule
   ]
 })
 export class UniversalBrowserModule {

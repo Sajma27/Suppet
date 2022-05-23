@@ -1,7 +1,5 @@
 import { HttpClient } from "@angular/common/http";
-import {
-  AbstractUniversalBrowserService
-} from "../../components/universal-browser/core/abstract-universal-browser.service";
+import { AbstractUniversalBrowserService } from "../universal-browser/core/abstract-universal-browser.service";
 
 export abstract class AbstractPuppetDbService extends AbstractUniversalBrowserService {
 

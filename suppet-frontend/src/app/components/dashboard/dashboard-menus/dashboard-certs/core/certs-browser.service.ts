@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
-import { AbstractUniversalBrowserService } from "../../../../universal-browser/core/abstract-universal-browser.service";
+import {
+  AbstractUniversalBrowserService
+} from "../../../../../commons/universal-browser/core/abstract-universal-browser.service";
 
 @Injectable({
   providedIn: 'root'

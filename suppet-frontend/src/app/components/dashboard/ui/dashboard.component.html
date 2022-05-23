@@ -6,52 +6,52 @@
       <mat-divider style="margin-top: 0"></mat-divider>
       <button mat-button
               (click)="toggledButton.toggleMenu()"
-              [ngClass]="toggledButton.menu ? 'menu-button-clicked' : 'menu-button'">
+              [ngClass]="toggledButton.menu ? 'main-button-clicked' : 'main-button'">
         <mat-icon>home</mat-icon>
         <span>Menu główne</span>
       </button>
       <mat-divider></mat-divider>
       <button mat-button
               (click)="toggledButton.toggleAgents()"
-              [ngClass]="toggledButton.agents ? 'menu-button-clicked' : 'menu-button'">
+              [ngClass]="toggledButton.agents ? 'main-button-clicked' : 'main-button'">
         <mat-icon>people</mat-icon>
         <span>Agenci</span>
       </button>
       <button mat-button
               (click)="toggledButton.toggleCerts()"
-              [ngClass]="toggledButton.certs ? 'menu-button-clicked' : 'menu-button'">
+              [ngClass]="toggledButton.certs ? 'main-button-clicked' : 'main-button'">
         <mat-icon>shield</mat-icon>
         <span>Certyfikaty</span>
       </button>
       <!--      <button mat-button-->
       <!--              (click)="toggledButton.toggleCatalogs()"-->
-      <!--              [ngClass]="toggledButton.catalogs ? 'menu-button-clicked' : 'menu-button'">-->
+      <!--              [ngClass]="toggledButton.catalogs ? 'main-button-clicked' : 'main-button'">-->
       <!--        <mat-icon>store_mall_directory</mat-icon>-->
       <!--        <span>Katalogi</span>-->
       <!--      </button>-->
       <mat-divider></mat-divider>
       <button mat-button
               (click)="toggledButton.toggleTasks()"
-              [ngClass]="toggledButton.tasks ? 'menu-button-clicked' : 'menu-button'">
+              [ngClass]="toggledButton.tasks ? 'main-button-clicked' : 'main-button'">
         <mat-icon>tasks</mat-icon>
         <span>Zadania</span>
       </button>
       <mat-divider></mat-divider>
       <button mat-button
               (click)="toggledButton.toggleModules()"
-              [ngClass]="toggledButton.modules ? 'menu-button-clicked' : 'menu-button'">
+              [ngClass]="toggledButton.modules ? 'main-button-clicked' : 'main-button'">
         <mat-icon>folder</mat-icon>
         <span>Moduły</span>
       </button>
       <button mat-button
               (click)="toggledButton.toggleClasses()"
-              [ngClass]="toggledButton.classes ? 'menu-button-clicked' : 'menu-button'">
+              [ngClass]="toggledButton.classes ? 'main-button-clicked' : 'main-button'">
         <mat-icon>classes</mat-icon>
         <span>Klasy</span>
       </button>
       <!--      <button mat-button-->
       <!--              (click)="toggledButton.toggleManifests()"-->
-      <!--              [ngClass]="toggledButton.manifests ? 'menu-button-clicked' : 'menu-button'">-->
+      <!--              [ngClass]="toggledButton.manifests ? 'main-button-clicked' : 'main-button'">-->
       <!--        <mat-icon>receipt</mat-icon>-->
       <!--        <span>Manifesty</span>-->
       <!--      </button>-->
@@ -59,7 +59,7 @@
     <div class="account-section">
       <div style="width: 100%">
         <img class="avatar mat-elevation-z8" [src]="this.getUserImg()"/>
-        <button mat-button class="menu-button">
+        <button mat-button class="main-button">
           <mat-icon>face</mat-icon>
           <span>Moje konto</span>
         </button>

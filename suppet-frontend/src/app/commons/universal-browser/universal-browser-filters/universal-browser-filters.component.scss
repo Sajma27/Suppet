@@ -1,0 +1,27 @@
+@import "src/assets/styles/buttons";
+
+.universal-browser-filters-container {
+  height: 40px;
+  background: $suppet-grey;
+  font-size: medium;
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  padding-left: 10px;
+  overflow: auto;
+}
+
+.universal-browser-filter-badge {
+  margin: 5px;
+  margin-right: 0;
+  padding-left: 7px;
+  padding-right: 7px;
+  height: 25px;
+  width: fit-content;
+  background: $suppet-green-half-opacity;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  font-size: small;
+}

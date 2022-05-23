@@ -1,4 +1,4 @@
-@import "src/assets/styles/variables";
+@import "variables";
 
 .main-browser-container {
   height: 100%;
@@ -18,17 +18,6 @@
   font-size: medium;
   font-weight: normal;
   text-align: center;
-}
-
-.spinner-wrapper {
-  padding-top: 10px;
-  padding-bottom: 10px;
-  background: $suppet-grey;
-}
-
-.spinner-wrapper ::ng-deep .mat-progress-spinner circle, .mat-spinner circle {
-  stroke: $suppet-green-07-opacity;
-  width: 100%;
 }
 
 .browser-container {
@@ -78,10 +67,10 @@ tbody {
 }
 
 .mat-row .mat-cell {
-  border-bottom: 1px solid transparent;
-  border-top: 1px solid transparent;
+  border-bottom: $transparent-border;
+  border-top: $transparent-border;
   cursor: pointer;
-  border-bottom: 1px solid $suppet-green-half-opacity;
+  border-bottom: $green-border;
 }
 
 .mat-row {

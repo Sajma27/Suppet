@@ -9,9 +9,9 @@ import { DashboardModulesComponent } from './dashboard-modules/dashboard-modules
 import { DashboardClassesComponent } from './dashboard-classes/dashboard-classes.component';
 import { DashboardManifestsComponent } from './dashboard-manifests/dashboard-manifests.component';
 import { PuppetManifestEditorModule } from "../puppet-manifest-editor/puppet-manifest-editor.module";
-import { UniversalBrowserModule } from "../../universal-browser/universal-browser.module";
-
-
+import { BasicDashboardBrowserMenuComponent } from './abstract-dashboard-menu/basic-dashboard-browser-menu.component';
+import { UniversalBrowserModule } from "../../../commons/universal-browser/universal-browser.module";
+import { CommonComponentsModule } from "../../../commons/common-components/common-components.module";
 
 @NgModule({
   declarations: [
@@ -22,7 +22,8 @@ import { UniversalBrowserModule } from "../../universal-browser/universal-browse
     DashboardTasksComponent,
     DashboardModulesComponent,
     DashboardClassesComponent,
-    DashboardManifestsComponent
+    DashboardManifestsComponent,
+    BasicDashboardBrowserMenuComponent
   ],
   exports: [
     DashboardTasksComponent,
@@ -37,7 +38,8 @@ import { UniversalBrowserModule } from "../../universal-browser/universal-browse
   imports: [
     CommonModule,
     PuppetManifestEditorModule,
-    UniversalBrowserModule
+    UniversalBrowserModule,
+    CommonComponentsModule
   ]
 })
 export class DashboardMenusModule { }

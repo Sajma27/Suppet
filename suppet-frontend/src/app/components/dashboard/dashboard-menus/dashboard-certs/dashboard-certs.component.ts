@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { UniversalBrowserConfig } from "../../../universal-browser/model/universal-browser-config";
 import { CertsBrowserService } from "./core/certs-browser.service";
-import { UniversalBrowserAdditionalParam } from "../../../universal-browser/model/universal-browser-additional-param";
+import {
+  UniversalBrowserAdditionalParam
+} from "../../../../commons/universal-browser/model/universal-browser-additional-param";
+import { UniversalBrowserConfig } from "../../../../commons/universal-browser/model/universal-browser-config";
 
 @Component({
   selector: 'app-dashboard-certs',

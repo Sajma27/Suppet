@@ -2,11 +2,11 @@
   Filtry:
   <div class="universal-browser-filter-badge" *ngFor="let filter of config.params.query; let idx = index">
     {{filter.field}} {{filter.op}} "{{filter.value}}"
-    <button mat-icon-button (click)="onXClicked(idx)" class="universal-browser-filter-badge-close-button" [disabled]="addingMenuVisible">
+    <button mat-icon-button (click)="onXClicked(idx)" class="red-icon-button" [disabled]="addingMenuVisible">
       <mat-icon>close</mat-icon>
     </button>
   </div>
-  <button mat-icon-button (click)="onShowAddingMenuClicked()" class="universal-browser-filter-badge-plus-button" [disabled]="addingMenuVisible">
+  <button mat-icon-button (click)="onShowAddingMenuClicked()" class="green-icon-button" [disabled]="addingMenuVisible">
     <mat-icon>add</mat-icon>
   </button>
 </div>

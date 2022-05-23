@@ -1,0 +1,14 @@
+@import "src/assets/styles/browser";
+
+.main-browser-container {
+  height: 200px;
+  font-size: small;
+}
+
+.green-main-button {
+  width: fit-content;
+}
+
+.browser-container {
+  border-top: $green-border;
+}

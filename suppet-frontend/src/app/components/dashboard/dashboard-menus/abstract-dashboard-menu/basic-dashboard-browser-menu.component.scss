@@ -1,0 +1,46 @@
+@import "src/assets/styles/variables";
+
+.menu-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.title-description-wrapper {
+  display: flex;
+  flex-direction: column;
+  flex-flow: column;
+  align-items: center;
+  width: 40%;
+}
+
+.processes-wrapper {
+  width: 60%;
+}
+
+.title {
+  width: fit-content;
+  font-size: xx-large;
+  border-bottom: $green-thicc-border;
+  padding-bottom: 10px;
+}
+
+.description {
+  flex-grow: 1;
+  font-size: medium;
+  font-weight: bold;
+}
+
+.top-container {
+  display: flex;
+  height: 50%;
+}
+
+.bottom-container {
+  height: 50%;
+  flex-direction: row;
+}
+
+.browser-wrapper {
+  height: 100%;
+}

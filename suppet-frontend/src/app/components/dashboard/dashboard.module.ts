@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DashboardComponent } from './ui/dashboard.component';
-import { PuppetManifestEditorModule } from "./puppet-manifest-editor/puppet-manifest-editor.module";
 import { AuthenticationModule } from "../authentication/authentication.module";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { MatToolbarModule } from "@angular/material/toolbar";
@@ -12,7 +11,6 @@ import { MatDividerModule } from "@angular/material/divider";
 import { AppRoutingModule } from "../../app-routing.module";
 import { DashboardMenusModule } from "./dashboard-menus/dashboard-menus.module";
 
-
 @NgModule({
   declarations: [
     DashboardComponent
@@ -22,7 +20,6 @@ import { DashboardMenusModule } from "./dashboard-menus/dashboard-menus.module";
   ],
   imports: [
     CommonModule,
-    PuppetManifestEditorModule,
     AuthenticationModule,
     BrowserAnimationsModule,
     MatToolbarModule,

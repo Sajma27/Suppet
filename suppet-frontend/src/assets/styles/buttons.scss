@@ -1,0 +1,55 @@
+@import "variables";
+@import "icons";
+
+.red-icon-button {
+  margin-left: 5px;
+  height: 20px;
+  width: 20px !important;
+  min-width: unset !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: $suppet-red;
+
+  .mat-icon {
+    @extend .round-icon;
+    transform: scale(0.5);
+  }
+}
+
+.green-icon-button {
+  @extend .red-icon-button;
+  background: $suppet-green-half-opacity;
+
+  .mat-icon {
+    transform: scale(0.6);
+  }
+}
+
+.main-button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  font-size: 1rem;
+  font-weight: normal;
+
+  mat-icon {
+    margin-right: 8px;
+  }
+}
+
+.green-main-button {
+  @extend .main-button;
+  background: $suppet-green-half-opacity;
+}
+
+.main-button-clicked {
+  @extend .main-button;
+  background: $suppet-green-half-opacity;
+}
+
+.main-button ::ng-deep .mat-button-focus-overlay {
+  background-color: $suppet-green;
+}

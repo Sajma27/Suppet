@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import {AbstractPuppetDbService} from "../abstract-puppet-db.service";
-import {HttpClient} from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
+import { AbstractPuppetDbService } from "../abstract-puppet-db.service";
 
 @Injectable({
   providedIn: 'root'
