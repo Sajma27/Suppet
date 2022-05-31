@@ -10,6 +10,7 @@ import { OrderByField } from "../core/order-by-field";
 import { Sort } from "@angular/material/sort";
 import { flatMap } from "rxjs/internal/operators";
 import { UniversalBrowserRow } from "../model/universal-browser-row";
+import { UniversalBrowserHeaderTypes } from "../model/universal-browser-header-types";
 
 @Component({
   selector: 'app-universal-browser',
@@ -122,6 +123,14 @@ export class UniversalBrowserComponent implements OnInit {
       this.config.params.orderBy.push(new OrderByField(sortState.active, sortState.direction));
     }
     this.refresh();
+  }
+
+  getDateValue(element: any, header: UniversalBrowserHeader): string {
+    return (element[header.dataField] as string)?.replace('UTC', '');
+  }
+
+  isDatetimeHeader(header: UniversalBrowserHeader): boolean {
+    return header.type === UniversalBrowserHeaderTypes.DATETIME;
   }
 
   protected addRefreshAction(): void {

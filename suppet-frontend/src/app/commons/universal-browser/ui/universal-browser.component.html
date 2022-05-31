@@ -23,7 +23,10 @@
 
       <ng-container *ngFor="let header of headers" matColumnDef="{{header.dataField}}">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>{{header.name}}</th>
-        <td mat-cell *matCellDef="let element">{{element[header.dataField]}}</td>
+        <td mat-cell *matCellDef="let element">
+          <div *ngIf="isDatetimeHeader(header)">{{ getDateValue(element, header) | date : 'dd-MM-YYYY hh:mm:ss' }}</div>
+          <div *ngIf="!isDatetimeHeader(header)">{{element[header.dataField]}}</div>
+        </td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="columns; sticky: true" class="browser-table-header-row"></tr>
