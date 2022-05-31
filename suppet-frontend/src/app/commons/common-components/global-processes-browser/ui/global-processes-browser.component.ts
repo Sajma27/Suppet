@@ -1,7 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
-import { DashboardProcessesService } from "../core/dashboard-processes.service";
+import { GlobalProcessesService } from "../core/global-processes.service";
 import { Subscription } from "rxjs";
-import { DashboardProcess } from "../model/dashboard-process";
+import { GlobalProcess } from "../model/global-process";
 
 @Component({
   selector: 'app-dashboard-processes',
@@ -10,23 +10,23 @@ import { DashboardProcess } from "../model/dashboard-process";
 })
 export class GlobalProcessesBrowserComponent implements OnDestroy {
 
-  processes: DashboardProcess[];
+  processes: GlobalProcess[];
   columns: string[] = ['name', 'completed'];
 
   private processesSub: Subscription;
 
-  constructor(private processesService: DashboardProcessesService) {
-    this.processes = processesService.getProcesses();
-    this.processesSub = processesService.getProcessesAsObservable()
-      .subscribe((processes) => this.processes = processes);
+  constructor() {
+    this.processes = [...GlobalProcessesService.getProcesses()];
+    this.processesSub = GlobalProcessesService.getProcessesAsObservable()
+      .subscribe((processes) => this.processes = [...processes]);
   }
 
   removeProcess(idx: number) {
-    this.processesService.removeProcess(idx);
+    GlobalProcessesService.removeProcess(idx);
   }
 
   removeCompletedProcesses() {
-    this.processesService.removeCompletedProcesses();
+    GlobalProcessesService.removeCompletedProcesses();
   }
 
   ngOnDestroy(): void {

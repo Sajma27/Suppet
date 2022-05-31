@@ -1,8 +1,14 @@
 @import "src/assets/styles/browser";
+@import "src/assets/styles/buttons";
+@import "src/assets/styles/icons";
 
 .main-browser-container {
-  height: 200px;
   font-size: small;
+  align-items: center;
+}
+
+.main-button {
+  width: fit-content;
 }
 
 .green-main-button {
@@ -11,4 +17,11 @@
 
 .browser-container {
   border-top: $green-border;
+}
+
+.status-row-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  height: 40px;
 }

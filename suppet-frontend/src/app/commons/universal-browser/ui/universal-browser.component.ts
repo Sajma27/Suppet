@@ -9,6 +9,7 @@ import { QueryField } from "../core/query-field";
 import { OrderByField } from "../core/order-by-field";
 import { Sort } from "@angular/material/sort";
 import { flatMap } from "rxjs/internal/operators";
+import { UniversalBrowserRow } from "../model/universal-browser-row";
 
 @Component({
   selector: 'app-universal-browser',
@@ -85,13 +86,13 @@ export class UniversalBrowserComponent implements OnInit {
     }
   }
 
-  onRowClicked(row: any): void {
+  onRowClicked(row: UniversalBrowserRow): void {
     if (this.config.clickableRows) {
       this.clickedRow = this.clickedRow?.idx !== row.idx ? row : null;
     }
   }
 
-  isRowClicked(row: any): boolean {
+  isRowClicked(row: UniversalBrowserRow): boolean {
     return this.clickedRow?.idx == row?.idx;
   }
 

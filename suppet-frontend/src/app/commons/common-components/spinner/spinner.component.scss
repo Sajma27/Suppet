@@ -1,8 +1,10 @@
+@import "src/assets/styles/variables";
 
 .spinner-wrapper {
   padding-top: 10px;
   padding-bottom: 10px;
-  background: $suppet-grey;
+  background: transparent;
+  width: fit-content;
 }
 
 .spinner-wrapper ::ng-deep .mat-progress-spinner circle, .mat-spinner circle {

@@ -1,3 +1,4 @@
+@import "variables";
 
 .round-icon {
   display: flex;
@@ -5,4 +6,12 @@
   justify-content: center;
   width: fit-content;
   height: fit-content;
+}
+
+.green-icon {
+  color: $suppet-green-half-opacity;
+}
+
+.red-icon {
+  color: $suppet-red;
 }

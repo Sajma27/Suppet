@@ -6,6 +6,7 @@ import { GlobalProcessesBrowserComponent } from "./global-processes-browser/ui/g
 import { MatIconModule } from "@angular/material/icon";
 import { MatTableModule } from "@angular/material/table";
 import { MatButtonModule } from "@angular/material/button";
+import { MatTooltipModule } from "@angular/material/tooltip";
 
 const components = [SpinnerComponent, GlobalProcessesBrowserComponent];
 
@@ -17,7 +18,8 @@ const components = [SpinnerComponent, GlobalProcessesBrowserComponent];
     MatProgressSpinnerModule,
     MatIconModule,
     MatTableModule,
-    MatButtonModule
+    MatButtonModule,
+    MatTooltipModule
   ]
 })
 export class CommonComponentsModule { }

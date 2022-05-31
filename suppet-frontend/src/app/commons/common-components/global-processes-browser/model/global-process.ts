@@ -1,9 +1,10 @@
 import { Observable } from "rxjs";
 
-export class DashboardProcess {
+export class GlobalProcess {
   name: string;
-  observable: Observable<any>;
+  observable: Observable<boolean>;
   completed: boolean = false;
+  error: boolean = false;
 
   constructor(name: string, observable: Observable<any>) {
     this.name = name;

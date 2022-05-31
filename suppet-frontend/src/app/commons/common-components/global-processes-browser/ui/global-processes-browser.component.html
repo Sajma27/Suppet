@@ -14,18 +14,25 @@
       </ng-container>
 
       <ng-container matColumnDef='completed'>
-        <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
-        <mat-cell *matCellDef='let element; let i = index'>
-          <div *ngIf="element.completed">
-            Zakończony
-            <button mat-icon-button (click)="removeProcess(i)" class="red-icon-button">
+        <th mat-header-cell *matHeaderCellDef>Status</th>
+        <td mat-cell *matCellDef='let element; let i = index' class="status-row-wrapper">
+          <div *ngIf="element.completed" class="status-row-wrapper">
+            <mat-icon [matTooltip]="'Pomyślnie ukończono'" class="green-icon">done</mat-icon>
+            <button mat-icon-button (click)="removeProcess(i)" class="red-icon-button" [matTooltip]="'Usuń'">
               <mat-icon>close</mat-icon>
             </button>
           </div>
-          <common-spinner *ngIf="!element.completed"></common-spinner>
-        </mat-cell>
+          <div *ngIf="element.error" class="status-row-wrapper">
+            <mat-icon [matTooltip]="'Wystąpił bład'" class="red-icon">error</mat-icon>
+            <button mat-icon-button (click)="removeProcess(i)" class="red-icon-button" [matTooltip]="'Usuń'">
+              <mat-icon>close</mat-icon>
+            </button>
+          </div>
+          <common-spinner *ngIf="!element.completed && !element.error" class="status-row-wrapper" [diameter]="25"></common-spinner>
+        </td>
       </ng-container>
 
+      <tr mat-header-row *matHeaderRowDef="columns; sticky: true" class="browser-table-header-row"></tr>
       <tr mat-row
         class="browser-table-row"
         *matRowDef="let row; columns: columns"

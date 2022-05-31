@@ -29,8 +29,8 @@
       <tr mat-header-row *matHeaderRowDef="columns; sticky: true" class="browser-table-header-row"></tr>
       <tr
         mat-row
-        (click)="onRowClicked({idx: idx, row})"
-        [class.clicked-row]="isRowClicked({idx: idx, row})"
+        (click)="onRowClicked({idx: idx, data: row})"
+        [class.clicked-row]="isRowClicked({idx: idx, data: row})"
         class="browser-table-row"
         *matRowDef="let row; columns: columns; let idx = index"
       ></tr>
@@ -39,7 +39,7 @@
       Załaduj więcej
       <mat-icon>refresh</mat-icon>
     </button>
-    <common-spinner *ngIf="showLoadingSpinner()"></common-spinner>
+    <common-spinner *ngIf="showLoadingSpinner()" class="browser-spinner" [diameter]="60"></common-spinner>
     <div *ngIf="showNoDataMessage()" class="base-browser-message">
       {{config.noDataMessage}}
     </div>

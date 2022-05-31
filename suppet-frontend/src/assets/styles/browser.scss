@@ -23,9 +23,20 @@
 .browser-container {
   flex-grow: 1;
   overflow: auto;
+  display: flex;
+  flex-flow: column;
+  flex-direction: column;
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
   width: 100%;
+}
+
+.browser-spinner {
+  flex-grow: 1;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 tbody {

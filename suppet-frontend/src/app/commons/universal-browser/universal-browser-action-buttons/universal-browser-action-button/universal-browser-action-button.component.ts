@@ -13,6 +13,10 @@ export class UniversalBrowserActionButtonComponent {
   @Input() disabled: boolean;
 
   isDisabled(): boolean {
-    return this.disabled || (this.universalBrowserAction.disabledOnNoRow && !this.row);
+    return this.disabled || this.universalBrowserAction.isRowDisabled(this.row);
+  }
+
+  onClick(): void {
+    this.universalBrowserAction.callback(this.row);
   }
 }

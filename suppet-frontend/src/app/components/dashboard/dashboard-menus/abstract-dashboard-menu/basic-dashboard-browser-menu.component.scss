@@ -4,9 +4,13 @@
   display: flex;
   flex-direction: column;
   width: 100%;
+  padding-top: 5px;
+  padding-bottom: 25px;
+  height: calc(100% - 30px);
 }
 
 .title-description-wrapper {
+  padding: 10px;
   display: flex;
   flex-direction: column;
   flex-flow: column;
@@ -15,14 +19,22 @@
 }
 
 .processes-wrapper {
+  display: flex;
+  flex-direction: column;
+  flex-flow: column;
   width: 60%;
+}
+
+.processes {
+  flex-grow: 1;
 }
 
 .title {
   width: fit-content;
-  font-size: xx-large;
+  font-size: xxx-large;
   border-bottom: $green-thicc-border;
-  padding-bottom: 10px;
+  padding-top: 15px;
+  padding-bottom: 15px;
 }
 
 .description {
@@ -33,11 +45,12 @@
 
 .top-container {
   display: flex;
-  height: 50%;
+  height: calc(40% - 15px);
+  margin-bottom: 15px;
 }
 
 .bottom-container {
-  height: 50%;
+  height: 60%;
   flex-direction: row;
 }
 
