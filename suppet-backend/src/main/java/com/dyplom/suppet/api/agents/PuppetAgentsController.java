@@ -21,8 +21,8 @@ public class PuppetAgentsController {
     }
 
     @RequestMapping(value = "/updateAgent", method = RequestMethod.GET)
-    public void updateAgent(@RequestParam String agent) throws IOException, InterruptedException {
-        this.agentsService.updateAgent(agent, null, null);
+    public boolean updateAgent(@RequestParam String agent) throws IOException, InterruptedException {
         logger.info("Updating agent: " + agent);
+        return this.agentsService.updateAgent(agent, null, null);
     }
 }

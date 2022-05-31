@@ -15,12 +15,15 @@ public class PuppetAgentsService {
     private final String defaultUser = "vagrant";
     private final String defaultPassword = "vagrant";
 
-    public void updateAgent(String agent, String username, String password) throws IOException, InterruptedException {
+    public boolean updateAgent(String agent, String username, String password) throws IOException, InterruptedException {
         if (username == null) {
             username = defaultUser;
         }
         if (password == null) {
             password = defaultPassword;
+        }
+        if (agent.endsWith(".home")) {
+            agent = agent.substring(0, agent.length() - 5);
         }
         String[] command = new String[] {"bolt", "command", "run", "sudo /opt/puppetlabs/bin/puppet agent -t",
                 "--targets", agent,
@@ -42,8 +45,10 @@ public class PuppetAgentsService {
             }
         }
 
-        log.info(String.valueOf(p.waitFor()));
+        int result = p.waitFor();
+        log.info(String.valueOf(result));
         p.destroy();
+        return result == 0;
     }
 
 }
