@@ -26,44 +26,30 @@ public class CommandLineUtils {
         return Runtime.getRuntime().exec(commandArray);
     }
 
-    public static StringBuilder getDataFromProcess(Process p) throws IOException, InterruptedException {
-        return getDataFromProcess(p, false);
-    }
-
-    public static StringBuilder getDataFromProcess(Process p, boolean includeErrors) throws IOException, InterruptedException {
+    public static CommandLineProcessResult getDataFromProcess(Process p) throws IOException, InterruptedException {
         BufferedReader inputStream = new BufferedReader(new InputStreamReader(p.getInputStream()));
         BufferedReader errorStream = new BufferedReader(new InputStreamReader(p.getErrorStream()));
 
-        StringBuilder builder = new StringBuilder();
+        StringBuilder dataBuilder = new StringBuilder();
+        StringBuilder errorBuilder = new StringBuilder();
         String line;
         while (p.isAlive()) {
             while ((line = inputStream.readLine()) != null) {
-                builder.append(line);
+                dataBuilder.append(line);
             }
             while ((line = errorStream.readLine()) != null) {
-                if (includeErrors) {
-                    builder.append(line);
-                } else {
-                    log.error(line);
-                }
+                errorBuilder.append(line);
             }
         }
 
-        log.info(String.valueOf(p.waitFor()));
-        p.destroy();
-        return builder;
-    }
-
-    public static int getResultFromProcess(Process p) throws InterruptedException {
         int result = p.waitFor();
-        log.info(String.valueOf(result));
         p.destroy();
-        return result;
+        return new CommandLineProcessResult(result, dataBuilder.toString(), errorBuilder.toString());
     }
 
-    public static JsonNode getJsonNodeFromData(StringBuilder data) throws JsonProcessingException {
+    public static JsonNode getJsonNodeFromData(String data) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
-        return mapper.readTree(data.toString());
+        return mapper.readTree(data);
     }
 
     public static ArrayList<String> getSudoPuppetCommand(List<String> params) {

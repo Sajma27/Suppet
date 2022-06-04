@@ -1,5 +1,6 @@
 package com.dyplom.suppet.service.agents;
 
+import com.dyplom.suppet.service.common.BrowserActionResult;
 import com.dyplom.suppet.service.common.CommandLineUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +17,7 @@ public class PuppetAgentsService {
     private final String defaultUser = "vagrant";
     private final String defaultPassword = "vagrant";
 
-    public boolean updateAgent(String agent) throws IOException, InterruptedException {
+    public BrowserActionResult updateAgent(String agent) throws IOException, InterruptedException {
         if (agent.endsWith(".home")) {
             agent = agent.substring(0, agent.length() - 5);
         }
@@ -26,7 +27,7 @@ public class PuppetAgentsService {
                 "--password", defaultPassword,
                 "--no-host-key-check"));
         Process p = CommandLineUtils.getProcess(command);
-        return CommandLineUtils.getResultFromProcess(p) == 0;
+        return new BrowserActionResult(CommandLineUtils.getDataFromProcess(p));
     }
 
 }

@@ -1,5 +1,6 @@
 package com.dyplom.suppet.service.puppet.config.validator;
 
+import com.dyplom.suppet.service.common.CommandLineProcessResult;
 import com.dyplom.suppet.service.common.CommandLineUtils;
 import com.dyplom.suppet.service.puppet.config.manifests.model.PuppetManifest;
 
@@ -19,9 +20,9 @@ public class PuppetValidator {
         try {
             if (writeManifestToTmFile(manifest)) {
                 Process process = CommandLineUtils.getProcess(getValidationCommand(tmpManifestPath));
-                String data = CommandLineUtils.getDataFromProcess(process, true).toString();
-                if (!data.isEmpty()) {
-                    throw new PuppetValidationException(data);
+                CommandLineProcessResult result = CommandLineUtils.getDataFromProcess(process);
+                if (!result.getData().isEmpty()) {
+                    throw new PuppetValidationException(result.getData());
                 }
             } else {
                 throw new PuppetValidationException("Nie udało się stworzyć tymczasowego pliku manifestu");
