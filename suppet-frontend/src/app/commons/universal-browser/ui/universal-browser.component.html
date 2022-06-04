@@ -5,6 +5,7 @@
   <app-universal-browser-action-buttons *ngIf="config.showActionButtons"
                                         [row]="getClickedRow()"
                                         [actions]="config.actions"
+                                        [refreshFunc]="getRefreshFunc()"
                                         [disabled]="config.browserDisabled">
   </app-universal-browser-action-buttons>
   <app-universal-browser-filters *ngIf="!config.filteringDisabled"

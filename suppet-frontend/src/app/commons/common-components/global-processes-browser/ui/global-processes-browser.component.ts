@@ -1,5 +1,5 @@
 import { Component, OnDestroy } from '@angular/core';
-import { GlobalProcessesService } from "../core/global-processes.service";
+import { GlobalProcessesUtils } from "../core/global-processes.utils";
 import { Subscription } from "rxjs";
 import { GlobalProcess } from "../model/global-process";
 
@@ -16,17 +16,17 @@ export class GlobalProcessesBrowserComponent implements OnDestroy {
   private processesSub: Subscription;
 
   constructor() {
-    this.processes = [...GlobalProcessesService.getProcesses()];
-    this.processesSub = GlobalProcessesService.getProcessesAsObservable()
+    this.processes = [...GlobalProcessesUtils.getProcesses()];
+    this.processesSub = GlobalProcessesUtils.getProcessesAsObservable()
       .subscribe((processes) => this.processes = [...processes]);
   }
 
   removeProcess(idx: number) {
-    GlobalProcessesService.removeProcess(idx);
+    GlobalProcessesUtils.removeProcess(idx);
   }
 
   removeCompletedProcesses() {
-    GlobalProcessesService.removeCompletedProcesses();
+    GlobalProcessesUtils.removeCompletedProcesses();
   }
 
   ngOnDestroy(): void {

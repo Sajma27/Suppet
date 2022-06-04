@@ -10,4 +10,5 @@ export class UniversalBrowserActionButtonsComponent {
   @Input() row: any;
   @Input() actions: UniversalBrowserAction[];
   @Input() disabled: boolean;
+  @Input() refreshFunc: Function;
 }

@@ -133,10 +133,14 @@ export class UniversalBrowserComponent implements OnInit {
     return header.type === UniversalBrowserHeaderTypes.DATETIME;
   }
 
+  getRefreshFunc(): Function {
+    return () => this.refresh();
+  }
+
   protected addRefreshAction(): void {
     if (this.config.addRefreshAction) {
       this.config.actions = [
-        new UniversalBrowserAction('Odśwież', 'refresh', () => this.refresh()),
+        new UniversalBrowserAction('Odśwież', 'refresh', () => {}, false, true),
         ...this.config.actions
       ];
     }

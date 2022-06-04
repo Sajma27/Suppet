@@ -23,7 +23,7 @@
             </button>
           </div>
           <div *ngIf="element.error" class="status-row-wrapper">
-            <mat-icon [matTooltip]="'Wystąpił bład'" class="red-icon">error</mat-icon>
+            <mat-icon [matTooltip]="element.errorMessage" class="red-icon">error</mat-icon>
             <button mat-icon-button (click)="removeProcess(i)" class="red-icon-button" [matTooltip]="'Usuń'">
               <mat-icon>close</mat-icon>
             </button>

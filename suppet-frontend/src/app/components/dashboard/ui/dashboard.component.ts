@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService, User } from "@auth0/auth0-angular";
-import { DashboardToggledButtons } from "../model/dashboard-toggled-buttons";
 import { take } from "rxjs/operators";
+import { DashboardMenus } from "../dashboard-menus/model/dashboard-menus";
+import _ from "lodash";
 
 @Component({
   selector: 'app-dashboard',
@@ -11,9 +12,9 @@ import { take } from "rxjs/operators";
 export class DashboardComponent implements OnInit {
   user: User = null;
   readonly logoSrc: string = '/assets/logo-white-small.png';
+  readonly menuTypes = DashboardMenus;
 
-  readonly toggledButton: DashboardToggledButtons = new DashboardToggledButtons();
-  private readonly defaultAvatar: string = '/assets/default-avatar.png';
+  private userImg: string = '/assets/default-avatar.png';
 
   constructor(private auth: AuthService) {
   }
@@ -22,11 +23,14 @@ export class DashboardComponent implements OnInit {
     this.auth.user$.pipe(take(1)).subscribe(
       (profile) => {
         this.user = profile;
+        if (!_.isNil(profile?.picture)) {
+          this.userImg = profile.picture;
+        }
       },
     );
   }
 
   getUserImg(): string {
-    return this.user?.picture || this.defaultAvatar;
+    return this.userImg;
   }
 }

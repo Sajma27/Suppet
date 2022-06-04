@@ -11,12 +11,14 @@ export class UniversalBrowserActionButtonComponent {
   @Input() row: any;
   @Input() universalBrowserAction: UniversalBrowserAction;
   @Input() disabled: boolean;
+  @Input() refreshFunc: Function;
 
   isDisabled(): boolean {
     return this.disabled || this.universalBrowserAction.isRowDisabled(this.row);
   }
 
   onClick(): void {
-    this.universalBrowserAction.callback(this.row);
+    this.universalBrowserAction.setBrowserRefreshFunc(this.refreshFunc);
+    this.universalBrowserAction.runCallback(this.row);
   }
 }

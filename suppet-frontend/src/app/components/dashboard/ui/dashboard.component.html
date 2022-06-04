@@ -4,57 +4,43 @@
       <img [src]="logoSrc"/>
 
       <mat-divider style="margin-top: 0"></mat-divider>
-      <button mat-button
-              (click)="toggledButton.toggleMenu()"
-              [ngClass]="toggledButton.menu ? 'main-button-clicked' : 'main-button'">
+      <button mat-button class="main-button" [routerLink]="menuTypes.MAIN_MENU" [routerLinkActive]="'main-button-clicked'">
         <mat-icon>home</mat-icon>
         <span>Menu główne</span>
       </button>
       <mat-divider></mat-divider>
-      <button mat-button
-              (click)="toggledButton.toggleAgents()"
-              [ngClass]="toggledButton.agents ? 'main-button-clicked' : 'main-button'">
+      <button mat-button class="main-button" [routerLink]="menuTypes.AGENTS" [routerLinkActive]="'main-button-clicked'">
         <mat-icon>people</mat-icon>
         <span>Agenci</span>
       </button>
-      <button mat-button
-              (click)="toggledButton.toggleCerts()"
-              [ngClass]="toggledButton.certs ? 'main-button-clicked' : 'main-button'">
-        <mat-icon>shield</mat-icon>
-        <span>Certyfikaty</span>
-      </button>
-      <!--      <button mat-button-->
-      <!--              (click)="toggledButton.toggleCatalogs()"-->
-      <!--              [ngClass]="toggledButton.catalogs ? 'main-button-clicked' : 'main-button'">-->
-      <!--        <mat-icon>store_mall_directory</mat-icon>-->
-      <!--        <span>Katalogi</span>-->
-      <!--      </button>-->
       <mat-divider></mat-divider>
-      <button mat-button
-              (click)="toggledButton.toggleTasks()"
-              [ngClass]="toggledButton.tasks ? 'main-button-clicked' : 'main-button'">
+      <span class="menu-group-title">Certyfikaty</span>
+      <button mat-button class="main-button" [routerLink]="menuTypes.REQUESTED_CERTS" [routerLinkActive]="'main-button-clicked'">
+        <mat-icon>gpp_good</mat-icon>
+        <span>Nowe</span>
+      </button>
+      <button mat-button class="main-button" [routerLink]="menuTypes.SIGNED_CERTS" [routerLinkActive]="'main-button-clicked'">
+        <mat-icon>gpp_good</mat-icon>
+        <span>Aktywne</span>
+      </button>
+      <button mat-button class="main-button" [routerLink]="menuTypes.UNSIGNED_CERTS" [routerLinkActive]="'main-button-clicked'">
+        <mat-icon>gpp_maybe</mat-icon>
+        <span>Nieaktywne</span>
+      </button>
+      <mat-divider></mat-divider>
+      <button mat-button class="main-button" [routerLink]="menuTypes.TASKS" [routerLinkActive]="'main-button-clicked'">
         <mat-icon>tasks</mat-icon>
         <span>Zadania</span>
       </button>
       <mat-divider></mat-divider>
-      <button mat-button
-              (click)="toggledButton.toggleModules()"
-              [ngClass]="toggledButton.modules ? 'main-button-clicked' : 'main-button'">
+      <button mat-button class="main-button" [routerLink]="menuTypes.MODULES" [routerLinkActive]="'main-button-clicked'">
         <mat-icon>folder</mat-icon>
         <span>Moduły</span>
       </button>
-      <button mat-button
-              (click)="toggledButton.toggleClasses()"
-              [ngClass]="toggledButton.classes ? 'main-button-clicked' : 'main-button'">
+      <button mat-button class="main-button" [routerLink]="menuTypes.CLASSES" [routerLinkActive]="'main-button-clicked'">
         <mat-icon>classes</mat-icon>
         <span>Klasy</span>
       </button>
-      <!--      <button mat-button-->
-      <!--              (click)="toggledButton.toggleManifests()"-->
-      <!--              [ngClass]="toggledButton.manifests ? 'main-button-clicked' : 'main-button'">-->
-      <!--        <mat-icon>receipt</mat-icon>-->
-      <!--        <span>Manifesty</span>-->
-      <!--      </button>-->
     </div>
     <div class="account-section">
       <div style="width: 100%">
@@ -70,14 +56,7 @@
 
   <mat-sidenav-content>
     <div class="content mat-elevation-z8">
-      <app-dashboard-main-menu *ngIf="toggledButton.menu" class="submenu"></app-dashboard-main-menu>
-      <app-dashboard-agents *ngIf="toggledButton.agents" class="submenu"></app-dashboard-agents>
-      <app-dashboard-certs *ngIf="toggledButton.certs" class="submenu"></app-dashboard-certs>
-      <app-dashboard-catalogs *ngIf="toggledButton.catalogs" class="submenu"></app-dashboard-catalogs>
-      <app-dashboard-tasks *ngIf="toggledButton.tasks" class="submenu"></app-dashboard-tasks>
-      <app-dashboard-modules *ngIf="toggledButton.modules" class="submenu"></app-dashboard-modules>
-      <app-dashboard-classes *ngIf="toggledButton.classes" class="submenu"></app-dashboard-classes>
-      <app-dashboard-manifests *ngIf="toggledButton.manifests" class="submenu"></app-dashboard-manifests>
+      <router-outlet></router-outlet>
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>

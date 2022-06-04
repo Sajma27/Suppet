@@ -13,7 +13,7 @@ import {
   templateUrl: '../abstract-dashboard-menu/basic-dashboard-browser-menu.component.html',
   styleUrls: ['../abstract-dashboard-menu/basic-dashboard-browser-menu.component.scss']
 })
-export class DashboardAgentsComponent extends BasicDashboardBrowserMenuComponent {
+export class DashboardAgentsComponent extends BasicDashboardBrowserMenuComponent<PuppetDbNodesService> {
 
   constructor(service: PuppetDbNodesService,
               private agentsService: AgentsService) {
@@ -28,7 +28,7 @@ export class DashboardAgentsComponent extends BasicDashboardBrowserMenuComponent
     return [
       new UniversalBrowserAsyncAction('Aktualizuj', 'update',
         (row: UniversalBrowserRow) => this.agentsService.updateAgent(row.data.certname),
-        true, (row: UniversalBrowserRow) => 'Aktualizacja agenta: ' + row.data.certname)
+        (row: UniversalBrowserRow) => !row, (row: UniversalBrowserRow) => 'Aktualizacja agenta: ' + row.data.certname, true)
     ];
   }
 

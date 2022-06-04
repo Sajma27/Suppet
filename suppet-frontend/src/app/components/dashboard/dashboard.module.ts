@@ -9,7 +9,8 @@ import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
 import { MatDividerModule } from "@angular/material/divider";
 import { AppRoutingModule } from "../../app-routing.module";
-import { DashboardMenusModule } from "./dashboard-menus/dashboard-menus.module";
+import { DashboardMenusModule, routes } from "./dashboard-menus/dashboard-menus.module";
+import { RouterModule } from "@angular/router";
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { DashboardMenusModule } from "./dashboard-menus/dashboard-menus.module";
     MatIconModule,
     MatDividerModule,
     AppRoutingModule,
-    DashboardMenusModule
+    DashboardMenusModule,
+    RouterModule.forRoot(routes)
   ]
 })
 export class DashboardModule {
