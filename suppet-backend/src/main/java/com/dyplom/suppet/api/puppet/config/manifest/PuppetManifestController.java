@@ -1,7 +1,8 @@
-package com.dyplom.suppet.api.manifest;
+package com.dyplom.suppet.api.puppet.config.manifest;
 
-import com.dyplom.suppet.service.manifest.PuppetManifestService;
-import com.dyplom.suppet.service.manifest.model.PuppetManifest;
+import com.dyplom.suppet.service.puppet.config.manifests.PuppetManifestService;
+import com.dyplom.suppet.service.puppet.config.manifests.model.PuppetManifest;
+import com.dyplom.suppet.service.puppet.config.validator.PuppetValidationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,16 +20,15 @@ public class PuppetManifestController {
         this.manifestService = manifestService;
     }
 
-    @RequestMapping(value = "/getCurrentManifestFile", method = RequestMethod.GET)
-    public PuppetManifest getCurrentManifestFile() {
-        return manifestService.getCurrentManifestFile();
+    @RequestMapping(value = "/getManifestFile", method = RequestMethod.GET)
+    public PuppetManifest getAgentsManifestFile(@RequestParam String agent) {
+        return manifestService.getAgentsManifestFile(agent);
     }
 
     @RequestMapping(value = "/setNewManifestFile", method = RequestMethod.POST)
-    public boolean setNewManifestFile(@RequestBody PuppetManifest puppetManifest) {
+    public boolean setNewManifestFile(@RequestBody PuppetManifest puppetManifest) throws PuppetValidationException {
         logger.info("Setting new manifest file");
-        logger.info(puppetManifest.getContent());
-        boolean result = manifestService.setManifestFile(puppetManifest.getContent());
+        boolean result = manifestService.setManifestFile(puppetManifest);
         if (result) {
             logger.info("Success! New manifest file set.");
         } else {

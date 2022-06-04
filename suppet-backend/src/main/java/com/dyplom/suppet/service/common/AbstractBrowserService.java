@@ -18,9 +18,9 @@ public abstract class AbstractBrowserService {
 
     public JsonNode fetchData(UniversalBrowserParams params, String additionalUrl) throws IOException, InterruptedException {
         ArrayList<String> command = getFetchDataCommand(params, additionalUrl);
-        Process p = CurlUtils.getProcess(command);
-        StringBuilder data = CurlUtils.getDataFromProcess(p);
-        JsonNode jsonData = CurlUtils.getJsonNodeFromData(data);
+        Process p = CommandLineUtils.getProcess(command);
+        StringBuilder data = CommandLineUtils.getDataFromProcess(p);
+        JsonNode jsonData = CommandLineUtils.getJsonNodeFromData(data);
         return applyAdditionalParams(params, jsonData);
     }
 

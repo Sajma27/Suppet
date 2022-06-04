@@ -2,7 +2,7 @@ package com.dyplom.suppet.service.certs;
 
 import com.dyplom.suppet.api.common.UniversalBrowserParams;
 import com.dyplom.suppet.service.common.AbstractBrowserService;
-import com.dyplom.suppet.service.common.CurlUtils;
+import com.dyplom.suppet.service.common.CommandLineUtils;
 import com.dyplom.suppet.service.common.UniversalBrowserHeader;
 import com.dyplom.suppet.service.common.UniversalBrowserHeaderTypes;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -30,7 +30,7 @@ public class PuppetCertsService extends AbstractBrowserService {
 
     @Override
     protected ArrayList<String> getFetchDataCommand(UniversalBrowserParams params, String additionalUrl) {
-        return new ArrayList<>(Arrays.asList("sudo", "/opt/puppetlabs/bin/puppetserver", "ca", "list", "--all", "--format", "json"));
+        return CommandLineUtils.getSudoPuppetserverCommand(Arrays.asList("ca", "list", "--all", "--format", "json"));
     }
 
     @Override
@@ -43,20 +43,20 @@ public class PuppetCertsService extends AbstractBrowserService {
     }
 
     public boolean signCert(String certname) throws IOException, InterruptedException {
-        ArrayList<String> command = new ArrayList<>(Arrays.asList("sudo", "puppetserver", "ca", "sign", "--certname", certname));
-        Process p = CurlUtils.getProcess(command);
-        return CurlUtils.getResultFromProcess(p) == 0;
+        ArrayList<String> command = CommandLineUtils.getSudoPuppetserverCommand(Arrays.asList("ca", "sign", "--certname", certname));
+        Process p = CommandLineUtils.getProcess(command);
+        return CommandLineUtils.getResultFromProcess(p) == 0;
     }
 
     public boolean revokeCert(String certname) throws IOException, InterruptedException {
-        ArrayList<String> command = new ArrayList<>(Arrays.asList("sudo", "puppetserver", "ca", "revoke", "--certname", certname));
-        Process p = CurlUtils.getProcess(command);
-        return CurlUtils.getResultFromProcess(p) == 0;
+        ArrayList<String> command = CommandLineUtils.getSudoPuppetserverCommand(Arrays.asList("ca", "revoke", "--certname", certname));
+        Process p = CommandLineUtils.getProcess(command);
+        return CommandLineUtils.getResultFromProcess(p) == 0;
     }
 
     public boolean cleanCert(String certname) throws IOException, InterruptedException {
-        ArrayList<String> command = new ArrayList<>(Arrays.asList("sudo", "puppetserver", "ca", "clean", "--certname", certname));
-        Process p = CurlUtils.getProcess(command);
-        return CurlUtils.getResultFromProcess(p) == 0;
+        ArrayList<String> command = CommandLineUtils.getSudoPuppetserverCommand(Arrays.asList("ca", "clean", "--certname", certname));
+        Process p = CommandLineUtils.getProcess(command);
+        return CommandLineUtils.getResultFromProcess(p) == 0;
     }
 }

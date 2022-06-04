@@ -2,7 +2,7 @@ package com.dyplom.suppet.service.puppetdb;
 
 import com.dyplom.suppet.api.common.UniversalBrowserParams;
 import com.dyplom.suppet.service.common.AbstractBrowserService;
-import com.dyplom.suppet.service.common.CurlUtils;
+import com.dyplom.suppet.service.common.CommandLineUtils;
 import com.dyplom.suppet.service.common.UniversalBrowserHeader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,7 +34,7 @@ public abstract class AbstractPuppetDbService extends AbstractBrowserService {
 
     public Integer getTotalRowCount(UniversalBrowserParams params, String additionalUrl) throws IOException, InterruptedException {
         ArrayList<String> command = PuppetDbCurlUtils.getTotalRowCountCommand(params, getFullUrl(additionalUrl));
-        Process p = CurlUtils.getProcess(command);
+        Process p = CommandLineUtils.getProcess(command);
         String data = PuppetDbCurlUtils.getTotalRowCountFromProcess(p);
         String[] splittedData;
         if (data != null && (splittedData = data.split(": ")).length == 2) {
