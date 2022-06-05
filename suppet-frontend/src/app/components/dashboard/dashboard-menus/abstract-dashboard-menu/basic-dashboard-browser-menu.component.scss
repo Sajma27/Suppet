@@ -1,12 +1,19 @@
 @import "src/assets/styles/variables";
 
 .menu-container {
-  display: flex;
-  flex-direction: column;
   width: 100%;
   padding-top: 5px;
-  padding-bottom: 25px;
-  height: calc(100% - 30px);
+  margin-bottom: 10px;
+  height: calc(100% - 15px);
+}
+
+.containers-wrapper {
+  display: flex;
+  flex-direction: column;
+  flex-flow: column;
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
 }
 
 .title-description-wrapper {
@@ -45,15 +52,16 @@
 
 .top-container {
   display: flex;
-  height: calc(40% - 15px);
+  min-height: calc(40% - 15px);
   margin-bottom: 15px;
 }
 
 .bottom-container {
-  height: 60%;
-  flex-direction: row;
+  flex-grow: 1;
+  max-height: 60%;
+  padding: 0;
 }
 
 .browser-wrapper {
-  height: 100%;
+  height: 96%;
 }

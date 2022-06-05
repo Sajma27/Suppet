@@ -3,6 +3,7 @@ import { AuthService, User } from "@auth0/auth0-angular";
 import { take } from "rxjs/operators";
 import { DashboardMenus } from "../dashboard-menus/model/dashboard-menus";
 import _ from "lodash";
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-dashboard',
@@ -16,7 +17,8 @@ export class DashboardComponent implements OnInit {
 
   private userImg: string = '/assets/default-avatar.png';
 
-  constructor(private auth: AuthService) {
+  constructor(private auth: AuthService, private router: Router) {
+    this.router.navigate([DashboardMenus.AGENTS]).then();
   }
 
   ngOnInit(): void {

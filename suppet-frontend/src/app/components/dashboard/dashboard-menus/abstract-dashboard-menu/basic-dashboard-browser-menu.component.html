@@ -1,16 +1,20 @@
 <div class="menu-container">
-  <div class="top-container">
-    <div class="title-description-wrapper">
-      <div class="title">{{getTitle()}}</div>
-      <div class="description">{{getDescription()}}</div>
+  <div class="containers-wrapper">
+    <div class="top-container">
+      <div class="title-description-wrapper">
+        <div class="title">{{getTitle()}}</div>
+        <div class="description">{{getDescription()}}</div>
+      </div>
+      <div class="processes-wrapper">
+        <app-dashboard-processes *ngIf="showGlobalProcesses" class="processes"></app-dashboard-processes>
+      </div>
     </div>
-    <div class="processes-wrapper">
-      <app-dashboard-processes *ngIf="showGlobalProcesses" class="processes"></app-dashboard-processes>
-    </div>
-  </div>
-  <div class="bottom-container">
-    <div class="browser-wrapper">
-      <app-universal-browser [config]="getBrowserConfig()" [service]="browserService"></app-universal-browser>
+    <div class="bottom-container">
+      <div class="browser-wrapper">
+        <app-universal-browser [config]="getBrowserConfig()" [service]="browserService"></app-universal-browser>
+        <app-universal-browser *ngIf="showSubBrowser" [config]="subBrowserConfig" [service]="subBrowserService"
+                               id="subBrowser" #subBrowser></app-universal-browser>
+      </div>
     </div>
   </div>
 </div>

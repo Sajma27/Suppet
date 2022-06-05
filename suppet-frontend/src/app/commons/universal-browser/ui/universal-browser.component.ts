@@ -129,6 +129,14 @@ export class UniversalBrowserComponent implements OnInit {
     return (element[header.dataField] as string)?.replace('UTC', '');
   }
 
+  getValue(element: any, header: UniversalBrowserHeader): string {
+    const stringValue: string = element[header.dataField] as string;
+    if (typeof stringValue === 'object') {
+      return JSON.stringify(element[header.dataField]);
+    }
+    return stringValue;
+  }
+
   isDatetimeHeader(header: UniversalBrowserHeader): boolean {
     return header.type === UniversalBrowserHeaderTypes.DATETIME;
   }
@@ -137,16 +145,7 @@ export class UniversalBrowserComponent implements OnInit {
     return () => this.refresh();
   }
 
-  protected addRefreshAction(): void {
-    if (this.config.addRefreshAction) {
-      this.config.actions = [
-        new UniversalBrowserAction('Odśwież', 'refresh', () => {}, false, true),
-        ...this.config.actions
-      ];
-    }
-  }
-
-  protected refresh(): void {
+  refresh(): void {
     if (!this.loading) {
       this.clickedRow = null;
       this.browserData = null;
@@ -170,6 +169,16 @@ export class UniversalBrowserComponent implements OnInit {
           this.loading = false;
           this.loadingError = true;
         });
+    }
+  }
+
+  protected addRefreshAction(): void {
+    if (this.config.addRefreshAction) {
+      this.config.actions = [
+        new UniversalBrowserAction('Odśwież', 'refresh', () => {
+        }, false, true),
+        ...this.config.actions
+      ];
     }
   }
 }
