@@ -62,7 +62,6 @@ public class PuppetDbCurlUtils {
                 }
             }
         }
-        log.info(String.valueOf(p.waitFor()));
         p.destroy();
         return xRecords;
     }
