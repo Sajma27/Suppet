@@ -12,6 +12,14 @@ public class BrowserActionResult {
         this.errorMessage = commandLineProcessResult.getErrorMessage();
     }
 
+    public BrowserActionResult(int result) {
+        this.result = result;
+    }
+
+    public BrowserActionResult(boolean result) {
+        this.result = result ? 0 : 1;
+    }
+
     public BrowserActionResult(int result, String errorMessage) {
         this.result = result;
         this.errorMessage = errorMessage;

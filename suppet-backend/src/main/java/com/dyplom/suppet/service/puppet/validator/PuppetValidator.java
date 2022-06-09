@@ -1,24 +1,25 @@
-package com.dyplom.suppet.service.puppet.config.validator;
+package com.dyplom.suppet.service.puppet.validator;
 
+import com.dyplom.suppet.service.common.BasePuppetFile;
 import com.dyplom.suppet.service.common.CommandLineProcessResult;
 import com.dyplom.suppet.service.common.CommandLineUtils;
-import com.dyplom.suppet.service.puppet.config.manifests.model.PuppetManifest;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 
 public class PuppetValidator {
 
     private final static String TMP_MANIFEST_PATH = "/home/tmp";
 
-    public static void validateManifest(PuppetManifest manifest) throws PuppetValidationException, IOException {
-        if (manifest == null || manifest.getContent() == null) {
-            throw new PuppetValidationException("Niekompletny manifest");
+    public static void validatePuppetFile(BasePuppetFile puppetFile) throws PuppetValidationException, IOException {
+        if (puppetFile == null || puppetFile.getContent() == null) {
+            throw new PuppetValidationException("Niekompletny plik");
         }
-        String tmpManifestPath = getAgentsManifestPath(manifest);
+        String tmpManifestPath = getFilePath(puppetFile);
         try {
-            if (writeManifestToTmFile(manifest)) {
+            if (writeManifestToTmFile(puppetFile)) {
                 Process process = CommandLineUtils.getProcess(getValidationCommand(tmpManifestPath));
                 CommandLineProcessResult result = CommandLineUtils.getDataFromProcess(process);
                 if (!result.getData().isEmpty()) {
@@ -34,12 +35,12 @@ public class PuppetValidator {
         }
     }
 
-    private static boolean writeManifestToTmFile(PuppetManifest manifest) throws IOException {
-        return CommandLineUtils.writeContentToFile(manifest.getContent(), getAgentsManifestPath(manifest));
+    private static boolean writeManifestToTmFile(BasePuppetFile puppetFile) throws IOException {
+        return CommandLineUtils.writeContentToFile(puppetFile.getContent(), getFilePath(puppetFile));
     }
 
-    private static String getAgentsManifestPath(PuppetManifest manifest) {
-        return TMP_MANIFEST_PATH + "/agents/" + manifest.getAgent() + ".pp";
+    private static String getFilePath(BasePuppetFile puppetFile) {
+        return TMP_MANIFEST_PATH + "/" + puppetFile.getName() + new Date().getTime() + ".pp";
     }
 
     private static ArrayList<String> getValidationCommand(String manifestPath) {

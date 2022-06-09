@@ -1,8 +1,8 @@
 package com.dyplom.suppet.api.puppet.config.manifest;
 
-import com.dyplom.suppet.service.puppet.config.manifests.PuppetManifestService;
-import com.dyplom.suppet.service.puppet.config.manifests.model.PuppetManifest;
-import com.dyplom.suppet.service.puppet.config.validator.PuppetValidationException;
+import com.dyplom.suppet.service.agents.manifests.PuppetManifestService;
+import com.dyplom.suppet.service.agents.manifests.model.PuppetManifest;
+import com.dyplom.suppet.service.puppet.validator.PuppetValidationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

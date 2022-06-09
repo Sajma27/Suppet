@@ -1,9 +1,9 @@
-package com.dyplom.suppet.service.puppet.config.manifests;
+package com.dyplom.suppet.service.agents.manifests;
 
+import com.dyplom.suppet.service.agents.manifests.model.PuppetManifest;
 import com.dyplom.suppet.service.common.CommandLineUtils;
-import com.dyplom.suppet.service.puppet.config.manifests.model.PuppetManifest;
-import com.dyplom.suppet.service.puppet.config.validator.PuppetValidationException;
-import com.dyplom.suppet.service.puppet.config.validator.PuppetValidator;
+import com.dyplom.suppet.service.puppet.validator.PuppetValidationException;
+import com.dyplom.suppet.service.puppet.validator.PuppetValidator;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -18,8 +18,8 @@ public class PuppetManifestService {
 
     public boolean setManifestFile(PuppetManifest manifest) throws PuppetValidationException {
         try {
-            PuppetValidator.validateManifest(manifest);
-            return CommandLineUtils.writeContentToFile(manifest.getContent(), getAgentsManifestPath(manifest.getAgent()));
+            PuppetValidator.validatePuppetFile(manifest);
+            return CommandLineUtils.writeContentToFile(manifest.getContent(), getAgentsManifestPath(manifest.getName()));
         } catch (IOException e) {
             e.printStackTrace();
             return false;
@@ -28,10 +28,9 @@ public class PuppetManifestService {
 
     public PuppetManifest getAgentsManifestFile(String agent) {
         Path defaultManifestPath = Paths.get(getAgentsManifestPath(agent));
-
         try {
             String content = Files.readString(defaultManifestPath);
-            return new PuppetManifest(content);
+            return new PuppetManifest(agent, content);
         } catch (IOException e) {
             e.printStackTrace();
         }
