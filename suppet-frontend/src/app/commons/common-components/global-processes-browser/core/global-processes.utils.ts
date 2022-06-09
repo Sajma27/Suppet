@@ -18,7 +18,7 @@ export class GlobalProcessesUtils {
       process.error = true;
       process.errorMessage = 'Błąd';
     });
-    GlobalProcessesUtils.processes.push(process);
+    GlobalProcessesUtils.processes = [process, ...GlobalProcessesUtils.processes];
     GlobalProcessesUtils.processesChanged.next(GlobalProcessesUtils.processes);
   }
 
