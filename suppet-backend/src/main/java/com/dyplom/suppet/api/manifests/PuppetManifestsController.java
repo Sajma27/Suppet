@@ -1,4 +1,4 @@
-package com.dyplom.suppet.api.puppet.config.manifest;
+package com.dyplom.suppet.api.manifests;
 
 import com.dyplom.suppet.api.common.AbstractPuppetFilesBrowserCRUDController;
 import com.dyplom.suppet.service.agents.manifests.PuppetManifestService;
@@ -9,12 +9,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/puppet/manifest")
+@RequestMapping("/manifests")
 @CrossOrigin
-public class PuppetManifestController extends AbstractPuppetFilesBrowserCRUDController<PuppetManifest> {
+public class PuppetManifestsController extends AbstractPuppetFilesBrowserCRUDController<PuppetManifest> {
 
     @Autowired
-    protected PuppetManifestController(PuppetManifestService service) {
+    protected PuppetManifestsController(PuppetManifestService service) {
         super(service);
     }
 

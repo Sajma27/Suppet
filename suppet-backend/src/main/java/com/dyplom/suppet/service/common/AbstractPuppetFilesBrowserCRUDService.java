@@ -17,10 +17,10 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public abstract class AbstractPuppetFilesBrowserWithCRUDService<DTO extends BasePuppetFile> extends AbstractBrowserService {
+public abstract class AbstractPuppetFilesBrowserCRUDService<DTO extends BasePuppetFile> extends AbstractBrowserService {
 
     @Override
-    public JsonNode fetchData(UniversalBrowserParams params, String additionalUrl) {
+    public JsonNode fetchData(UniversalBrowserParams params, String additionalUrl) throws IOException, InterruptedException {
         File filesDir = new File(getLocationDir());
         List<BasePuppetFile> files = Arrays.stream(Objects.requireNonNull(filesDir.list())).map(BasePuppetFile::new).collect(Collectors.toList());
         ObjectMapper mapper = new ObjectMapper();

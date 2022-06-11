@@ -1,14 +1,12 @@
 package com.dyplom.suppet.service.classes;
 
 import com.dyplom.suppet.service.classes.model.PuppetClass;
-import com.dyplom.suppet.service.common.AbstractPuppetFilesBrowserWithCRUDService;
+import com.dyplom.suppet.service.common.AbstractPuppetFilesBrowserCRUDService;
 import com.dyplom.suppet.service.common.UniversalBrowserHeader;
 import org.springframework.stereotype.Service;
 
 @Service
-public class PuppetFilesystemClassesService extends AbstractPuppetFilesBrowserWithCRUDService<PuppetClass> {
-
-    private final static String CLASSES_PATH = "/etc/puppetlabs/code/environments/production/classes";
+public class PuppetClassesService extends AbstractPuppetFilesBrowserCRUDService<PuppetClass> {
 
     @Override
     protected UniversalBrowserHeader[] getHeaders() {
@@ -19,7 +17,7 @@ public class PuppetFilesystemClassesService extends AbstractPuppetFilesBrowserWi
 
     @Override
     protected String getLocationDir() {
-        return CLASSES_PATH;
+        return "/etc/puppetlabs/code/environments/production/classes";
     }
 
     @Override
