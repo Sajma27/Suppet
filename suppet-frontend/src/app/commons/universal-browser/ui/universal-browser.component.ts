@@ -11,6 +11,7 @@ import { Sort } from "@angular/material/sort";
 import { flatMap } from "rxjs/internal/operators";
 import { UniversalBrowserRow } from "../model/universal-browser-row";
 import { UniversalBrowserHeaderTypes } from "../model/universal-browser-header-types";
+import { MatDialog } from "@angular/material/dialog";
 
 @Component({
   selector: 'app-universal-browser',
@@ -45,6 +46,9 @@ export class UniversalBrowserComponent implements OnInit {
   protected loading: boolean = false;
   protected loadingError: boolean = false;
   protected clickedRow: any = null;
+
+  constructor(public dialog: MatDialog) {
+  }
 
   ngOnInit(): void {
     this.addRefreshAction();

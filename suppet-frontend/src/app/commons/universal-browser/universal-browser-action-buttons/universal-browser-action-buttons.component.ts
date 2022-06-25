@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { UniversalBrowserAction } from "../model/universal-browser-action";
+import { MatDialog } from "@angular/material/dialog";
 
 @Component({
   selector: 'app-universal-browser-action-buttons',
@@ -11,4 +12,5 @@ export class UniversalBrowserActionButtonsComponent {
   @Input() actions: UniversalBrowserAction[];
   @Input() disabled: boolean;
   @Input() refreshFunc: Function;
+  @Input() dialog: MatDialog;
 }

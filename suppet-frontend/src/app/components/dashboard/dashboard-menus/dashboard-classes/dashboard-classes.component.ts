@@ -1,15 +1,27 @@
 import { Component, OnInit } from '@angular/core';
+import { BasicDashboardBrowserMenuComponent } from "../abstract-dashboard-menu/basic-dashboard-browser-menu.component";
+import { UniversalBrowserAction } from "../../../../commons/universal-browser/model/universal-browser-action";
+import { ClassesService } from "./core/classes.service";
 
 @Component({
   selector: 'app-dashboard-classes',
-  templateUrl: './dashboard-classes.component.html',
-  styleUrls: ['./dashboard-classes.component.scss']
+  templateUrl: '../abstract-dashboard-menu/basic-dashboard-browser-menu.component.html',
+  styleUrls: ['../abstract-dashboard-menu/basic-dashboard-browser-menu.component.scss']
 })
-export class DashboardClassesComponent implements OnInit {
+export class DashboardClassesComponent extends BasicDashboardBrowserMenuComponent<ClassesService> implements OnInit {
 
-  constructor() { }
+  constructor(service: ClassesService) {
+    super(service);
+  }
 
   ngOnInit(): void {
   }
 
+  getTitle(): string {
+    return 'Klasy';
+  }
+
+  getActions(): UniversalBrowserAction[] {
+    return [];
+  }
 }

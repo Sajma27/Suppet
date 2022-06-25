@@ -1,5 +1,9 @@
 import { Component, Input } from '@angular/core';
 import { UniversalBrowserAction } from "../../model/universal-browser-action";
+import { MatDialog, MatDialogRef } from "@angular/material/dialog";
+import _ from "lodash";
+import { take } from "rxjs/operators";
+import { UniversalBrowserFormConfigData } from "../../universal-browser-form/model/universal-browser-form-config-data";
 
 @Component({
   selector: 'app-universal-browser-action-button',
@@ -12,6 +16,7 @@ export class UniversalBrowserActionButtonComponent {
   @Input() universalBrowserAction: UniversalBrowserAction;
   @Input() disabled: boolean;
   @Input() refreshFunc: Function;
+  @Input() dialog: MatDialog;
 
   isDisabled(): boolean {
     return this.disabled || this.universalBrowserAction.isRowDisabled(this.row);
@@ -19,6 +24,25 @@ export class UniversalBrowserActionButtonComponent {
 
   onClick(): void {
     this.universalBrowserAction.setBrowserRefreshFunc(this.refreshFunc);
-    this.universalBrowserAction.runCallback(this.row);
+    if (!_.isNil(this.universalBrowserAction.getFormComponent())) {
+      this.openActionFormDialog();
+    } else {
+      this.universalBrowserAction.runCallback(this.row);
+    }
+  }
+
+  private openActionFormDialog(): void {
+    const configData: UniversalBrowserFormConfigData = new UniversalBrowserFormConfigData(
+      this.row,
+      this.universalBrowserAction.getFormMode(),
+      this.universalBrowserAction.getDisabledFormFields()
+    );
+    const dialogRef: MatDialogRef<any> = this.dialog.open(this.universalBrowserAction.getFormComponent(), {
+      data: configData
+    });
+    dialogRef.afterClosed().pipe(take(1)).subscribe(dto => {
+      this.row.data = dto;
+      this.universalBrowserAction.runCallback(this.row);
+    })
   }
 }

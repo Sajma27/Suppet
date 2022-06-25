@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { DashboardMainMenuComponent } from './dashboard-main-menu/dashboard-main-menu.component';
 import { DashboardAgentsComponent } from './dashboard-agents/dashboard-agents.component';
 import { DashboardCatalogsComponent } from './dashboard-catalogs/dashboard-catalogs.component';
-import { DashboardModulesComponent } from './dashboard-modules/dashboard-modules.component';
 import { DashboardClassesComponent } from './dashboard-classes/dashboard-classes.component';
 import { DashboardManifestsComponent } from './dashboard-manifests/dashboard-manifests.component';
 import { PuppetManifestEditorModule } from "../puppet-manifest-editor/puppet-manifest-editor.module";
@@ -17,6 +16,12 @@ import {
 import { Routes } from "@angular/router";
 import { DashboardMenus } from "./model/dashboard-menus";
 import { DashboardTasksComponent } from "./dashboard-tasks/dashboard-tasks.component";
+import { DashboardModulesComponent } from "./dashboard-modules/dashboard-modules.component";
+import { ModuleFormComponent } from "./dashboard-modules/forms/module-form/module-form.component";
+
+const forms = [
+  ModuleFormComponent
+];
 
 const components = [
   DashboardTasksComponent,
@@ -43,7 +48,7 @@ export const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: components,
+  declarations: [...components, ...forms],
   exports: components,
   imports: [
     CommonModule,
@@ -52,4 +57,5 @@ export const routes: Routes = [
     CommonComponentsModule
   ]
 })
-export class DashboardMenusModule { }
+export class DashboardMenusModule {
+}

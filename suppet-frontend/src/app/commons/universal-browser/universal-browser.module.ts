@@ -11,7 +11,7 @@ import { UniversalBrowserFiltersComponent } from './universal-browser-filters/un
 import {
   UniversalBrowserFiltersAddingMenuComponent
 } from './universal-browser-filters/universal-browser-filters-adding-menu/universal-browser-filters-adding-menu.component';
-import { ReactiveFormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatSelectModule } from "@angular/material/select";
 import { MatInputModule } from "@angular/material/input";
@@ -22,6 +22,8 @@ import {
   UniversalBrowserActionButtonComponent
 } from "./universal-browser-action-buttons/universal-browser-action-button/universal-browser-action-button.component";
 import { CommonComponentsModule } from "../common-components/common-components.module";
+import { UniversalBrowserFormComponent } from './universal-browser-form/universal-browser-form.component';
+import { MatDialogModule } from "@angular/material/dialog";
 
 @NgModule({
   declarations: [
@@ -29,7 +31,8 @@ import { CommonComponentsModule } from "../common-components/common-components.m
     UniversalBrowserFiltersComponent,
     UniversalBrowserFiltersAddingMenuComponent,
     UniversalBrowserActionButtonComponent,
-    UniversalBrowserActionButtonsComponent
+    UniversalBrowserActionButtonsComponent,
+    UniversalBrowserFormComponent
   ],
   exports: [
     UniversalBrowserComponent
@@ -46,7 +49,9 @@ import { CommonComponentsModule } from "../common-components/common-components.m
     MatFormFieldModule,
     MatSelectModule,
     MatInputModule,
-    CommonComponentsModule
+    CommonComponentsModule,
+    MatDialogModule,
+    FormsModule
   ]
 })
 export class UniversalBrowserModule {
