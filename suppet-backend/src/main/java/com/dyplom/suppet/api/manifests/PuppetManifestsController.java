@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/manifests")
+@RequestMapping("/puppet/manifests")
 @CrossOrigin
 public class PuppetManifestsController extends AbstractPuppetFilesBrowserCRUDController<PuppetManifest> {
 

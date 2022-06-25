@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public abstract class AbstractPuppetFilesBrowserCRUDService<DTO extends BasePuppetFile> extends AbstractBrowserService {
+public abstract class AbstractPuppetFilesBrowserCRUDService<DTO extends BasePuppetFile> extends AbstractBrowserCRUDService<DTO> {
 
     @Override
     public JsonNode fetchData(UniversalBrowserParams params, String additionalUrl) throws IOException, InterruptedException {
@@ -32,6 +32,7 @@ public abstract class AbstractPuppetFilesBrowserCRUDService<DTO extends BasePupp
         return null;
     }
 
+    @Override
     public DTO get(DTO dto) {
         try {
             Path classPath = Paths.get(getFilePath(dto));
@@ -44,6 +45,7 @@ public abstract class AbstractPuppetFilesBrowserCRUDService<DTO extends BasePupp
         }
     }
 
+    @Override
     public BrowserActionResult add(DTO dto) {
         try {
             PuppetValidator.validatePuppetFile(dto);
@@ -57,6 +59,7 @@ public abstract class AbstractPuppetFilesBrowserCRUDService<DTO extends BasePupp
         }
     }
 
+    @Override
     public BrowserActionResult edit(DTO dto) {
         try {
             PuppetValidator.validatePuppetFile(dto);
@@ -70,6 +73,7 @@ public abstract class AbstractPuppetFilesBrowserCRUDService<DTO extends BasePupp
         }
     }
 
+    @Override
     public BrowserActionResult delete(DTO dto) {
         try {
             CommandLineUtils.deleteFile(getFilePath(dto));

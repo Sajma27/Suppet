@@ -27,12 +27,23 @@ public class PuppetModulesService extends AbstractPuppetFilesBrowserCRUDService<
         ArrayList<String> command = getFetchDataCommand(params, additionalUrl);
         Process p = CommandLineUtils.getProcess(command);
         CommandLineProcessResult result = CommandLineUtils.getDataFromProcess(p);
+        convertResultToJson(result);
         return CommandLineUtils.getJsonNodeFromData(result.getData());
+    }
+
+    private void convertResultToJson(CommandLineProcessResult result) {
+        result.setData(result.getData()
+                .replace(getLocationDir(), "")
+                .replace("├── ", "{\"name\": \"")
+                .replace("└──", "{\"name\": \"")
+                .replace(" (\u001B[0;36mv", "\", \"version\": \"")
+                .replace("\u001B[0m)", "\"},"));
+        result.setData('[' + result.getData().substring(0, result.getData().length() - 1)  + ']');
     }
 
     @Override
     protected ArrayList<String> getFetchDataCommand(UniversalBrowserParams params, String additionalUrl) {
-        return CommandLineUtils.getSudoPuppetCommand(Arrays.asList("module", "list", "--render-as", "JSON"));
+        return CommandLineUtils.getSudoPuppetCommand(Arrays.asList("module", "list", "--modulepath", getLocationDir()));
     }
 
     @Override
@@ -42,7 +53,7 @@ public class PuppetModulesService extends AbstractPuppetFilesBrowserCRUDService<
 
     @Override
     public BrowserActionResult add(PuppetModule dto) {
-        ArrayList<String> command = CommandLineUtils.getSudoPuppetCommand(Arrays.asList("module", "list", "--render-as", "JSON"));
+        ArrayList<String> command = CommandLineUtils.getSudoPuppetCommand(Arrays.asList("module", "install", "--environment", dto.getEnvironment().trim(), dto.getName().trim()));
         return runCommand(command);
     }
 
@@ -51,11 +62,16 @@ public class PuppetModulesService extends AbstractPuppetFilesBrowserCRUDService<
         return new BrowserActionResult(-2, "Metoda niezaimplementowana");
     }
 
-    public BrowserActionResult upgrade(PuppetModule dto, String newVersion) {
-        List<String> commandParts = Arrays.asList("module", "upgrade", dto.getName());
-        if (newVersion != null) {
+    public BrowserActionResult upgradeToNewest(PuppetModule dto) {
+        dto.setVersion(null);
+        return upgrade(dto);
+    }
+
+    public BrowserActionResult upgrade(PuppetModule dto) {
+        List<String> commandParts = Arrays.asList("module", "upgrade", "--environment", "production", dto.getName().trim());
+        if (dto.getVersion() != null) {
             commandParts.add("--version");
-            commandParts.add(newVersion);
+            commandParts.add(dto.getVersion());
         }
         ArrayList<String> command = CommandLineUtils.getSudoPuppetCommand(commandParts);
         return runCommand(command);
@@ -63,7 +79,7 @@ public class PuppetModulesService extends AbstractPuppetFilesBrowserCRUDService<
 
     @Override
     public BrowserActionResult delete(PuppetModule dto) {
-        ArrayList<String> command = CommandLineUtils.getSudoPuppetCommand(Arrays.asList("module", "uninstall", dto.getName()));
+        ArrayList<String> command = CommandLineUtils.getSudoPuppetCommand(Arrays.asList("module", "uninstall", "--environment", dto.getEnvironment().trim(), dto.getName().trim()));
         return runCommand(command);
     }
 
@@ -79,7 +95,11 @@ public class PuppetModulesService extends AbstractPuppetFilesBrowserCRUDService<
 
     @Override
     protected String getLocationDir() {
-        return null;
+        return "/etc/puppetlabs/code/environments/production/modules";
+    }
+
+    protected String getLocationDir(PuppetModule module) {
+        return "/etc/puppetlabs/code/environments/" + module.getEnvironment() + "/modules";
     }
 
     @Override

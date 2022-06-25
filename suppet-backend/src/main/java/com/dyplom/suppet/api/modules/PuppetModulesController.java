@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/modules")
+@RequestMapping("/puppet/modules")
 @CrossOrigin
 public class PuppetModulesController extends AbstractPuppetFilesBrowserCRUDController<PuppetModule> {
 
@@ -19,13 +19,13 @@ public class PuppetModulesController extends AbstractPuppetFilesBrowserCRUDContr
 
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public BrowserActionResult update(@RequestBody PuppetModule dto, @RequestParam String newVersion) {
-        return ((PuppetModulesService) service).upgrade(dto, newVersion);
+    public BrowserActionResult upgrade(@RequestBody PuppetModule dto) {
+        return ((PuppetModulesService) this.service).upgrade(dto);
     }
 
-    @RequestMapping(value = "/updateToNewest", method = RequestMethod.POST)
-    public BrowserActionResult updateToNewest(@RequestBody PuppetModule dto) {
-        return ((PuppetModulesService) service).upgrade(dto, null);
+    @RequestMapping(value = "/upgradeToNewest", method = RequestMethod.POST)
+    public BrowserActionResult upgradeToNewest(@RequestBody PuppetModule dto) {
+        return ((PuppetModulesService) this.service).upgradeToNewest(dto);
     }
 
 }
