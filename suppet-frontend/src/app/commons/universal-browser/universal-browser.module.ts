@@ -24,10 +24,12 @@ import {
 import { CommonComponentsModule } from "../common-components/common-components.module";
 import { UniversalBrowserFormComponent } from './universal-browser-form/universal-browser-form.component';
 import { MatDialogModule } from "@angular/material/dialog";
+import { UniversalBrowserCrudComponent } from "./universal-browser-crud/universal-browser-crud.component";
 
 @NgModule({
   declarations: [
     UniversalBrowserComponent,
+    UniversalBrowserCrudComponent,
     UniversalBrowserFiltersComponent,
     UniversalBrowserFiltersAddingMenuComponent,
     UniversalBrowserActionButtonComponent,
@@ -35,7 +37,8 @@ import { MatDialogModule } from "@angular/material/dialog";
     UniversalBrowserFormComponent
   ],
   exports: [
-    UniversalBrowserComponent
+    UniversalBrowserComponent,
+    UniversalBrowserCrudComponent
   ],
   imports: [
     CommonModule,

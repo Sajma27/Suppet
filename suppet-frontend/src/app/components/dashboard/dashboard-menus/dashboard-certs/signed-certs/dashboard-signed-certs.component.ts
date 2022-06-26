@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import {
   BasicDashboardBrowserMenuComponent
-} from '../../abstract-dashboard-menu/basic-dashboard-browser-menu.component';
+} from '../../abstract-dashboard-menus/basic-dashboard-browser-menu/basic-dashboard-browser-menu.component';
 import { CertsBrowserService } from '../core/certs-browser.service';
 import { UniversalBrowserAction } from "../../../../../commons/universal-browser/model/universal-browser-action";
 import {
@@ -12,8 +12,8 @@ import { CertStates } from "../model/cert-states";
 
 @Component({
   selector: 'app-dashboard-signed-certs',
-  templateUrl: '../../abstract-dashboard-menu/basic-dashboard-browser-menu.component.html',
-  styleUrls: ['../../abstract-dashboard-menu/basic-dashboard-browser-menu.component.scss']
+  templateUrl: '../../abstract-dashboard-menus/basic-dashboard-browser-menu/basic-dashboard-browser-menu.component.html',
+  styleUrls: ['../../abstract-dashboard-menus/basic-dashboard-browser-menu/basic-dashboard-browser-menu.component.scss']
 })
 export class DashboardSignedCertsComponent extends BasicDashboardBrowserMenuComponent<CertsBrowserService> {
 

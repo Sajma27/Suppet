@@ -7,6 +7,9 @@ import _ from "lodash";
 import {
   GlobalProcessBackendResponse
 } from "../../common-components/global-processes-browser/model/global-process-backend-response";
+import { UniversalBrowserFormComponent } from "../universal-browser-form/universal-browser-form.component";
+import { Type } from "@angular/core";
+import { UniversalBrowserFormMode } from "../universal-browser-form/model/universal-browser-form-mode";
 
 export class UniversalBrowserAsyncAction extends UniversalBrowserAction {
   private disabledRowsIds: Set<number> = new Set<number>();
@@ -14,8 +17,9 @@ export class UniversalBrowserAsyncAction extends UniversalBrowserAction {
 
   constructor(name: string, icon: string, callback: (row: UniversalBrowserRow) => Observable<GlobalProcessBackendResponse>,
               disabledOnNoRow: booleanFuncOrValue = false, getProcessLabel: (row: UniversalBrowserRow) => string = null,
-              refreshOnCallback: boolean = false) {
-    super(name, icon, null, disabledOnNoRow, refreshOnCallback);
+              refreshOnCallback: boolean = false, formComponent: Type<UniversalBrowserFormComponent<any, any>> = null,
+              formMode: UniversalBrowserFormMode = UniversalBrowserFormMode.CUSTOM, disabledFormFields: string[] = []) {
+    super(name, icon, null, disabledOnNoRow, refreshOnCallback, formComponent, formMode, disabledFormFields);
     this.getProcessLabel = getProcessLabel;
     this.callback = this.getAsyncCallback(callback);
   }

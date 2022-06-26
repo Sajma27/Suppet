@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { PuppetDbNodesService } from "../../../../commons/puppet-db/nodes/puppet-db-nodes.service";
-import { BasicDashboardBrowserMenuComponent } from "../abstract-dashboard-menu/basic-dashboard-browser-menu.component";
+import {
+  BasicDashboardBrowserMenuComponent
+} from "../abstract-dashboard-menus/basic-dashboard-browser-menu/basic-dashboard-browser-menu.component";
 import { UniversalBrowserAction } from "../../../../commons/universal-browser/model/universal-browser-action";
 import { AgentsService } from "./core/agents.service";
 import { UniversalBrowserRow } from "../../../../commons/universal-browser/model/universal-browser-row";
@@ -13,8 +15,8 @@ import { UniversalBrowserComponent } from "../../../../commons/universal-browser
 
 @Component({
   selector: 'app-dashboard-agents',
-  templateUrl: '../abstract-dashboard-menu/basic-dashboard-browser-menu.component.html',
-  styleUrls: ['../abstract-dashboard-menu/basic-dashboard-browser-menu.component.scss']
+  templateUrl: '../abstract-dashboard-menus/basic-dashboard-browser-menu/basic-dashboard-browser-menu.component.html',
+  styleUrls: ['../abstract-dashboard-menus/basic-dashboard-browser-menu/basic-dashboard-browser-menu.component.scss']
 })
 export class DashboardAgentsComponent extends BasicDashboardBrowserMenuComponent<PuppetDbNodesService> implements OnInit {
 

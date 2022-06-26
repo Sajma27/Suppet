@@ -4,6 +4,7 @@ import { MatDialog, MatDialogRef } from "@angular/material/dialog";
 import _ from "lodash";
 import { take } from "rxjs/operators";
 import { UniversalBrowserFormConfigData } from "../../universal-browser-form/model/universal-browser-form-config-data";
+import { UniversalBrowserRow } from "../../model/universal-browser-row";
 
 @Component({
   selector: 'app-universal-browser-action-button',
@@ -16,7 +17,9 @@ export class UniversalBrowserActionButtonComponent {
   @Input() universalBrowserAction: UniversalBrowserAction;
   @Input() disabled: boolean;
   @Input() refreshFunc: Function;
-  @Input() dialog: MatDialog;
+
+  constructor(private dialog: MatDialog) {
+  }
 
   isDisabled(): boolean {
     return this.disabled || this.universalBrowserAction.isRowDisabled(this.row);
@@ -41,8 +44,11 @@ export class UniversalBrowserActionButtonComponent {
       data: configData
     });
     dialogRef.afterClosed().pipe(take(1)).subscribe(dto => {
-      this.row.data = dto;
-      this.universalBrowserAction.runCallback(this.row);
+      if (!_.isNil(dto)) {
+        this.row = this.row || new UniversalBrowserRow(null, dto);
+        this.row.data = dto;
+        this.universalBrowserAction.runCallback(this.row);
+      }
     })
   }
 }

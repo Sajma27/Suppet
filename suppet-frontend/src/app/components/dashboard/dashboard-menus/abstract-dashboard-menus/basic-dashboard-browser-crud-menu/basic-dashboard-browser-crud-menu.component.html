@@ -1,0 +1,18 @@
+<div class="menu-container">
+  <div class="containers-wrapper">
+    <div class="top-container">
+      <div class="title-description-wrapper">
+        <div class="title">{{getTitle()}}</div>
+        <div class="description">{{getDescription()}}</div>
+      </div>
+      <div class="processes-wrapper">
+        <app-dashboard-processes *ngIf="showGlobalProcesses" class="processes"></app-dashboard-processes>
+      </div>
+    </div>
+    <div class="bottom-container">
+      <div class="browser-wrapper">
+        <app-universal-browser-crud [config]="getBrowserConfig()" [service]="browserService"></app-universal-browser-crud>
+      </div>
+    </div>
+  </div>
+</div>

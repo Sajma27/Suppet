@@ -7,8 +7,8 @@ import {
 
 @Component({
   selector: 'app-dashboard-requested-certs',
-  templateUrl: '../../abstract-dashboard-menu/basic-dashboard-browser-menu.component.html',
-  styleUrls: ['../../abstract-dashboard-menu/basic-dashboard-browser-menu.component.scss']
+  templateUrl: '../../abstract-dashboard-menus/basic-dashboard-browser-menu/basic-dashboard-browser-menu.component.html',
+  styleUrls: ['../../abstract-dashboard-menus/basic-dashboard-browser-menu/basic-dashboard-browser-menu.component.scss']
 })
 export class DashboardRequestedCertsComponent extends DashboardSignedCertsComponent {
 

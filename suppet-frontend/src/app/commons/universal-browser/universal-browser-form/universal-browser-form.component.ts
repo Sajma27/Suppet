@@ -4,6 +4,7 @@ import { UniversalBrowserFormField } from "./model/universal-browser-form-field"
 import { UniversalBrowserRow } from "../model/universal-browser-row";
 import { UniversalBrowserFormMode } from "./model/universal-browser-form-mode";
 import { UniversalBrowserFormConfigData } from "./model/universal-browser-form-config-data";
+import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
 
 @Component({
   selector: 'app-universal-browser-form',
@@ -12,25 +13,31 @@ import { UniversalBrowserFormConfigData } from "./model/universal-browser-form-c
 })
 export class UniversalBrowserFormComponent<FORM, DTO> implements OnInit {
 
-  get dto(): DTO {
-    return this._dto;
+  get formValue(): DTO {
+    return this.formGroup.getRawValue() as DTO;
   }
+
+  formGroup: FormGroup;
 
   protected formFields: UniversalBrowserFormField[];
 
-  private readonly _dto: DTO;
   private readonly row: UniversalBrowserRow;
   private readonly mode: UniversalBrowserFormMode;
   private readonly disabledFields: string[];
 
-  constructor(protected dialogRef: MatDialogRef<FORM>,
+  constructor(fb: FormBuilder, protected dialogRef: MatDialogRef<FORM>,
               @Inject(MAT_DIALOG_DATA) data: UniversalBrowserFormConfigData) {
     this.initFormFields();
     this.row = data.row;
-    this._dto = this.getDtoFromRow(data.row);
     this.mode = data.mode;
     this.disabledFields = data.disabledFields;
     this.updateFieldsDisablement();
+    const preparedFields: [string, FormControl][] = this.formFields.map(field =>
+        [field.fieldName, new FormControl({ value: this.getDtoField(field.fieldName), disabled: field.disabled })]
+    );
+    const formGroupObject: any = {};
+    preparedFields.forEach(value => formGroupObject[value[0]] = value[1])
+    this.formGroup = fb.group(formGroupObject)
   }
 
   ngOnInit(): void {
@@ -42,10 +49,6 @@ export class UniversalBrowserFormComponent<FORM, DTO> implements OnInit {
 
   getFormTitle(): string {
     throw new Error('getFormTitle not implemented!');
-  }
-
-  getDtoFromRow(row: UniversalBrowserRow): DTO {
-    throw new Error('getDtoFromRow not implemented!');
   }
 
   getFormFields(): UniversalBrowserFormField[] {
@@ -70,12 +73,11 @@ export class UniversalBrowserFormComponent<FORM, DTO> implements OnInit {
     return "OK";
   }
 
-  getSubmitBtnClass(): string {
-    return 'main-button';
-  }
-
-  isFieldDisabled(field: UniversalBrowserFormField) {
-    return this.mode === UniversalBrowserFormMode.DELETE || field.disabled;
+  getDtoField(fieldName: string) {
+    if (this.mode === UniversalBrowserFormMode.NEW) {
+      return null;
+    }
+    return this.row.data[fieldName as keyof DTO];
   }
 
   protected initFormFields(): void {
@@ -91,8 +93,12 @@ export class UniversalBrowserFormComponent<FORM, DTO> implements OnInit {
         case UniversalBrowserFormMode.EDIT:
           field.disabled = field.disabledOnEdit;
           break;
+        case UniversalBrowserFormMode.DELETE:
+          field.disabled = true;
+          break;
         case UniversalBrowserFormMode.CUSTOM:
           field.disabled = this.disabledFields.includes(field.fieldName);
+          break;
       }
     }
   }

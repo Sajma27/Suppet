@@ -18,6 +18,12 @@ import { DashboardMenus } from "./model/dashboard-menus";
 import { DashboardTasksComponent } from "./dashboard-tasks/dashboard-tasks.component";
 import { DashboardModulesComponent } from "./dashboard-modules/dashboard-modules.component";
 import { ModuleFormComponent } from "./dashboard-modules/forms/module-form/module-form.component";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatSelectModule } from "@angular/material/select";
+import { MatInputModule } from "@angular/material/input";
+import { MatDialogModule } from "@angular/material/dialog";
+import { MatButtonModule } from "@angular/material/button";
 
 const forms = [
   ModuleFormComponent
@@ -54,7 +60,15 @@ export const routes: Routes = [
     CommonModule,
     PuppetManifestEditorModule,
     UniversalBrowserModule,
-    CommonComponentsModule
+    CommonComponentsModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatInputModule,
+    CommonComponentsModule,
+    MatDialogModule,
+    FormsModule,
+    MatButtonModule
   ]
 })
 export class DashboardMenusModule {

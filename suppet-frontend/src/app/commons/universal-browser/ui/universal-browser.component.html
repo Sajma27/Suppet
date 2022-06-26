@@ -6,8 +6,7 @@
                                         [row]="getClickedRow()"
                                         [actions]="config.actions"
                                         [refreshFunc]="getRefreshFunc()"
-                                        [disabled]="config.browserDisabled"
-                                        [dialog]="dialog">
+                                        [disabled]="config.browserDisabled">
   </app-universal-browser-action-buttons>
   <app-universal-browser-filters *ngIf="!config.filteringDisabled"
                                  (onFilterAdded)="onFilterAdded($event)"

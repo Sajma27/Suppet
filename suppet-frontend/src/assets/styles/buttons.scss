@@ -27,6 +27,15 @@
   }
 }
 
+.transparent-icon-button {
+  @extend .green-icon-button;
+  background: transparent;
+
+  .mat-icon {
+    transform: scale(1);
+  }
+}
+
 .main-button {
   width: 100%;
   display: flex;
