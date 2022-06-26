@@ -18,7 +18,7 @@ public class PuppetModulesController extends AbstractPuppetFilesBrowserCRUDContr
     }
 
 
-    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    @RequestMapping(value = "/upgrade", method = RequestMethod.POST)
     public BrowserActionResult upgrade(@RequestBody PuppetModule dto) {
         return ((PuppetModulesService) this.service).upgrade(dto);
     }

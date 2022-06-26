@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 @Service
 public class PuppetModulesService extends AbstractPuppetFilesBrowserCRUDService<PuppetModule> {
@@ -53,7 +52,7 @@ public class PuppetModulesService extends AbstractPuppetFilesBrowserCRUDService<
 
     @Override
     public BrowserActionResult add(PuppetModule dto) {
-        ArrayList<String> command = CommandLineUtils.getSudoPuppetCommand(Arrays.asList("module", "install", "--environment", dto.getEnvironment().trim(), dto.getName().trim()));
+        ArrayList<String> command = CommandLineUtils.getSudoPuppetCommand(Arrays.asList("module", "install", "--environment", "production", dto.getName().trim()));
         return runCommand(command);
     }
 
@@ -68,7 +67,7 @@ public class PuppetModulesService extends AbstractPuppetFilesBrowserCRUDService<
     }
 
     public BrowserActionResult upgrade(PuppetModule dto) {
-        List<String> commandParts = Arrays.asList("module", "upgrade", "--environment", "production", dto.getName().trim());
+        ArrayList<String> commandParts = new ArrayList<>(Arrays.asList("module", "upgrade", "--environment", "production", dto.getName().trim()));
         if (dto.getVersion() != null) {
             commandParts.add("--version");
             commandParts.add(dto.getVersion());
@@ -79,7 +78,7 @@ public class PuppetModulesService extends AbstractPuppetFilesBrowserCRUDService<
 
     @Override
     public BrowserActionResult delete(PuppetModule dto) {
-        ArrayList<String> command = CommandLineUtils.getSudoPuppetCommand(Arrays.asList("module", "uninstall", "--environment", dto.getEnvironment().trim(), dto.getName().trim()));
+        ArrayList<String> command = CommandLineUtils.getSudoPuppetCommand(Arrays.asList("module", "uninstall", "--environment", "production", dto.getName().trim()));
         return runCommand(command);
     }
 

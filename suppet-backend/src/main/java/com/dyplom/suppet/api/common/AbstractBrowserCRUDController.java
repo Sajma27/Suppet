@@ -27,7 +27,7 @@ public abstract class AbstractBrowserCRUDController<DTO> extends AbstractBrowser
         return service.edit(dto);
     }
 
-    @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
     public BrowserActionResult delete(@RequestBody DTO dto) {
         return service.delete(dto);
     }
