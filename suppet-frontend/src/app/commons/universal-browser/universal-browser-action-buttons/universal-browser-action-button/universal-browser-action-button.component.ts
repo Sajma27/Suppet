@@ -1,10 +1,10 @@
 import { Component, Input } from '@angular/core';
 import { UniversalBrowserAction } from "../../model/universal-browser-action";
-import { MatDialog, MatDialogRef } from "@angular/material/dialog";
+import { MatDialog } from "@angular/material/dialog";
 import _ from "lodash";
-import { take } from "rxjs/operators";
 import { UniversalBrowserFormConfigData } from "../../universal-browser-form/model/universal-browser-form-config-data";
 import { UniversalBrowserRow } from "../../model/universal-browser-row";
+import { Observable } from "rxjs";
 
 @Component({
   selector: 'app-universal-browser-action-button',
@@ -16,6 +16,7 @@ export class UniversalBrowserActionButtonComponent {
   @Input() row: any;
   @Input() universalBrowserAction: UniversalBrowserAction;
   @Input() disabled: boolean;
+  @Input() getDataFromServer: (row: UniversalBrowserRow) => Observable<any>;
   @Input() refreshFunc: Function;
 
   constructor(private dialog: MatDialog) {
@@ -28,7 +29,14 @@ export class UniversalBrowserActionButtonComponent {
   onClick(): void {
     this.universalBrowserAction.setBrowserRefreshFunc(this.refreshFunc);
     if (!_.isNil(this.universalBrowserAction.getFormComponent())) {
-      this.openActionFormDialog();
+      if (this.universalBrowserAction.getWithFormsLoadingFromBackend()) {
+        this.getDataFromServer(this.row).subscribe((dto: any) => {
+          this.row.data = dto;
+          this.openActionFormDialog();
+        })
+      } else {
+        this.openActionFormDialog();
+      }
     } else {
       this.universalBrowserAction.runCallback(this.row);
     }
@@ -38,17 +46,24 @@ export class UniversalBrowserActionButtonComponent {
     const configData: UniversalBrowserFormConfigData = new UniversalBrowserFormConfigData(
       this.row,
       this.universalBrowserAction.getFormMode(),
-      this.universalBrowserAction.getDisabledFormFields()
+      this.universalBrowserAction.getDisabledFormFields(),
+      this.getOnSaveCallback(),
+      this.universalBrowserAction.getValidationMethod()
     );
-    const dialogRef: MatDialogRef<any> = this.dialog.open(this.universalBrowserAction.getFormComponent(), {
-      data: configData
+    this.dialog.open(this.universalBrowserAction.getFormComponent(), {
+      data: configData,
+      panelClass: 'universal-browser-form',
+      disableClose: true
     });
-    dialogRef.afterClosed().pipe(take(1)).subscribe(dto => {
+  }
+
+  private getOnSaveCallback(): (dto: any) => void {
+    return (dto: any) => {
       if (!_.isNil(dto)) {
         this.row = this.row || new UniversalBrowserRow(null, dto);
         this.row.data = dto;
         this.universalBrowserAction.runCallback(this.row);
       }
-    })
+    }
   }
 }

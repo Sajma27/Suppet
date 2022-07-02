@@ -8,7 +8,7 @@ export class GlobalProcessesUtils {
   private static processes: GlobalProcess[] = [];
   private static processesChanged: Subject<GlobalProcess[]> = new Subject<GlobalProcess[]>();
 
-  static runProcess(name: string, sub: Observable<GlobalProcessBackendResponse>) {
+  static runProcess(name: string, sub: Observable<GlobalProcessBackendResponse>): void {
     const process: GlobalProcess = new GlobalProcess(name, sub);
     sub.pipe(take(1)).subscribe((response: GlobalProcessBackendResponse) => {
       process.completed = response.result === 0;

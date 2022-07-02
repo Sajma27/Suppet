@@ -1,16 +1,20 @@
 <h1 mat-dialog-title>{{getFormTitle()}}</h1>
-<div mat-dialog-content role="form" [formGroup]="formGroup">
+<div mat-dialog-content role="form" [formGroup]="formGroup" class="form-container" >
   <mat-form-field appearance="fill" *ngFor="let field of getFormFields()">
     <mat-label>{{field.label}}</mat-label>
     <textarea matInput *ngIf="field.fieldType === 'textarea'"
+              [required]="field.required"
+              [rows]="10"
               [formControlName]="field.fieldName"></textarea>
     <input matInput *ngIf="field.fieldType !== 'textarea'"
+           [required]="field.required"
            [type]="field.fieldType"
            [formControlName]="field.fieldName">
   </mat-form-field>
 </div>
+<div class="suppet-error-message" *ngIf="displayValidationError()">{{getValidationErrorMessage()}}</div>
+<common-spinner *ngIf="isFormLoading()" class="common-spinner"></common-spinner>
 <div mat-dialog-actions>
-  <button mat-button [mat-dialog-close]="formValue" class="main-button"
-          cdkFocusInitial>{{getSubmitBtnLabel()}}</button>
+  <button mat-button (click)="onSaveClick()" [disabled]="isSubmitBtnDisabled()" class="main-button">{{getSubmitBtnLabel()}}</button>
   <button mat-button (click)="onNoClick()" class="main-button">Anuluj</button>
 </div>

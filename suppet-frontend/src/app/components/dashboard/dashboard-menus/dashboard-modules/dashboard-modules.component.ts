@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { UniversalBrowserAction } from "../../../../commons/universal-browser/model/universal-browser-action";
 import { ModulesService } from "./core/modules.service";
 import {
@@ -18,15 +18,12 @@ import {
   templateUrl: '../abstract-dashboard-menus/basic-dashboard-browser-crud-menu/basic-dashboard-browser-crud-menu.component.html',
   styleUrls: ['../abstract-dashboard-menus/basic-dashboard-browser-crud-menu/basic-dashboard-browser-crud-menu.component.scss']
 })
-export class DashboardModulesComponent extends BasicDashboardBrowserCrudMenuComponent<ModulesService> implements OnInit {
+export class DashboardModulesComponent extends BasicDashboardBrowserCrudMenuComponent<ModulesService> {
 
   constructor(service: ModulesService) {
     super(service);
     this.browserConfig.formComponent = ModuleFormComponent;
     this.browserConfig.hideEditAction = true;
-  }
-
-  ngOnInit(): void {
   }
 
   getTitle(): string {

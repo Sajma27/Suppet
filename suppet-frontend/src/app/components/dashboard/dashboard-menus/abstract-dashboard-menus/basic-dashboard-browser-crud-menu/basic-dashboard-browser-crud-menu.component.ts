@@ -10,8 +10,9 @@ import {
 
 export abstract class BasicDashboardBrowserCrudMenuComponent<SERVICE extends AbstractUniversalBrowserCrudService<any>> extends BasicDashboardBrowserMenuComponent<SERVICE, UniversalBrowserCrudConfig> {
 
-  protected constructor(browserService: SERVICE) {
+  protected constructor(browserService: SERVICE, public readonly withValidation: boolean = true) {
     super(browserService);
+    this.browserConfig.withValidation = withValidation;
   }
 
 }

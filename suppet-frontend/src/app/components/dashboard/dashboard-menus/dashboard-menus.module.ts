@@ -24,9 +24,11 @@ import { MatSelectModule } from "@angular/material/select";
 import { MatInputModule } from "@angular/material/input";
 import { MatDialogModule } from "@angular/material/dialog";
 import { MatButtonModule } from "@angular/material/button";
+import { ClassFormComponent } from "./dashboard-classes/forms/class-form/class-form.component";
 
 const forms = [
-  ModuleFormComponent
+  ModuleFormComponent,
+  ClassFormComponent
 ];
 
 const components = [

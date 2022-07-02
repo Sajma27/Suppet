@@ -10,6 +10,7 @@ import {
 import { UniversalBrowserFormComponent } from "../universal-browser-form/universal-browser-form.component";
 import { Type } from "@angular/core";
 import { UniversalBrowserFormMode } from "../universal-browser-form/model/universal-browser-form-mode";
+import { UniversalBrowserActionResult } from "./universal-browser-action-result";
 
 export class UniversalBrowserAsyncAction extends UniversalBrowserAction {
   private disabledRowsIds: Set<number> = new Set<number>();
@@ -18,8 +19,10 @@ export class UniversalBrowserAsyncAction extends UniversalBrowserAction {
   constructor(name: string, icon: string, callback: (row: UniversalBrowserRow) => Observable<GlobalProcessBackendResponse>,
               disabledOnNoRow: booleanFuncOrValue = false, getProcessLabel: (row: UniversalBrowserRow) => string = null,
               refreshOnCallback: boolean = false, formComponent: Type<UniversalBrowserFormComponent<any, any>> = null,
-              formMode: UniversalBrowserFormMode = UniversalBrowserFormMode.CUSTOM, disabledFormFields: string[] = []) {
-    super(name, icon, null, disabledOnNoRow, refreshOnCallback, formComponent, formMode, disabledFormFields);
+              formMode: UniversalBrowserFormMode = UniversalBrowserFormMode.CUSTOM, disabledFormFields: string[] = [],
+              withFormsLoadingFromBackend: boolean = false,
+              validationMethod: (dto: any) => Observable<UniversalBrowserActionResult> = null) {
+    super(name, icon, null, disabledOnNoRow, refreshOnCallback, formComponent, formMode, disabledFormFields, withFormsLoadingFromBackend, validationMethod);
     this.getProcessLabel = getProcessLabel;
     this.callback = this.getAsyncCallback(callback);
   }

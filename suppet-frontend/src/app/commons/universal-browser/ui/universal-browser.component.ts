@@ -11,6 +11,7 @@ import { Sort } from "@angular/material/sort";
 import { flatMap } from "rxjs/internal/operators";
 import { UniversalBrowserRow } from "../model/universal-browser-row";
 import { UniversalBrowserHeaderTypes } from "../model/universal-browser-header-types";
+import { Observable } from "rxjs";
 
 @Component({
   selector: 'app-universal-browser',
@@ -139,6 +140,10 @@ export class UniversalBrowserComponent implements OnInit {
 
   isDatetimeHeader(header: UniversalBrowserHeader): boolean {
     return header.type === UniversalBrowserHeaderTypes.DATETIME;
+  }
+
+  getDataFromServerFunction(): (row: UniversalBrowserRow) => Observable<any> {
+    return null;
   }
 
   getRefreshFunc(): Function {

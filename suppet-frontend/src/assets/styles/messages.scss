@@ -1,0 +1,26 @@
+@import 'variables';
+
+@mixin suppet-message($background-color: $suppet-grey, $margin: 10px, $padding: 0) {
+  background: $background-color;
+  width: calc(100% - 20px);
+  font-size: medium;
+  height: 30px;
+  font-weight: normal;
+  margin: $margin;
+  padding: $padding;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+
+  .mat-icon {
+    transform: scale(0.9);
+  }
+}
+
+.suppet-info-message {
+  @include suppet-message();
+}
+
+.suppet-error-message {
+  @include suppet-message($suppet-red);
+}

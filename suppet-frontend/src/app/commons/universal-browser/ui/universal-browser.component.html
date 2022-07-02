@@ -5,6 +5,7 @@
   <app-universal-browser-action-buttons *ngIf="config.showActionButtons"
                                         [row]="getClickedRow()"
                                         [actions]="config.actions"
+                                        [getDataFromServer]="getDataFromServerFunction()"
                                         [refreshFunc]="getRefreshFunc()"
                                         [disabled]="config.browserDisabled">
   </app-universal-browser-action-buttons>
@@ -44,10 +45,10 @@
       <mat-icon>refresh</mat-icon>
     </button>
     <common-spinner *ngIf="showLoadingSpinner()" class="browser-spinner" [diameter]="60"></common-spinner>
-    <div *ngIf="showNoDataMessage()" class="base-browser-message">
+    <div *ngIf="showNoDataMessage()" class="suppet-info-message">
       {{config.noDataMessage}}
     </div>
-    <div *ngIf="showLoadingError()" class="loading-error">
+    <div *ngIf="showLoadingError()" class="suppet-error-message">
       Podczas pobierania wystąpił błąd...
     </div>
   </div>

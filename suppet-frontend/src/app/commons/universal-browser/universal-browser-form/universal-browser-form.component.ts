@@ -1,10 +1,11 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { UniversalBrowserFormField } from "./model/universal-browser-form-field";
-import { UniversalBrowserRow } from "../model/universal-browser-row";
 import { UniversalBrowserFormMode } from "./model/universal-browser-form-mode";
 import { UniversalBrowserFormConfigData } from "./model/universal-browser-form-config-data";
 import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
+import _ from "lodash";
+import { UniversalBrowserActionResult } from "../model/universal-browser-action-result";
 
 @Component({
   selector: 'app-universal-browser-form',
@@ -18,29 +19,95 @@ export class UniversalBrowserFormComponent<FORM, DTO> implements OnInit {
   }
 
   formGroup: FormGroup;
-
   protected formFields: UniversalBrowserFormField[];
 
-  private readonly row: UniversalBrowserRow;
-  private readonly mode: UniversalBrowserFormMode;
-  private readonly disabledFields: string[];
+  protected loading: boolean = false;
+  protected formDisabled: boolean = false;
+  protected hasValidationError: boolean = false;
+  protected validationErrorMessage: string = '';
 
-  constructor(fb: FormBuilder, protected dialogRef: MatDialogRef<FORM>,
+  private readonly config: UniversalBrowserFormConfigData;
+  private submitBtnLabel: string = 'OK';
+  private submitBtnAlwaysEnabled: boolean = false;
+
+  constructor(private fb: FormBuilder, protected dialogRef: MatDialogRef<FORM>,
               @Inject(MAT_DIALOG_DATA) data: UniversalBrowserFormConfigData) {
     this.initFormFields();
-    this.row = data.row;
-    this.mode = data.mode;
-    this.disabledFields = data.disabledFields;
+    this.config = data;
+    this.initForm();
+  }
+
+  private initForm(): void {
+    this.initSubmitBtn();
     this.updateFieldsDisablement();
     const preparedFields: [string, FormControl][] = this.formFields.map(field =>
-        [field.fieldName, new FormControl({ value: this.getDtoField(field.fieldName), disabled: field.disabled })]
+      [field.fieldName, new FormControl({ value: this.getDtoField(field.fieldName), disabled: field.disabled })]
     );
     const formGroupObject: any = {};
     preparedFields.forEach(value => formGroupObject[value[0]] = value[1])
-    this.formGroup = fb.group(formGroupObject)
+    this.formGroup = this.fb.group(formGroupObject)
+    this.formDisabled = false;
+  }
+
+  private initSubmitBtn(): void {
+    switch (this.config.mode) {
+      case UniversalBrowserFormMode.NEW:
+        this.submitBtnLabel = 'Zapisz';
+        break;
+      case UniversalBrowserFormMode.EDIT:
+        this.submitBtnLabel = 'Edytuj';
+        break;
+      case UniversalBrowserFormMode.DELETE:
+        this.submitBtnLabel = 'Usuń';
+        this.submitBtnAlwaysEnabled = true;
+        break;
+      case UniversalBrowserFormMode.CUSTOM:
+        this.submitBtnLabel = this.getCustomModeSubmitButton();
+        break;
+    }
   }
 
   ngOnInit(): void {
+  }
+
+  onSaveClick(): void {
+    if (!_.isNil(this.config.onValidate)) {
+      this.validateAndSave();
+    } else {
+      this.saveAndCloseDialog();
+    }
+  }
+
+  private validateAndSave(): void {
+    this.hasValidationError = false;
+    this.validationErrorMessage = '';
+    this.formDisabled = true;
+    this.loading = true;
+    this.updateFieldsDisablement();
+    this.config.onValidate(this.formValue).subscribe((result: UniversalBrowserActionResult) => {
+      this.loading = false;
+      if (result.result === 0) {
+        this.saveAndCloseDialog();
+      } else {
+        this.validationErrorMessage = result.errorMessage;
+        this.hasValidationError = true;
+        this.formDisabled = false;
+        this.updateFieldsDisablement();
+      }
+    });
+  }
+
+  private saveAndCloseDialog(): void {
+    this.config.onSaveCallback(this.formValue);
+    this.dialogRef.close();
+  }
+
+  displayValidationError(): boolean {
+    return this.hasValidationError;
+  }
+
+  getValidationErrorMessage(): string {
+    return this.validationErrorMessage;
   }
 
   onNoClick(): void {
@@ -56,17 +123,7 @@ export class UniversalBrowserFormComponent<FORM, DTO> implements OnInit {
   }
 
   getSubmitBtnLabel(): string {
-    switch (this.mode) {
-      case UniversalBrowserFormMode.NEW:
-        return 'Zapisz';
-      case UniversalBrowserFormMode.EDIT:
-        return 'Edytuj';
-      case UniversalBrowserFormMode.DELETE:
-        return 'Usuń';
-      case UniversalBrowserFormMode.CUSTOM:
-        return this.getCustomModeSubmitButton();
-    }
-    return 'OK';
+    return this.submitBtnLabel;
   }
 
   getCustomModeSubmitButton(): string {
@@ -74,10 +131,18 @@ export class UniversalBrowserFormComponent<FORM, DTO> implements OnInit {
   }
 
   getDtoField(fieldName: string) {
-    if (this.mode === UniversalBrowserFormMode.NEW) {
+    if (this.config.mode === UniversalBrowserFormMode.NEW) {
       return null;
     }
-    return this.row.data[fieldName as keyof DTO];
+    return this.config.row.data[fieldName as keyof DTO];
+  }
+
+  isSubmitBtnDisabled(): boolean {
+    return !this.submitBtnAlwaysEnabled && (this.formDisabled || !this.formGroup.valid);
+  }
+
+  isFormLoading(): boolean {
+    return this.loading;
   }
 
   protected initFormFields(): void {
@@ -86,18 +151,18 @@ export class UniversalBrowserFormComponent<FORM, DTO> implements OnInit {
 
   private updateFieldsDisablement(): void {
     for (const field of this.formFields) {
-      switch (this.mode) {
+      switch (this.config.mode) {
         case UniversalBrowserFormMode.NEW:
-          field.disabled = field.disabledOnNew;
+          field.disabled = this.formDisabled || field.disabledOnNew;
           break;
         case UniversalBrowserFormMode.EDIT:
-          field.disabled = field.disabledOnEdit;
+          field.disabled = this.formDisabled || field.disabledOnEdit;
           break;
         case UniversalBrowserFormMode.DELETE:
           field.disabled = true;
           break;
         case UniversalBrowserFormMode.CUSTOM:
-          field.disabled = this.disabledFields.includes(field.fieldName);
+          field.disabled = this.formDisabled || this.config.disabledFields.includes(field.fieldName);
           break;
       }
     }

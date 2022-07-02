@@ -10,16 +10,24 @@ export abstract class AbstractUniversalBrowserCrudService<DTO> extends AbstractU
     super(http);
   }
 
-  get(row: UniversalBrowserRow): Observable<any[]> {
-    return this.http.post<any[]>(this.getApiUrl() + '/get', row.data as DTO);
+  get(row: UniversalBrowserRow): Observable<any> {
+    return this.http.post<any>(this.getApiUrl() + '/get', row.data as DTO);
   }
 
   add(row: UniversalBrowserRow): Observable<UniversalBrowserActionResult> {
     return this.http.post<UniversalBrowserActionResult>(this.getApiUrl() + '/add', row.data as DTO);
   }
 
+  validateAdd(dto: DTO): Observable<UniversalBrowserActionResult> {
+    return this.http.post<UniversalBrowserActionResult>(this.getApiUrl() + '/validate_add', dto);
+  }
+
   edit(row: UniversalBrowserRow): Observable<UniversalBrowserActionResult> {
     return this.http.post<UniversalBrowserActionResult>(this.getApiUrl() + '/edit', row.data as DTO);
+  }
+
+  validateEdit(dto: DTO): Observable<UniversalBrowserActionResult> {
+    return this.http.post<UniversalBrowserActionResult>(this.getApiUrl() + '/validate_edit', dto);
   }
 
   delete(row: UniversalBrowserRow): Observable<UniversalBrowserActionResult> {

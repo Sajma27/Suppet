@@ -1,0 +1,37 @@
+@import "src/assets/styles/variables";
+
+.universal-browser-form .mat-dialog-container {
+  background: $suppet-dark-grey;
+  color: white;
+  width: 50vw;
+  border-radius: 10px;
+
+  .form-container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .mat-form-field-appearance-fill .mat-form-field-flex {
+    background: $suppet-grey;
+  }
+
+  .mat-form-field-label {
+    /*change color of label*/
+    color: white !important;
+  }
+
+  .mat-input-element:disabled {
+    color: #FFFFFF77;
+  }
+
+  .mat-focused .mat-form-field-label {
+    /*change color of label*/
+    color: white !important;
+  }
+
+  .mat-form-field-ripple {
+    /*change color of underline when focused*/
+    background-color: rgba($suppet-green, 0.7) !important;
+  }
+
+}

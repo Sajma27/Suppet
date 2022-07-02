@@ -7,4 +7,6 @@ export class UniversalBrowserCrudConfig extends UniversalBrowserConfig {
   hideNewAction: boolean = false;
   hideEditAction: boolean = false;
   hideDeleteAction: boolean = false;
+  withValidation: boolean = true;
+  withFormsLoadingFromBackend: boolean = false;
 }
