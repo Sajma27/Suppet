@@ -1,6 +1,7 @@
 package com.dyplom.suppet.service.agents;
 
 import com.dyplom.suppet.service.common.BrowserActionResult;
+import com.dyplom.suppet.service.common.CommandLineProcessResult;
 import com.dyplom.suppet.service.common.CommandLineUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +28,11 @@ public class PuppetAgentsService {
                 "--password", defaultPassword,
                 "--no-host-key-check"));
         Process p = CommandLineUtils.getProcess(command);
-        return new BrowserActionResult(CommandLineUtils.getDataFromProcess(p));
+        CommandLineProcessResult result = CommandLineUtils.getDataFromProcess(p);
+        if (result.getResult() != 0 && result.getData().contains("Applied catalog in")) {
+            return new BrowserActionResult(0);
+        }
+        return new BrowserActionResult(result);
     }
 
 }

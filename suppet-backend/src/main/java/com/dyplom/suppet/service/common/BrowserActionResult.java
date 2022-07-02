@@ -9,7 +9,11 @@ public class BrowserActionResult {
 
     public BrowserActionResult(CommandLineProcessResult commandLineProcessResult) {
         this.result = commandLineProcessResult.getResult();
-        this.errorMessage = commandLineProcessResult.getErrorMessage();
+        if (commandLineProcessResult.getErrorMessage() != null && !commandLineProcessResult.getErrorMessage().isEmpty()) {
+            this.errorMessage = commandLineProcessResult.getErrorMessage();
+        } else {
+            this.errorMessage = commandLineProcessResult.getData();
+        }
     }
 
     public BrowserActionResult(int result) {

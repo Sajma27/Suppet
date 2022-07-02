@@ -41,4 +41,8 @@ sudo cp /vagrant/manifests/default.pp /etc/puppetlabs/code/environments/producti
 sudo cp /vagrant/manifests/agents.pp /etc/puppetlabs/code/environments/production/manifests/agents.pp
 sudo cp -r /vagrant/manifests/agents /etc/puppetlabs/code/environments/production/manifests/agents
 
+sudo mkdir /etc/puppetlabs/code/environments/production/manifests/classes
+sudo chmod a+rwx /etc/puppetlabs/code/environments/production/manifests/classes
+
+
 sudo puppet agent -t

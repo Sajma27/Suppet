@@ -9,17 +9,16 @@ public class BasePuppetFile {
     }
 
     public BasePuppetFile(String name) {
-        this.name = name;
+        this.name = name != null ? name.substring(0, name.lastIndexOf('.')) : null;
     }
 
     public BasePuppetFile(String content, String name) {
+        this(name);
         this.content = content;
-        this.name = name;
     }
 
     public BasePuppetFile(String content, String name, String environment) {
-        this.content = content;
-        this.name = name;
+        this(content, name);
         this.environment = environment;
     }
 

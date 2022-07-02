@@ -1,4 +1,4 @@
-package com.dyplom.suppet.service.puppet.validator;
+package com.dyplom.suppet.service.puppetdb.validator;
 
 public class PuppetValidationException extends Exception {
 

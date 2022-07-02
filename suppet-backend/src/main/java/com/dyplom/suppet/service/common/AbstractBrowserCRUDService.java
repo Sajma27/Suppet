@@ -9,4 +9,12 @@ public abstract class AbstractBrowserCRUDService<DTO> extends AbstractBrowserSer
     public abstract BrowserActionResult edit(DTO dto);
 
     public abstract BrowserActionResult delete(DTO dto);
+
+    public BrowserActionResult validateAdd(DTO dto) {
+        return new BrowserActionResult(0);
+    }
+
+    public BrowserActionResult validateEdit(DTO dto) {
+        return new BrowserActionResult(0);
+    }
 }
