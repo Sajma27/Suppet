@@ -53,6 +53,7 @@ public class PuppetModulesService extends AbstractPuppetFilesBrowserCRUDService<
     @Override
     public BrowserActionResult add(PuppetModule dto) {
         ArrayList<String> command = CommandLineUtils.getSudoPuppetCommand(Arrays.asList("module", "install", "--environment", "production", dto.getName().trim()));
+        addVersionToCommand(dto, command);
         return runCommand(command);
     }
 
@@ -68,12 +69,16 @@ public class PuppetModulesService extends AbstractPuppetFilesBrowserCRUDService<
 
     public BrowserActionResult upgrade(PuppetModule dto) {
         ArrayList<String> commandParts = new ArrayList<>(Arrays.asList("module", "upgrade", "--environment", "production", dto.getName().trim()));
+        addVersionToCommand(dto, commandParts);
+        ArrayList<String> command = CommandLineUtils.getSudoPuppetCommand(commandParts);
+        return runCommand(command);
+    }
+
+    private void addVersionToCommand(PuppetModule dto, ArrayList<String> commandParts) {
         if (dto.getVersion() != null) {
             commandParts.add("--version");
             commandParts.add(dto.getVersion());
         }
-        ArrayList<String> command = CommandLineUtils.getSudoPuppetCommand(commandParts);
-        return runCommand(command);
     }
 
     @Override

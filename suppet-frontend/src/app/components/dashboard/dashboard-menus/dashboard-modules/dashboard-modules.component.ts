@@ -24,6 +24,7 @@ export class DashboardModulesComponent extends BasicDashboardBrowserCrudMenuComp
     super(service);
     this.browserConfig.formComponent = ModuleFormComponent;
     this.browserConfig.hideEditAction = true;
+    this.browserConfig.withValidation = false;
   }
 
   getTitle(): string {
