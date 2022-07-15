@@ -1,0 +1,12 @@
+<h1 mat-dialog-title>Parametry</h1>
+<div mat-dialog-content class="form-container">
+  <mat-form-field appearance="fill">
+    <mat-label>Klasy agenta {{agentDto.name}}</mat-label>
+    <input matInput [(ngModel)]="classesAsString" [disabled]="true">
+  </mat-form-field>
+  <app-universal-browser [config]="browserConfig" [service]="classesService"></app-universal-browser>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onSaveClick()" class="main-button">Zapisz</button>
+  <button mat-button (click)="onNoClick()" class="main-button">Anuluj</button>
+</div>

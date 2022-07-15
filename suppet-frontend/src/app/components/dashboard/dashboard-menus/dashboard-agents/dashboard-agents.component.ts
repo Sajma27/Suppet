@@ -12,6 +12,8 @@ import {
 import { PuppetDbFactsService } from "../../../../commons/puppet-db/facts/puppet-db-facts.service";
 import { QueryField } from "../../../../commons/universal-browser/core/query-field";
 import { UniversalBrowserComponent } from "../../../../commons/universal-browser/ui/universal-browser.component";
+import { MatDialog } from "@angular/material/dialog";
+import { ClassPickerComponent } from "../dashboard-classes/picker/class-picker.component";
 
 @Component({
   selector: 'app-dashboard-agents',
@@ -24,7 +26,8 @@ export class DashboardAgentsComponent extends BasicDashboardBrowserMenuComponent
 
   constructor(service: PuppetDbNodesService,
               subBrowserService: PuppetDbFactsService,
-              private agentsService: AgentsService) {
+              private agentsService: AgentsService,
+              private dialog: MatDialog) {
     super(service, subBrowserService);
     this.subBrowserConfig.params.limit = 50;
   }
@@ -43,11 +46,23 @@ export class DashboardAgentsComponent extends BasicDashboardBrowserMenuComponent
 
   getActions(): UniversalBrowserAction[] {
     return [
+      new UniversalBrowserAction('Przypisz klasy', 'class',
+        (row: UniversalBrowserRow) => this.assignClasses(row), true),
       new UniversalBrowserAsyncAction('Aktualizuj', 'update',
         (row: UniversalBrowserRow) => this.agentsService.updateAgent(row.data.certname),
-        (row: UniversalBrowserRow) => !row, (row: UniversalBrowserRow) => 'Aktualizacja agenta: ' + row.data.certname, true),
-      new UniversalBrowserAction('Pokaż fakty', 'category', (row: UniversalBrowserRow) => this.onShowFacts(row), true)
+        (row: UniversalBrowserRow) => !row,
+        (row: UniversalBrowserRow) => 'Aktualizacja agenta: ' + row.data.certname, true),
+      new UniversalBrowserAction('Pokaż fakty', 'category',
+        (row: UniversalBrowserRow) => this.onShowFacts(row), true)
     ];
+  }
+
+  private assignClasses(row: UniversalBrowserRow): void {
+    this.dialog.open(ClassPickerComponent, {
+      data: { agent: row.data.certname },
+      panelClass: 'universal-browser-form',
+      disableClose: true
+    });
   }
 
   private onShowFacts(row: UniversalBrowserRow): void {

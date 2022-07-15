@@ -20,8 +20,14 @@ export class ClassFormComponent extends UniversalBrowserFormComponent<ClassFormC
   protected initFormFields() {
     this.formFields = [
       new UniversalBrowserFormField('name', 'Nazwa', 'text', true,false, false, true),
+      // new UniversalBrowserFormField('params', 'Parametry', "text"),
       new UniversalBrowserFormField('content', 'Definicja', 'textarea')
     ];
   }
 
+  // protected additionalFormValueParsing(value: any): ClassDto {
+  //   const classDto: ClassDto = super.additionalFormValueParsing(value);
+  //   classDto.params = (value.params as string).split(",")
+  //   return classDto;
+  // }
 }

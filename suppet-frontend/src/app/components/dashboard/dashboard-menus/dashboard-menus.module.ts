@@ -25,6 +25,15 @@ import { MatInputModule } from "@angular/material/input";
 import { MatDialogModule } from "@angular/material/dialog";
 import { MatButtonModule } from "@angular/material/button";
 import { ClassFormComponent } from "./dashboard-classes/forms/class-form/class-form.component";
+import { ClassPickerComponent } from "./dashboard-classes/picker/class-picker.component";
+import {
+  ClassPickerParamsForm
+} from "./dashboard-classes/picker/class-params-form.ts/class-picker-params-form.component";
+
+const pickers = [
+  ClassPickerComponent,
+  ClassPickerParamsForm
+]
 
 const forms = [
   ModuleFormComponent,
@@ -56,7 +65,7 @@ export const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [...components, ...forms],
+  declarations: [...components, ...forms, ...pickers],
   exports: components,
   imports: [
     CommonModule,
