@@ -9,7 +9,12 @@ public class BasePuppetFile {
     }
 
     public BasePuppetFile(String name) {
-        this.name = name != null ? name.substring(0, name.lastIndexOf('.')) : null;
+        int domainBeginIndex;
+        if (name != null && (domainBeginIndex = name.lastIndexOf('.')) > -1) {
+            this.name = name.substring(0, domainBeginIndex);
+        } else {
+            this.name = name;
+        }
     }
 
     public BasePuppetFile(String content, String name) {

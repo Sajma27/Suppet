@@ -1,4 +1,4 @@
-package com.dyplom.suppet.service.agents.manifests.model;
+package com.dyplom.suppet.service.manifests.model;
 
 import com.dyplom.suppet.service.common.BasePuppetFile;
 

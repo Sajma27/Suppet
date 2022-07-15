@@ -6,6 +6,12 @@ import com.dyplom.suppet.service.common.UniversalBrowserHeader;
 import com.dyplom.suppet.service.puppetdb.validator.PuppetValidationException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 @Service
 public class PuppetClassesService extends AbstractPuppetFilesBrowserCRUDService<PuppetClass> {
 
@@ -13,26 +19,32 @@ public class PuppetClassesService extends AbstractPuppetFilesBrowserCRUDService<
     protected UniversalBrowserHeader[] getHeaders() {
         return new UniversalBrowserHeader[]{
                 new UniversalBrowserHeader("name", "Nazwa"),
+//                new UniversalBrowserHeader("params", "Parametry"),
         };
     }
 
     @Override
     public PuppetClass get(PuppetClass puppetClass) {
         puppetClass = super.get(puppetClass);
+        if (puppetClass == null) {
+            return null;
+        }
         if (puppetClass.getContent() != null && !puppetClass.getContent().isEmpty()) {
             removePrefixFromPuppetClass(puppetClass);
             removeSuffixFromPuppetClass(puppetClass);
         }
+        setPuppetClassParams(puppetClass);
         return puppetClass;
     }
 
     private void removePrefixFromPuppetClass(PuppetClass puppetClass) {
-        String contentWithoutPrefix = puppetClass.getContent().replace(getPuppetClassContentPrefix(puppetClass), "");
+        int realContentBeginIndex = puppetClass.getContent().indexOf("{\n");
+        String contentWithoutPrefix = puppetClass.getContent().substring(realContentBeginIndex + 2);
         puppetClass.setContent(contentWithoutPrefix);
     }
 
     private void removeSuffixFromPuppetClass(PuppetClass puppetClass) {
-        int suffixIndex = puppetClass.getContent().lastIndexOf(getPuppetClassContentSuffix());
+        int suffixIndex = puppetClass.getContent().lastIndexOf("}");
         String contentWithoutSuffix = puppetClass.getContent().substring(0, suffixIndex);
         puppetClass.setContent(contentWithoutSuffix);
     }
@@ -54,7 +66,18 @@ public class PuppetClassesService extends AbstractPuppetFilesBrowserCRUDService<
         if (puppetClass.getContent() == null) {
             puppetClass.setContent("");
         }
+        setPuppetClassParams(puppetClass);
         puppetClass.setContent(getPuppetClassContentPrefix(puppetClass) + puppetClass.getContent() + getPuppetClassContentSuffix());
+    }
+
+    private void setPuppetClassParams(PuppetClass puppetClass) {
+        Pattern pattern = Pattern.compile("\\$([A-Z]|[a-z])\\w+");
+        Matcher matcher = pattern.matcher(puppetClass.getContent());
+        Set<String> params = new HashSet<>();
+        while (matcher.find()) {
+            params.add(matcher.group());
+        }
+        puppetClass.setParams(new ArrayList<>(params));
     }
 
     @Override
@@ -68,7 +91,7 @@ public class PuppetClassesService extends AbstractPuppetFilesBrowserCRUDService<
     }
 
     private String getPuppetClassContentPrefix(PuppetClass puppetClass) {
-        return "class " + puppetClass.getName() + " {\n";
+        return "class " + puppetClass.getName() + " (" + String.join(", ", puppetClass.getParams()) + ") {\n";
     }
 
     private String getPuppetClassContentSuffix() {

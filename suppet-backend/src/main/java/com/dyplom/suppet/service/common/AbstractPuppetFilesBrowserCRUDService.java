@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -41,6 +42,8 @@ public abstract class AbstractPuppetFilesBrowserCRUDService<DTO extends BasePupp
             String content = Files.readString(classPath);
             dto.setContent(content);
             return dto;
+        } catch(NoSuchFileException e) {
+            return null;
         } catch (IOException e) {
             e.printStackTrace();
             return null;
@@ -95,7 +98,7 @@ public abstract class AbstractPuppetFilesBrowserCRUDService<DTO extends BasePupp
         return super.validateAdd(dto);
     }
 
-    private void modifyAndValidateDtoBeforeAddOperation(DTO dto) throws PuppetValidationException, IOException {
+    protected void modifyAndValidateDtoBeforeAddOperation(DTO dto) throws PuppetValidationException, IOException {
         validateDtoBeforeModifyingOnAddOperation(dto);
         modifyDtoBeforeAddOperation(dto);
         PuppetValidator.validatePuppetFile(dto);
@@ -113,7 +116,7 @@ public abstract class AbstractPuppetFilesBrowserCRUDService<DTO extends BasePupp
         return super.validateEdit(dto);
     }
 
-    private void modifyAndValidateDtoBeforeEditOperation(DTO dto) throws PuppetValidationException, IOException {
+    protected void modifyAndValidateDtoBeforeEditOperation(DTO dto) throws PuppetValidationException, IOException {
         validateDtoBeforeModifyingOnEditOperation(dto);
         modifyDtoBeforeEditOperation(dto);
         PuppetValidator.validatePuppetFile(dto);
@@ -149,12 +152,12 @@ public abstract class AbstractPuppetFilesBrowserCRUDService<DTO extends BasePupp
         modifyDtoBeforeAnyOperation(dto);
     }
 
-    private BrowserActionResult getBrowserActionResult(IOException e) {
+    protected BrowserActionResult getBrowserActionResult(IOException e) {
         e.printStackTrace();
         return new BrowserActionResult(-1, e.getMessage());
     }
 
-    private BrowserActionResult getBrowserActionResult(PuppetValidationException e) {
+    protected BrowserActionResult getBrowserActionResult(PuppetValidationException e) {
         return new BrowserActionResult(-2, e.getMessage());
     }
 }
