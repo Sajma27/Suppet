@@ -28,13 +28,13 @@ public class PuppetAgentsController {
         return this.agentsService.updateAgent(agent);
     }
 
-    @RequestMapping(value = "/getClasses", method = RequestMethod.GET)
-    public Agent getClasses(@RequestParam String agent) {
-        return this.agentsService.getClasses(agent);
+    @RequestMapping(value = "/getAgentWithClasses", method = RequestMethod.GET)
+    public Agent getAgentWithClasses(@RequestParam String agent) {
+        return this.agentsService.getAgentWithClasses(agent);
     }
 
-    @RequestMapping(value = "/setClasses", method = RequestMethod.POST)
-    public BrowserActionResult setClasses(@RequestBody Agent agent) {
-        return this.agentsService.setClasses(agent);
+    @RequestMapping(value = "/updateAgentsClassesManifest", method = RequestMethod.POST)
+    public BrowserActionResult updateAgentsClassesManifest(@RequestBody Agent agent) {
+        return this.agentsService.setAgentsClassesManifest(agent);
     }
 }

@@ -2,8 +2,7 @@ package com.dyplom.suppet.service.agents;
 
 import com.dyplom.suppet.service.agents.classes.PuppetAgentsClassesService;
 import com.dyplom.suppet.service.agents.model.Agent;
-import com.dyplom.suppet.service.classes.PuppetClassesService;
-import com.dyplom.suppet.service.classes.model.PuppetClass;
+import com.dyplom.suppet.service.agents.utils.PuppetAgentsClassesUtils;
 import com.dyplom.suppet.service.common.BrowserActionResult;
 import com.dyplom.suppet.service.common.CommandLineProcessResult;
 import com.dyplom.suppet.service.common.CommandLineUtils;
@@ -16,8 +15,6 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.stream.Collectors;
 
 @Service
 public class PuppetAgentsService {
@@ -26,13 +23,10 @@ public class PuppetAgentsService {
     private final String defaultUser = "vagrant";
     private final String defaultPassword = "vagrant";
 
-    private final PuppetClassesService puppetClassesService;
     private final PuppetAgentsClassesService agentsClassesService;
 
     @Autowired
-    public PuppetAgentsService(PuppetClassesService puppetClassesService,
-                               PuppetAgentsClassesService agentsClassesService) {
-        this.puppetClassesService = puppetClassesService;
+    public PuppetAgentsService(PuppetAgentsClassesService agentsClassesService) {
         this.agentsClassesService = agentsClassesService;
     }
 
@@ -53,74 +47,16 @@ public class PuppetAgentsService {
         return new BrowserActionResult(result);
     }
 
-    public Agent getClasses(String agentName) {
+    public Agent getAgentWithClasses(String agentName) {
         PuppetManifest manifest = agentsClassesService.get(new PuppetManifest(agentName));
         if (manifest == null) {
             return new Agent(agentName, new ArrayList<>());
         }
-        String classesNames = manifest.getContent()
-                .replace(getAgentsClassPrefix(agentName), "")
-                .replace(getAgentsClassSuffix(), "");
-        ArrayList<PuppetClass> puppetClasses = Arrays.stream(classesNames.split(", "))
-                .map(String::trim)
-                .map(puppetClass -> {
-                    String puppetClassName = puppetClass;
-                    String paramsValuesString = "";
-                    int paramsBeginIndex = puppetClass.indexOf("(");
-                    if (paramsBeginIndex > -1) {
-                        puppetClassName = puppetClass.substring(0, paramsBeginIndex);
-                        paramsValuesString = puppetClass.substring(paramsBeginIndex, puppetClass.indexOf(")"));
-                    }
-                    ArrayList<String> paramsValuesArray = paramsValuesString.isEmpty() ? new ArrayList<>() :
-                            Arrays.stream(paramsValuesString.split(",")).map(String::trim)
-                            .collect(Collectors.toCollection(ArrayList::new));
-                    HashMap<String, String> paramsValues = new HashMap<>();
-                    PuppetClass puppetClassDto = puppetClassesService.get(new PuppetClass(null, puppetClassName));
-                    if (puppetClassDto == null) {
-                        return new PuppetClass(null, puppetClassName);
-                    }
-                    for (int i = 0; i < puppetClassDto.getParams().size(); i++) {
-                        paramsValues.put(puppetClassDto.getParams().get(i), paramsValuesArray.get(i));
-                    }
-                    puppetClassDto.setParamsValues(paramsValues);
-                    return puppetClassDto;
-                }).collect(Collectors.toCollection(ArrayList::new));
-//        if (!puppetClasses.isEmpty() && manifest.getName().equals(puppetClasses.get(0).getName())) {
-//            puppetClasses.subList(1, puppetClasses.size() - 1);
-//        }
-        return new Agent(agentName, puppetClasses);
+        return new Agent(agentName, PuppetAgentsClassesUtils.getClassesFromAgentsManifest(manifest));
     }
 
-    public BrowserActionResult setClasses(Agent agent) {
-        ArrayList<String> classes = new ArrayList<>();
-        classes.add(agent.getName().substring( 0, agent.getName().lastIndexOf('.')));
-        for (PuppetClass puppetClass: agent.getClasses()) {
-            StringBuilder sb = new StringBuilder();
-            sb.append(puppetClass.getName());
-            if (!puppetClass.getParamsValues().isEmpty()) {
-                sb.append("(");
-                sb.append(String.join(", ", puppetClass.getParamsValues().values()));
-                sb.append(")");
-            }
-            String newClass = sb.toString();
-            if (!classes.contains(newClass)) {
-                classes.add(newClass);
-            }
-        }
-        String manifestContent = getAgentsClassPrefix(agent) + String.join(", ", classes) + getAgentsClassSuffix();
-        PuppetManifest manifest = new PuppetManifest(manifestContent, agent.getName());
-        return agentsClassesService.edit(manifest);
-    }
-
-    private String getAgentsClassPrefix(Agent agent) {
-        return getAgentsClassPrefix(agent.getName());
-    }
-
-    private String getAgentsClassPrefix(String agentName) {
-        return "node '" + agentName + "' {\n\tinclude ";
-    }
-
-    private String getAgentsClassSuffix() {
-        return "\n}";
+    public BrowserActionResult setAgentsClassesManifest(Agent agent) {
+        PuppetManifest agentsManifest = PuppetAgentsClassesUtils.getClassManifestForAgent(agent);
+        return agentsClassesService.edit(agentsManifest);
     }
 }
