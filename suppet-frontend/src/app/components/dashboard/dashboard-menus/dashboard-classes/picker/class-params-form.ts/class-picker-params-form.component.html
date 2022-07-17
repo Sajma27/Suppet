@@ -1,8 +1,12 @@
 <h1 mat-dialog-title>Parametry</h1>
 <div mat-dialog-content role="form" [formGroup]="formGroup" class="form-container">
-  <mat-form-field appearance="fill" *ngFor="let param of params">
-    <mat-label>{{param}}</mat-label>
-    <input matInput [formControlName]="param">
+  <mat-form-field appearance="fill" *ngFor="let param of classDto.params">
+    <mat-label>{{param.type}} {{param.name}}</mat-label>
+    <input matInput [formControlName]="param.name" required>
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Podgląd</mat-label>
+    <textarea matInput [formControlName]="CONTENT_VIEW_NAME" [rows]="8"></textarea>
   </mat-form-field>
 </div>
 <div mat-dialog-actions>

@@ -44,25 +44,25 @@ export class ClassPickerComponent {
         (row: UniversalBrowserRow) => this.pickClass(row),
         (row: UniversalBrowserRow) =>
           _.isNil(row) || !_.isNil(this.agentDto.classes.find((classDto) => classDto.name === row.data.name)
-        )),
+          )),
       new UniversalBrowserAction('Usuń', 'delete',
         (row: UniversalBrowserRow) => this.removeClass(row),
         (row: UniversalBrowserRow) =>
           _.isNil(row) || _.isNil(this.agentDto.classes.find((classDto) => classDto.name === row.data.name)
-        )),
+          )),
       new UniversalBrowserAction('Usuń wszystkie', 'delete_forever',
         () => this.removeAllClasses())
     ];
     this.agentDto = new AgentDto();
     this.agentDto.name = data.agent;
-    this.classesAgents.getClasses(data.agent).subscribe(agent => {
+    this.classesAgents.getAgentWithClasses(data.agent).subscribe(agent => {
       this.agentDto.classes = agent.classes;
       this.refreshClassesAsString();
     });
   }
 
   onSaveClick(): void {
-    GlobalProcessesUtils.runProcess('Przypisywanie klas agentowi ' + this.agentDto.name, this.classesAgents.setClasses(this.agentDto));
+    GlobalProcessesUtils.runProcess('Przypisywanie klas agentowi ' + this.agentDto.name, this.classesAgents.updateAgentsClassesManifest(this.agentDto));
     this.dialogRef.close();
   }
 
@@ -71,10 +71,10 @@ export class ClassPickerComponent {
   }
 
   private pickClass(row: UniversalBrowserRow) {
-    this.classesService.get(row).subscribe(classDto => {
+    this.classesService.get(row).subscribe((classDto: ClassDto) => {
       if (classDto.params?.length > 0) {
         this.dialog.open(ClassPickerParamsForm, {
-          data: { params: classDto.params, saveCallback: (paramsValues: Map<string, string>) => this.addClass(classDto, paramsValues) },
+          data: { classDto: classDto, saveCallback: (classDto: ClassDto) => this.addClass(classDto) },
           panelClass: 'universal-browser-form',
           disableClose: true
         });
@@ -84,8 +84,7 @@ export class ClassPickerComponent {
     })
   }
 
-  private addClass(classDto: ClassDto, paramsValues: Map<string, string> = new Map<string, string>()) {
-    classDto.paramsValues = paramsValues;
+  private addClass(classDto: ClassDto) {
     this.agentDto.classes.push(classDto);
     this.refreshClassesAsString();
   }
@@ -105,18 +104,18 @@ export class ClassPickerComponent {
       const classes: string[] = [];
       this.agentDto.classes.forEach(classDto => {
         let classAsString = classDto.name;
-        if (classDto.paramsValues.size > 0) {
+        if (classDto.params.length > 0) {
           classAsString += '(';
           const paramsValuesArray: string[] = [];
           classDto.params.forEach(param => {
-            paramsValuesArray.push(classDto.paramsValues.get(param));
+            paramsValuesArray.push(param.name + ' => ' + param.value);
           });
           classAsString += paramsValuesArray.join(', ');
           classAsString += ')';
         }
         classes.push(classAsString);
       });
-      this._classesAsString = classes.join(', ');
+      this._classesAsString = classes.join(', \n');
     } else {
       this._classesAsString = '';
     }

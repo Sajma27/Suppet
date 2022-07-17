@@ -16,7 +16,6 @@ export class UniversalBrowserFormComponent<FORM, DTO> implements OnInit {
 
   get formValue(): DTO {
     return this.formGroup.getRawValue() as DTO;
-    // return this.additionalFormValueParsing(this.formGroup.getRawValue());
   }
 
   formGroup: FormGroup;
@@ -37,10 +36,6 @@ export class UniversalBrowserFormComponent<FORM, DTO> implements OnInit {
     this.config = data;
     this.initForm();
   }
-  //
-  // protected additionalFormValueParsing(value: any): DTO {
-  //   return value as DTO;
-  // }
 
   private initForm(): void {
     this.initSubmitBtn();

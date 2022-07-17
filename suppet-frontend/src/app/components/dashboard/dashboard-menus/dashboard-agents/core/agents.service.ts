@@ -27,11 +27,11 @@ export class AgentsService extends AbstractBackendService {
     return this.http.get<GlobalProcessBackendResponse>(this.getApiUrl() + '/updateAgent', { params: { agent: agent } });
   }
 
-  getClasses(agent: string): Observable<AgentDto> {
-    return this.http.get<AgentDto>(this.getApiUrl() + '/getClasses', { params: { agent: agent } });
+  getAgentWithClasses(agent: string): Observable<AgentDto> {
+    return this.http.get<AgentDto>(this.getApiUrl() + '/getAgentWithClasses', { params: { agent: agent } });
   }
 
-  setClasses(agent: AgentDto): Observable<UniversalBrowserActionResult> {
-    return this.http.post<UniversalBrowserActionResult>(this.getApiUrl() + '/setClasses', agent);
+  updateAgentsClassesManifest(agent: AgentDto): Observable<UniversalBrowserActionResult> {
+    return this.http.post<UniversalBrowserActionResult>(this.getApiUrl() + '/updateAgentsClassesManifest', agent);
   }
 }
