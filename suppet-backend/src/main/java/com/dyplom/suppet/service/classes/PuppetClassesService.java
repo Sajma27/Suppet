@@ -1,16 +1,17 @@
 package com.dyplom.suppet.service.classes;
 
 import com.dyplom.suppet.service.classes.model.PuppetClass;
+import com.dyplom.suppet.service.classes.model.PuppetParam;
+import com.dyplom.suppet.service.classes.model.enums.PuppetParamType;
 import com.dyplom.suppet.service.common.AbstractPuppetFilesBrowserCRUDService;
 import com.dyplom.suppet.service.common.UniversalBrowserHeader;
 import com.dyplom.suppet.service.puppetdb.validator.PuppetValidationException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @Service
 public class PuppetClassesService extends AbstractPuppetFilesBrowserCRUDService<PuppetClass> {
@@ -30,11 +31,35 @@ public class PuppetClassesService extends AbstractPuppetFilesBrowserCRUDService<
             return null;
         }
         if (puppetClass.getContent() != null && !puppetClass.getContent().isEmpty()) {
+            ArrayList<PuppetParam> params = getPuppetClassParamsFromClassHeader(puppetClass);
+            puppetClass.setParams(params);
             removePrefixFromPuppetClass(puppetClass);
             removeSuffixFromPuppetClass(puppetClass);
         }
-        setPuppetClassParams(puppetClass);
         return puppetClass;
+    }
+
+    private ArrayList<PuppetParam> getPuppetClassParamsFromClassHeader(PuppetClass puppetClass) {
+        String header = puppetClass.getContent().lines().findFirst().orElse(null);
+        ArrayList<PuppetParam> params = new ArrayList<>();
+        if (header != null && header.contains("(")) {
+            header = header.replace("class " + puppetClass.getName() + " (", "");
+            header = header.replace(") {", "");
+            List<String> paramsWithTypes = Arrays.stream(header.split(",")).map(String::trim).collect(Collectors.toList());
+            for (String paramWithType: paramsWithTypes) {
+                String[] paramAndType = paramWithType.split(" ");
+                params.add(new PuppetParam(paramAndType[1], null, getParamType(paramAndType[0])));
+            }
+        }
+        return params;
+    }
+
+    private PuppetParamType getParamType(String type) {
+        try {
+            return PuppetParamType.valueOf(type);
+        } catch (IllegalArgumentException e) {
+            return PuppetParamType.STRING;
+        }
     }
 
     private void removePrefixFromPuppetClass(PuppetClass puppetClass) {
@@ -66,18 +91,48 @@ public class PuppetClassesService extends AbstractPuppetFilesBrowserCRUDService<
         if (puppetClass.getContent() == null) {
             puppetClass.setContent("");
         }
-        setPuppetClassParams(puppetClass);
         puppetClass.setContent(getPuppetClassContentPrefix(puppetClass) + puppetClass.getContent() + getPuppetClassContentSuffix());
     }
 
-    private void setPuppetClassParams(PuppetClass puppetClass) {
-        Pattern pattern = Pattern.compile("\\$([A-Z]|[a-z])\\w+");
-        Matcher matcher = pattern.matcher(puppetClass.getContent());
-        Set<String> params = new HashSet<>();
-        while (matcher.find()) {
-            params.add(matcher.group());
+    @Override
+    protected void modifyDtoBeforeAddOperation(PuppetClass puppetClass) {
+        super.modifyDtoBeforeAddOperation(puppetClass);
+        puppetClass.setParams(getPuppetClassParams(puppetClass.getContent()));
+    }
+
+    private ArrayList<PuppetParam> getPuppetClassParams(String content) {
+        if (content == null) {
+            return new ArrayList<>();
         }
-        puppetClass.setParams(new ArrayList<>(params));
+        ArrayList<PuppetParam> params = getPuppetClassStringParams(content);
+        params.addAll(getPuppetClassParamsWithTypes(content));
+        return params;
+    }
+
+    private ArrayList<PuppetParam> getPuppetClassStringParams(String content) {
+        Pattern pattern = Pattern.compile("\\$\\{([A-Z]|[a-z])\\w+}");
+        Matcher matcher = pattern.matcher(content);
+        Set<PuppetParam> params = new HashSet<>();
+        while (matcher.find()) {
+            params.add(new PuppetParam(matcher.group(), null, PuppetParamType.STRING));
+        }
+        return new ArrayList<>(params);
+    }
+
+    private ArrayList<PuppetParam> getPuppetClassParamsWithTypes(String content) {
+        Pattern pattern = Pattern.compile("\\$([A-Z]|[a-z])\\w+(::\\w+)?");
+        Matcher matcher = pattern.matcher(content);
+        Set<PuppetParam> params = new HashSet<>();
+        while (matcher.find()) {
+            String param = matcher.group();
+            if (param.contains("::")) {
+                String[] paramAndType = param.split("::");
+                params.add(new PuppetParam(paramAndType[0], null, getParamType(paramAndType[1])));
+            } else {
+                params.add(new PuppetParam(param, null, PuppetParamType.STRING));
+            }
+        }
+        return new ArrayList<>(params);
     }
 
     @Override
@@ -91,7 +146,8 @@ public class PuppetClassesService extends AbstractPuppetFilesBrowserCRUDService<
     }
 
     private String getPuppetClassContentPrefix(PuppetClass puppetClass) {
-        return "class " + puppetClass.getName() + " (" + String.join(", ", puppetClass.getParams()) + ") {\n";
+        String paramsNames = puppetClass.getParams().stream().map(PuppetParam::getName).collect(Collectors.joining(", "));
+        return "class " + puppetClass.getName() + " (" + paramsNames + ") {\n";
     }
 
     private String getPuppetClassContentSuffix() {

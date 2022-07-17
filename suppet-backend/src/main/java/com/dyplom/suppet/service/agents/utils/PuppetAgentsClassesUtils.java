@@ -101,12 +101,15 @@ public class PuppetAgentsClassesUtils {
 
     private static String getPuppetParamValueForManifestFile(PuppetParam param) {
         switch (param.getType()) {
+            case STRING:
+                if (param.getValue() != null && param.getValue().startsWith("\"") && param.getValue().endsWith("\"")) {
+                    return param.getValue();
+                }
+                return '"' + param.getValue() + '"';
             case BOOLEAN:
             case NUMERIC:
-                return param.getValue();
-            case STRING:
             default:
-                return '"' + param.getValue() + '"';
+                return param.getValue();
         }
     }
 

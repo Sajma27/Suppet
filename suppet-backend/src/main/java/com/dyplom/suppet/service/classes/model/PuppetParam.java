@@ -3,11 +3,15 @@ package com.dyplom.suppet.service.classes.model;
 import com.dyplom.suppet.service.classes.model.enums.PuppetParamType;
 
 public class PuppetParam {
-    String name;
-    String value;
-    PuppetParamType type;
+    String name = null;
+    String value = null;
+    PuppetParamType type = null;
 
     public PuppetParam() {
+    }
+
+    public PuppetParam(String name) {
+        this.name = name;
     }
 
     public PuppetParam(String name, String value, PuppetParamType type) {

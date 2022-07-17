@@ -17,5 +17,4 @@ public class PuppetClassesController extends AbstractPuppetFilesBrowserCRUDContr
     protected PuppetClassesController(PuppetClassesService service) {
         super(service);
     }
-
 }
