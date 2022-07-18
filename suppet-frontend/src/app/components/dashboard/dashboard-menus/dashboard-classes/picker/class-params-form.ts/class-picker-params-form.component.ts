@@ -32,7 +32,7 @@ export class ClassPickerParamsForm {
     this.classDto.params = data.classDto.params;
     const controls: any = {};
     this.classDto.params.forEach(param => {
-      controls[param.name] = new FormControl();
+      controls[param.name] = new FormControl(param.value);
     })
     controls[this.CONTENT_VIEW_NAME] = new FormControl({ value: this.classDto.content, disabled: true });
     this.formGroup = this.fb.group(controls);

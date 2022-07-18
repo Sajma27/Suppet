@@ -1,5 +1,6 @@
 export enum ClassParamType {
-  STRING = 'STRING',
-  BOOLEAN = 'BOOLEAN',
-  NUMERIC = 'NUMERIC'
+  STRING = 'String',
+  BOOLEAN = 'Boolean',
+  NUMERIC = 'Numeric',
+  ANY = 'Any'
 }

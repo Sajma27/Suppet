@@ -43,13 +43,18 @@ export class ClassPickerComponent {
       new UniversalBrowserAction('Dodaj', 'add',
         (row: UniversalBrowserRow) => this.pickClass(row),
         (row: UniversalBrowserRow) =>
-          _.isNil(row) || !_.isNil(this.agentDto.classes.find((classDto) => classDto.name === row.data.name)
-          )),
+          _.isNil(row) || !_.isNil(this.agentDto.classes.find((classDto) => classDto.name === row.data.name))
+      ),
+      new UniversalBrowserAction('Edytuj', 'edit',
+        (row: UniversalBrowserRow) => this.editClass(row),
+        (row: UniversalBrowserRow) =>
+          _.isNil(row) || this.agentDto.classes.find((classDto) => classDto.name === row.data.name)?.params?.length <= 0
+      ),
       new UniversalBrowserAction('Usuń', 'delete',
         (row: UniversalBrowserRow) => this.removeClass(row),
         (row: UniversalBrowserRow) =>
-          _.isNil(row) || _.isNil(this.agentDto.classes.find((classDto) => classDto.name === row.data.name)
-          )),
+          _.isNil(row) || _.isNil(this.agentDto.classes.find((classDto) => classDto.name === row.data.name))
+      ),
       new UniversalBrowserAction('Usuń wszystkie', 'delete_forever',
         () => this.removeAllClasses())
     ];
@@ -84,8 +89,26 @@ export class ClassPickerComponent {
     })
   }
 
+  private editClass(row: UniversalBrowserRow) {
+    const idx: number = this.agentDto.classes.findIndex(agentsClass => agentsClass.name === row.data.name);
+    const classDto: ClassDto = this.agentDto.classes[idx];
+    if (classDto.params?.length > 0) {
+      this.dialog.open(ClassPickerParamsForm, {
+        data: { classDto: classDto, saveCallback: (classDto: ClassDto) => this.onEditClass(classDto) },
+        panelClass: 'universal-browser-form',
+        disableClose: true
+      });
+    }
+  }
+
   private addClass(classDto: ClassDto) {
     this.agentDto.classes.push(classDto);
+    this.refreshClassesAsString();
+  }
+
+  private onEditClass(classDto: ClassDto) {
+    const idx: number = this.agentDto.classes.findIndex(agentsClass => agentsClass.name === classDto.name);
+    this.agentDto.classes[idx] = classDto;
     this.refreshClassesAsString();
   }
 

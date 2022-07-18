@@ -14,6 +14,7 @@ import { QueryField } from "../../../../commons/universal-browser/core/query-fie
 import { UniversalBrowserComponent } from "../../../../commons/universal-browser/ui/universal-browser.component";
 import { MatDialog } from "@angular/material/dialog";
 import { ClassPickerComponent } from "../dashboard-classes/picker/class-picker.component";
+import _ from "lodash";
 
 @Component({
   selector: 'app-dashboard-agents',
@@ -21,6 +22,7 @@ import { ClassPickerComponent } from "../dashboard-classes/picker/class-picker.c
   styleUrls: ['../abstract-dashboard-menus/basic-dashboard-browser-menu/basic-dashboard-browser-menu.component.scss']
 })
 export class DashboardAgentsComponent extends BasicDashboardBrowserMenuComponent<PuppetDbNodesService> implements OnInit {
+  private static NON_EDITABLE_AGENTS: string[] = ['puppet-master.home', 'puppet-db.home'];
 
   @ViewChild('subBrowser') protected subBrowser: UniversalBrowserComponent;
 
@@ -47,7 +49,8 @@ export class DashboardAgentsComponent extends BasicDashboardBrowserMenuComponent
   getActions(): UniversalBrowserAction[] {
     return [
       new UniversalBrowserAction('Przypisz klasy', 'class',
-        (row: UniversalBrowserRow) => this.assignClasses(row), true),
+        (row: UniversalBrowserRow) => this.assignClasses(row),
+        (row: UniversalBrowserRow) => _.isNil(row) || DashboardAgentsComponent.NON_EDITABLE_AGENTS.includes(row.data.certname)),
       new UniversalBrowserAsyncAction('Aktualizuj', 'update',
         (row: UniversalBrowserRow) => this.agentsService.updateAgent(row.data.certname),
         (row: UniversalBrowserRow) => !row,
