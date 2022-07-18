@@ -36,8 +36,8 @@ public class PuppetAgentsClassesUtils {
     private static void addParamToCurrentClass(PuppetClass currentClass, String manifestsLine) {
         String[] paramParts = manifestsLine.split(PARAM_TO_VALUE_CONNECTOR);
         if (paramParts.length == 2) {
-            String paramValue = paramParts[1].substring(0, paramParts[1].length() - 1);
-            currentClass.getParams().add(new PuppetParam(paramParts[0], paramValue, getPuppetParamValueType(paramValue)));
+            String paramValue = paramParts[1].replaceAll("[\",{}]", "").trim();
+            currentClass.getParams().add(new PuppetParam(paramParts[0].trim(), paramValue, getPuppetParamValueType(paramValue)));
         }
     }
 
@@ -96,13 +96,13 @@ public class PuppetAgentsClassesUtils {
     }
 
     private static String getParamForManifestFile(PuppetParam param) {
-        return param.getName() + PARAM_TO_VALUE_CONNECTOR + getPuppetParamValueForManifestFile(param);
+        return param.getName().replace("$", "") + PARAM_TO_VALUE_CONNECTOR + getPuppetParamValueForManifestFile(param);
     }
 
     private static String getPuppetParamValueForManifestFile(PuppetParam param) {
         switch (param.getType()) {
             case STRING:
-                if (param.getValue() != null && param.getValue().startsWith("\"") && param.getValue().endsWith("\"")) {
+                if (param.getValue() != null && param.getValue().startsWith("\"")) {
                     return param.getValue();
                 }
                 return '"' + param.getValue() + '"';

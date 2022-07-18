@@ -14,7 +14,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.attribute.PosixFilePermission;
-import java.util.*;
+import java.nio.file.attribute.PosixFilePermissions;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
 
 public class CommandLineUtils {
     private static final Logger log = LoggerFactory.getLogger("CommandLineUtils");
@@ -71,15 +75,8 @@ public class CommandLineUtils {
         writer.write(content);
         writer.close();
 
-        Set<PosixFilePermission> perms = new HashSet<>();
-        perms.add(PosixFilePermission.OWNER_READ);
-        perms.add(PosixFilePermission.OWNER_WRITE);
-        perms.add(PosixFilePermission.OWNER_EXECUTE);
-        perms.add(PosixFilePermission.GROUP_READ);
-        perms.add(PosixFilePermission.GROUP_WRITE);
-        perms.add(PosixFilePermission.GROUP_EXECUTE);
-
         Path path = Paths.get(filePath);
+        Set<PosixFilePermission> perms = PosixFilePermissions.fromString("rwxrwxrwx");
         Files.setPosixFilePermissions(path, perms);
 
         String writtenContent = Files.readString(path);

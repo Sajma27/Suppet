@@ -3,7 +3,8 @@ package com.dyplom.suppet.service.classes.model.enums;
 public enum PuppetParamType {
     STRING("String"),
     BOOLEAN("Boolean"),
-    NUMERIC("Numeric");
+    NUMERIC("Numeric"),
+    ANY("Any");
 
     private final String code;
 

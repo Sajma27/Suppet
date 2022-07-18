@@ -7,6 +7,7 @@ import com.dyplom.suppet.service.common.BrowserActionResult;
 import com.dyplom.suppet.service.common.CommandLineProcessResult;
 import com.dyplom.suppet.service.common.CommandLineUtils;
 import com.dyplom.suppet.service.manifests.model.PuppetManifest;
+import com.dyplom.suppet.service.puppetdb.validator.PuppetValidationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,8 @@ import java.util.Arrays;
 @Service
 public class PuppetAgentsService {
     private final Logger log = LoggerFactory.getLogger("PuppetAgentsService");
+    private static final String PUPPET_MASTER = "puppet-master.home";
+    private static final String PUPPET_DB = "puppet-db.home";
 
     private final String defaultUser = "vagrant";
     private final String defaultPassword = "vagrant";
@@ -55,7 +58,10 @@ public class PuppetAgentsService {
         return new Agent(agentName, PuppetAgentsClassesUtils.getClassesFromAgentsManifest(manifest));
     }
 
-    public BrowserActionResult setAgentsClassesManifest(Agent agent) {
+    public BrowserActionResult setAgentsClassesManifest(Agent agent) throws PuppetValidationException {
+        if (agent == null || PUPPET_MASTER.equals(agent.getName()) || PUPPET_DB.equals(agent.getName())) {
+            throw new PuppetValidationException("Edycja wybranego agenta jest niemożliwa");
+        }
         PuppetManifest agentsManifest = PuppetAgentsClassesUtils.getClassManifestForAgent(agent);
         return agentsClassesService.edit(agentsManifest);
     }
