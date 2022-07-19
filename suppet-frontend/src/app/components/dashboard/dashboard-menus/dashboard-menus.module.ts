@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DashboardMainMenuComponent } from './dashboard-main-menu/dashboard-main-menu.component';
+import { DashboardEnvironmentsComponent } from './dashboard-environments/dashboard-environments.component';
 import { DashboardAgentsComponent } from './dashboard-agents/dashboard-agents.component';
 import { DashboardCatalogsComponent } from './dashboard-catalogs/dashboard-catalogs.component';
 import { DashboardClassesComponent } from './dashboard-classes/dashboard-classes.component';
@@ -50,11 +50,11 @@ const components = [
   DashboardUnsignedCertsComponent,
   DashboardRequestedCertsComponent,
   DashboardAgentsComponent,
-  DashboardMainMenuComponent
+  DashboardEnvironmentsComponent
 ];
 
 export const routes: Routes = [
-  { path: DashboardMenus.MAIN_MENU, component: DashboardMainMenuComponent },
+  { path: DashboardMenus.ENVIRONMENTS, component: DashboardEnvironmentsComponent },
   { path: DashboardMenus.AGENTS, component: DashboardAgentsComponent },
   { path: DashboardMenus.SIGNED_CERTS, component: DashboardSignedCertsComponent },
   { path: DashboardMenus.UNSIGNED_CERTS, component: DashboardUnsignedCertsComponent },

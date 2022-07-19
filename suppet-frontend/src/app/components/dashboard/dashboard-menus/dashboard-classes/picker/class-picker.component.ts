@@ -38,6 +38,7 @@ export class ClassPickerComponent {
               readonly classesService: ClassesService,
               private readonly classesAgents: AgentsService,
               private dialog: MatDialog) {
+    this.browserConfig.usingTotalRowCount = false;
     this.browserConfig.title = "Klasy";
     this.browserConfig.actions = [
       new UniversalBrowserAction('Dodaj', 'add',
@@ -47,8 +48,10 @@ export class ClassPickerComponent {
       ),
       new UniversalBrowserAction('Edytuj', 'edit',
         (row: UniversalBrowserRow) => this.editClass(row),
-        (row: UniversalBrowserRow) =>
-          _.isNil(row) || this.agentDto.classes.find((classDto) => classDto.name === row.data.name)?.params?.length <= 0
+        (row: UniversalBrowserRow) => {
+          const existingClassAssignment: ClassDto = this.agentDto.classes.find((classDto) => classDto.name === row.data.name);
+          return _.isNil(row) || _.isNil(existingClassAssignment) || existingClassAssignment.params?.length <= 0;
+        }
       ),
       new UniversalBrowserAction('Usuń', 'delete',
         (row: UniversalBrowserRow) => this.removeClass(row),
@@ -86,19 +89,19 @@ export class ClassPickerComponent {
       } else {
         this.addClass(classDto);
       }
-    })
+    });
   }
 
   private editClass(row: UniversalBrowserRow) {
-    const idx: number = this.agentDto.classes.findIndex(agentsClass => agentsClass.name === row.data.name);
-    const classDto: ClassDto = this.agentDto.classes[idx];
-    if (classDto.params?.length > 0) {
-      this.dialog.open(ClassPickerParamsForm, {
-        data: { classDto: classDto, saveCallback: (classDto: ClassDto) => this.onEditClass(classDto) },
-        panelClass: 'universal-browser-form',
-        disableClose: true
-      });
-    }
+    this.classesService.get(row).subscribe((classDto: ClassDto) => {
+      if (classDto.params?.length > 0) {
+        this.dialog.open(ClassPickerParamsForm, {
+          data: { classDto: classDto, saveCallback: (classDto: ClassDto) => this.onEditClass(classDto) },
+          panelClass: 'universal-browser-form',
+          disableClose: true
+        });
+      }
+    });
   }
 
   private addClass(classDto: ClassDto) {

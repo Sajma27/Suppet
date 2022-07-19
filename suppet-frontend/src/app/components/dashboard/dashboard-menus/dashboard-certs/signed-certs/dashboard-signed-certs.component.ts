@@ -21,6 +21,7 @@ export class DashboardSignedCertsComponent extends BasicDashboardBrowserMenuComp
     super(service);
     this.browserConfig.sortingDisabled = true;
     this.browserConfig.filteringDisabled = true;
+    this.browserConfig.usingTotalRowCount = false;
   }
 
   getTitle(): string {

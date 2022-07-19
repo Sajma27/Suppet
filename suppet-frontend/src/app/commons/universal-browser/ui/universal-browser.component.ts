@@ -157,30 +157,54 @@ export class UniversalBrowserComponent implements OnInit {
       this.loading = true;
       this.loadingError = false;
       this.config.params.offset = 0;
-      this.service.getTotalRowCount(this.config.params)
-        .pipe(
-          flatMap((totalNumOfRows: number) => {
-            this.totalNumOfRows = totalNumOfRows;
-            return this.service.getUniversalBrowserFullDto(this.config.params);
-          }))
-        .pipe(take(1))
-        .subscribe((puppetFullDataDto: UniversalBrowserFullDto) => {
-          puppetFullDataDto.columns = ['idx', ...puppetFullDataDto.columns];
-          this.browserData = puppetFullDataDto;
-          this.loading = false;
-          this.loadingError = false;
-        }, () => {
-          this.totalNumOfRows = null;
-          this.loading = false;
-          this.loadingError = true;
-        });
+      if (this.config.usingTotalRowCount) {
+        this.loadTotalRowCountAndData();
+      } else {
+        this.loadData();
+      }
     }
+  }
+
+  private loadTotalRowCountAndData(): void {
+    this.service.getTotalRowCount(this.config.params)
+      .pipe(
+        flatMap((totalNumOfRows: number) => {
+          this.totalNumOfRows = totalNumOfRows;
+          return this.service.getUniversalBrowserFullDto(this.config.params);
+        }))
+      .pipe(take(1))
+      .subscribe(
+        (puppetFullDataDto: UniversalBrowserFullDto) => this.processLoadedData(puppetFullDataDto),
+        () => this.handleDataLoadingError()
+      );
+  }
+
+  private loadData(): void {
+    this.service.getUniversalBrowserFullDto(this.config.params)
+      .subscribe(
+        (puppetFullDataDto: UniversalBrowserFullDto) => this.processLoadedData(puppetFullDataDto),
+        () => this.handleDataLoadingError()
+      );
+  }
+
+  private processLoadedData(puppetFullDataDto: UniversalBrowserFullDto): void {
+    puppetFullDataDto.columns = ['idx', ...puppetFullDataDto.columns];
+    this.browserData = puppetFullDataDto;
+    this.loading = false;
+    this.loadingError = false;
+  }
+
+  private handleDataLoadingError(): void {
+    this.totalNumOfRows = null;
+    this.loading = false;
+    this.loadingError = true;
   }
 
   protected addRefreshAction(): void {
     if (this.config.addRefreshAction) {
       this.config.actions = [
-        new UniversalBrowserAction('Odśwież', 'refresh', () => {}, false, true),
+        new UniversalBrowserAction('Odśwież', 'refresh', () => {
+        }, false, true),
         ...this.config.actions
       ];
     }

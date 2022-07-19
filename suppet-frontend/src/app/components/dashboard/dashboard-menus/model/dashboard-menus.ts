@@ -1,5 +1,5 @@
 export enum DashboardMenus {
-  MAIN_MENU = 'main-menu',
+  ENVIRONMENTS = 'environments',
   AGENTS = 'agents',
   REQUESTED_CERTS = 'requested-certs',
   SIGNED_CERTS = 'signed-certs',

@@ -13,4 +13,5 @@ export class UniversalBrowserConfig {
   filteringDisabled: boolean = false;
   sortingDisabled: boolean = false;
   showActionButtons: boolean = true;
+  usingTotalRowCount: boolean = true;
 }

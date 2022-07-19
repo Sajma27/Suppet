@@ -4,9 +4,9 @@
       <img [src]="logoSrc"/>
 
       <mat-divider style="margin-top: 0"></mat-divider>
-      <button mat-button class="main-button" [routerLink]="menuTypes.MAIN_MENU" [routerLinkActive]="'main-button-clicked'">
-        <mat-icon>home</mat-icon>
-        <span>Menu główne</span>
+      <button mat-button class="main-button" [routerLink]="menuTypes.ENVIRONMENTS" [routerLinkActive]="'main-button-clicked'">
+        <mat-icon>forest</mat-icon>
+        <span>Środowiska</span>
       </button>
       <mat-divider></mat-divider>
       <button mat-button class="main-button" [routerLink]="menuTypes.AGENTS" [routerLinkActive]="'main-button-clicked'">
@@ -45,10 +45,6 @@
     <div class="account-section">
       <div style="width: 100%">
         <img class="avatar mat-elevation-z8" [src]="this.getUserImg()"/>
-        <button mat-button class="main-button">
-          <mat-icon>face</mat-icon>
-          <span>Moje konto</span>
-        </button>
         <app-logout-button></app-logout-button>
       </div>
     </div>

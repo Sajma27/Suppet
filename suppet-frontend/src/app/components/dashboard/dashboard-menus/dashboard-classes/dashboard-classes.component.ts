@@ -17,6 +17,7 @@ export class DashboardClassesComponent extends BasicDashboardBrowserCrudMenuComp
     super(service);
     this.browserConfig.formComponent = ClassFormComponent;
     this.browserConfig.withFormsLoadingFromBackend = true;
+    this.browserConfig.usingTotalRowCount = false;
   }
 
   getTitle(): string {
