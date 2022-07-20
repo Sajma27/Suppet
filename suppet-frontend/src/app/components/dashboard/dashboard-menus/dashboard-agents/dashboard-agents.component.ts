@@ -32,6 +32,7 @@ export class DashboardAgentsComponent extends BasicDashboardBrowserMenuComponent
               private dialog: MatDialog) {
     super(service, subBrowserService);
     this.subBrowserConfig.params.limit = 50;
+    this.browserConfig.environmentFieldName = 'catalog_environment';
   }
 
   ngOnInit(): void {

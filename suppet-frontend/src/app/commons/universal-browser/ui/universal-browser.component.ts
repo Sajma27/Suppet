@@ -12,6 +12,11 @@ import { flatMap } from "rxjs/internal/operators";
 import { UniversalBrowserRow } from "../model/universal-browser-row";
 import { UniversalBrowserHeaderTypes } from "../model/universal-browser-header-types";
 import { Observable } from "rxjs";
+import {
+  ActiveEnvironmentManager
+} from "../../common-components/active-environment-manager/active-environment-manager.service";
+import { UniversalBrowserParams } from "../model/universal-browser-params";
+import _ from "lodash";
 
 @Component({
   selector: 'app-universal-browser',
@@ -47,6 +52,9 @@ export class UniversalBrowserComponent implements OnInit {
   protected loadingError: boolean = false;
   protected clickedRow: any = null;
 
+  constructor(public environmentManager: ActiveEnvironmentManager) {
+  }
+
   ngOnInit(): void {
     this.addRefreshAction();
     this.refresh();
@@ -68,12 +76,16 @@ export class UniversalBrowserComponent implements OnInit {
     return this.loadingError && !this.showLoadingSpinner();
   }
 
+  getActiveEnvironment(): string {
+    return !_.isNil(this.environmentManager.activeEnvironment) ? this.environmentManager.activeEnvironment : 'Nie wybrano';
+  }
+
   loadMoreRows(): void {
     if (!this.loading) {
       this.loading = true;
       this.loadingError = false;
       this.config.params.offset += this.config.params.limit;
-      this.service?.fetchData(this.config.params)
+      this.service?.fetchData(this.getConfigParamsWithActiveEnvironment())
         .pipe(take(1))
         .subscribe((data: any[]) => {
           this._browserData.data = [...this._browserData.data, ...data];
@@ -166,11 +178,11 @@ export class UniversalBrowserComponent implements OnInit {
   }
 
   private loadTotalRowCountAndData(): void {
-    this.service.getTotalRowCount(this.config.params)
+    this.service.getTotalRowCount(this.getConfigParamsWithActiveEnvironment())
       .pipe(
         flatMap((totalNumOfRows: number) => {
           this.totalNumOfRows = totalNumOfRows;
-          return this.service.getUniversalBrowserFullDto(this.config.params);
+          return this.service.getUniversalBrowserFullDto(this.getConfigParamsWithActiveEnvironment());
         }))
       .pipe(take(1))
       .subscribe(
@@ -180,11 +192,26 @@ export class UniversalBrowserComponent implements OnInit {
   }
 
   private loadData(): void {
-    this.service.getUniversalBrowserFullDto(this.config.params)
+    this.service.getUniversalBrowserFullDto(this.getConfigParamsWithActiveEnvironment())
       .subscribe(
         (puppetFullDataDto: UniversalBrowserFullDto) => this.processLoadedData(puppetFullDataDto),
         () => this.handleDataLoadingError()
       );
+  }
+
+  private getConfigParamsWithActiveEnvironment(): UniversalBrowserParams {
+    if (_.isNil(this.config.environmentFieldName)) {
+      return this.config.params;
+    }
+    const configWithEnvironment = _.cloneDeep(this.config.params);
+    if (!_.isNil(this.environmentManager.activeEnvironment)) {
+      configWithEnvironment.query = configWithEnvironment.query.filter(queryField => queryField.field !== this.config.environmentFieldName);
+      const environmentQueryField: QueryField = new QueryField();
+      environmentQueryField.field = this.config.environmentFieldName;
+      environmentQueryField.value = this.environmentManager.activeEnvironment;
+      configWithEnvironment.query.push(environmentQueryField);
+    }
+    return configWithEnvironment;
   }
 
   private processLoadedData(puppetFullDataDto: UniversalBrowserFullDto): void {

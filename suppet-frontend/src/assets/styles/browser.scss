@@ -18,6 +18,17 @@
   font-size: medium;
   font-weight: normal;
   text-align: center;
+  position: relative;
+
+  .active-environment {
+    padding: 5px;
+    border: $green-border;
+    border-radius: 10px;
+    position: absolute;
+    width: fit-content;
+    right: 0;
+    top: 0;
+  }
 }
 
 .browser-container {

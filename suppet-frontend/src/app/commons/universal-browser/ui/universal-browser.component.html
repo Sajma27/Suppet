@@ -1,6 +1,9 @@
 <div class="main-browser-container mat-elevation-z8">
   <div class="main-browser-title">
     {{config.title}}
+    <div class="active-environment">
+      Aktywne środowisko: {{getActiveEnvironment()}}
+    </div>
   </div>
   <app-universal-browser-action-buttons *ngIf="config.showActionButtons"
                                         [row]="getClickedRow()"
