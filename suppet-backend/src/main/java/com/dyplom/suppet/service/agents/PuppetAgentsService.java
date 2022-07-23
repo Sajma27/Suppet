@@ -34,21 +34,38 @@ public class PuppetAgentsService {
     }
 
     public BrowserActionResult updateAgent(String agent) throws IOException, InterruptedException {
-        if (agent.endsWith(".home")) {
-            agent = agent.substring(0, agent.length() - 5);
-        }
-        ArrayList<String> command = new ArrayList<>(Arrays.asList("bolt", "command", "run", "sudo /opt/puppetlabs/bin/puppet agent -t",
-                "--targets", agent,
-                "--user", defaultUser,
-                "--password", defaultPassword,
-                "--no-host-key-check"));
-        Process p = CommandLineUtils.getProcess(command);
-        CommandLineProcessResult result = CommandLineUtils.getDataFromProcess(p);
+        agent = getAgentWithoutDomain(agent);
+        CommandLineProcessResult result = runCommandWithBolt(agent, "sudo /opt/puppetlabs/bin/puppet agent -t");
         if (result.getResult() != 0 && result.getData().contains("Applied catalog in")) {
             return new BrowserActionResult(0);
         }
         return new BrowserActionResult(result);
     }
+
+    public BrowserActionResult changeAgentsEnvironment(String agent, String environment) throws IOException, InterruptedException {
+        agent = getAgentWithoutDomain(agent);
+        String commandToRun = "echo 'environment = " + environment + "' | sudo tee /etc/puppetlabs/puppet/puppet.conf";
+        CommandLineProcessResult result = runCommandWithBolt(agent, commandToRun);
+        if (result.getResult() != 0) {
+            return new BrowserActionResult(result);
+        }
+        return this.updateAgent(agent);
+    }
+
+    private CommandLineProcessResult runCommandWithBolt(String agent, String commandToRun) throws IOException, InterruptedException {
+        ArrayList<String> command = new ArrayList<>(Arrays.asList("bolt", "command", "run", commandToRun,
+                "--targets", agent,
+                "--user", defaultUser,
+                "--password", defaultPassword,
+                "--no-host-key-check"));
+        Process p = CommandLineUtils.getProcess(command);
+        return CommandLineUtils.getDataFromProcess(p);
+    }
+
+    private String getAgentWithoutDomain(String agent) {
+        return agent.endsWith(".home") ? agent.substring(0, agent.length() - 5) : agent;
+    }
+
 
     public Agent getAgentWithClasses(String agentName, String environment) {
         PuppetManifest manifest = agentsClassesService.get(new PuppetManifest(null, agentName, environment));

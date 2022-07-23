@@ -29,6 +29,12 @@ public class PuppetAgentsController {
         return this.agentsService.updateAgent(agent);
     }
 
+    @RequestMapping(value = "/changeAgentsEnvironment", method = RequestMethod.GET)
+    public BrowserActionResult changeAgentsEnvironment(@RequestParam String agent, @RequestParam String environment) throws IOException, InterruptedException {
+        logger.info("Changing agent's " + agent + " environment to " + environment);
+        return this.agentsService.changeAgentsEnvironment(agent, environment);
+    }
+
     @RequestMapping(value = "/getAgentWithClasses", method = RequestMethod.GET)
     public Agent getAgentWithClasses(@RequestParam String agent, @RequestParam String environment) {
         return this.agentsService.getAgentWithClasses(agent, environment);
