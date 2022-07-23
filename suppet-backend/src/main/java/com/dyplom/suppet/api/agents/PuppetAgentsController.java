@@ -30,8 +30,8 @@ public class PuppetAgentsController {
     }
 
     @RequestMapping(value = "/getAgentWithClasses", method = RequestMethod.GET)
-    public Agent getAgentWithClasses(@RequestParam String agent) {
-        return this.agentsService.getAgentWithClasses(agent);
+    public Agent getAgentWithClasses(@RequestParam String agent, @RequestParam String environment) {
+        return this.agentsService.getAgentWithClasses(agent, environment);
     }
 
     @RequestMapping(value = "/updateAgentsClassesManifest", method = RequestMethod.POST)

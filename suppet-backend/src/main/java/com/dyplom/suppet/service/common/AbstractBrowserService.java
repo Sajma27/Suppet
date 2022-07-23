@@ -1,5 +1,6 @@
 package com.dyplom.suppet.service.common;
 
+import com.dyplom.suppet.api.common.QueryField;
 import com.dyplom.suppet.api.common.UniversalBrowserParams;
 import com.fasterxml.jackson.databind.JsonNode;
 
@@ -52,5 +53,18 @@ public abstract class AbstractBrowserService {
     public Integer getTotalRowCount(UniversalBrowserParams params, String additionalUrl) throws IOException, InterruptedException {
         JsonNode data = fetchData(params, additionalUrl);
         return data != null ? data.size() : 0;
+    }
+
+    protected String getEnvironmentFieldName() {
+        return "environment";
+    }
+
+    protected String getEnvironmentFromParams(UniversalBrowserParams params) {
+        for (QueryField field: params.getQuery()) {
+            if (getEnvironmentFieldName().equals(field.getField())) {
+                return field.getValue();
+            }
+        }
+        return null;
     }
 }

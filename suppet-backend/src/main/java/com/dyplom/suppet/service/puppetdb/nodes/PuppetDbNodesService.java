@@ -22,7 +22,12 @@ public class PuppetDbNodesService extends AbstractPuppetDbService {
         return new UniversalBrowserHeader[]{
                 new UniversalBrowserHeader("certname", "Agent"),
                 new UniversalBrowserHeader("facts_timestamp", "Data ostatniej aktualizacji", UniversalBrowserHeaderTypes.DATETIME),
-                new UniversalBrowserHeader("latest_report_status", "Status ostatniego raportu"),
+                new UniversalBrowserHeader("catalog_environment", "Środowisko"),
         };
+    }
+
+    @Override
+    protected String getEnvironmentFieldName() {
+        return "catalog_environment";
     }
 }

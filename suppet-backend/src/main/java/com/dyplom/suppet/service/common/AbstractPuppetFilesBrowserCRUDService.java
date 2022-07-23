@@ -16,16 +16,16 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 public abstract class AbstractPuppetFilesBrowserCRUDService<DTO extends BasePuppetFile> extends AbstractBrowserCRUDService<DTO> {
 
     @Override
     public JsonNode fetchData(UniversalBrowserParams params, String additionalUrl) throws IOException, InterruptedException {
-        File filesDir = new File(getLocationDir());
+        File filesDir = new File(getLocationDir(params));
         FilenameFilter filenameFilter = (dir, name) -> name != null && name.endsWith(".pp");
-        String[] filenames = Objects.requireNonNull(filesDir.list(filenameFilter));
+        String[] filenames = filesDir.list(filenameFilter);
+        filenames = filenames != null ? filenames : new String[]{};
         List<BasePuppetFile> files = Arrays.stream(filenames).map(BasePuppetFile::new).collect(Collectors.toList());
         return new ObjectMapper().valueToTree(files);
     }
@@ -42,7 +42,7 @@ public abstract class AbstractPuppetFilesBrowserCRUDService<DTO extends BasePupp
             String content = Files.readString(classPath);
             dto.setContent(content);
             return dto;
-        } catch(NoSuchFileException e) {
+        } catch (NoSuchFileException e) {
             return null;
         } catch (IOException e) {
             e.printStackTrace();
@@ -123,10 +123,18 @@ public abstract class AbstractPuppetFilesBrowserCRUDService<DTO extends BasePupp
     }
 
     protected String getFilePath(DTO dto) {
-        return getLocationDir() + "/" + getFilename(dto);
+        return getLocationDir(dto) + "/" + getFilename(dto);
     }
 
-    protected abstract String getLocationDir();
+    protected String getLocationDir(UniversalBrowserParams params) {
+        return getLocationDir(getEnvironmentFromParams(params));
+    }
+
+    protected String getLocationDir(String environment) {
+        return getLocationDir(new BasePuppetFile(null, null, environment));
+    }
+
+    protected abstract String getLocationDir(BasePuppetFile file);
 
     protected abstract String getFilename(DTO dto);
 

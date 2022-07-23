@@ -7,13 +7,15 @@ import java.util.ArrayList;
 public class Agent {
     private String name;
     private ArrayList<PuppetClass> classes;
+    private String environment;
 
     public Agent() {
     }
 
-    public Agent(String name, ArrayList<PuppetClass> classes) {
+    public Agent(String name, ArrayList<PuppetClass> classes, String environment) {
         this.name = name;
         this.classes = classes;
+        this.environment = environment;
     }
 
     public String getName() {
@@ -30,5 +32,13 @@ public class Agent {
 
     public void setClasses(ArrayList<PuppetClass> classes) {
         this.classes = classes;
+    }
+
+    public String getEnvironment() {
+        return environment;
+    }
+
+    public void setEnvironment(String environment) {
+        this.environment = environment;
     }
 }

@@ -3,7 +3,7 @@ package com.dyplom.suppet.service.common;
 public class BasePuppetFile {
     protected String content;
     protected String name;
-    protected String environment = "production";
+    protected String environment;
 
     public BasePuppetFile() {
     }

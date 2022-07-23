@@ -14,4 +14,8 @@ public class PuppetManifest extends BasePuppetFile {
     public PuppetManifest(String content, String name) {
         super(content, name);
     }
+
+    public PuppetManifest(String content, String name, String environment) {
+        super(content, name, environment);
+    }
 }

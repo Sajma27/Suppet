@@ -76,7 +76,7 @@ public class PuppetAgentsClassesUtils {
             PuppetAgentsClassesUtils.assignClassToAgent(classes, puppetClass);
         }
         String manifestContent = getAgentsClassPrefix(agent) + String.join("\n", classes) + getAgentsClassSuffix();
-        return new PuppetManifest(manifestContent, agent.getName());
+        return new PuppetManifest(manifestContent, agent.getName(), agent.getEnvironment());
     }
 
     private static void assignClassToAgent(ArrayList<String> classes, PuppetClass puppetClass) {

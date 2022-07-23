@@ -4,6 +4,7 @@ import com.dyplom.suppet.service.classes.model.PuppetClass;
 import com.dyplom.suppet.service.classes.model.PuppetParam;
 import com.dyplom.suppet.service.classes.model.enums.PuppetParamType;
 import com.dyplom.suppet.service.common.AbstractPuppetFilesBrowserCRUDService;
+import com.dyplom.suppet.service.common.BasePuppetFile;
 import com.dyplom.suppet.service.common.UniversalBrowserHeader;
 import com.dyplom.suppet.service.puppetdb.validator.PuppetValidationException;
 import org.springframework.stereotype.Service;
@@ -47,6 +48,9 @@ public class PuppetClassesService extends AbstractPuppetFilesBrowserCRUDService<
         if (header != null && header.contains("(")) {
             header = header.replace("class " + puppetClass.getName() + " (", "");
             header = header.replace(") {", "");
+            if (header.isEmpty()) {
+                return params;
+            }
             List<String> paramsWithTypes = Arrays.stream(header.split(",")).map(String::trim).collect(Collectors.toList());
             for (String paramWithType : paramsWithTypes) {
                 String[] paramAndType = paramWithType.split(" ");
@@ -148,8 +152,8 @@ public class PuppetClassesService extends AbstractPuppetFilesBrowserCRUDService<
     }
 
     @Override
-    protected String getLocationDir() {
-        return "/etc/puppetlabs/code/environments/production/manifests/classes";
+    protected String getLocationDir(BasePuppetFile file) {
+        return "/etc/puppetlabs/code/environments/" + file.getEnvironment() + "/manifests/classes";
     }
 
     @Override

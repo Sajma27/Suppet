@@ -50,12 +50,12 @@ public class PuppetAgentsService {
         return new BrowserActionResult(result);
     }
 
-    public Agent getAgentWithClasses(String agentName) {
-        PuppetManifest manifest = agentsClassesService.get(new PuppetManifest(agentName));
+    public Agent getAgentWithClasses(String agentName, String environment) {
+        PuppetManifest manifest = agentsClassesService.get(new PuppetManifest(null, agentName, environment));
         if (manifest == null) {
-            return new Agent(agentName, new ArrayList<>());
+            return new Agent(agentName, new ArrayList<>(), environment);
         }
-        return new Agent(agentName, PuppetAgentsClassesUtils.getClassesFromAgentsManifest(manifest));
+        return new Agent(agentName, PuppetAgentsClassesUtils.getClassesFromAgentsManifest(manifest), environment);
     }
 
     public BrowserActionResult setAgentsClassesManifest(Agent agent) throws PuppetValidationException {
