@@ -1,26 +1,25 @@
-import { Component } from '@angular/core';
 import {
   UniversalBrowserFormComponent
 } from "../../../../../../commons/universal-browser/universal-browser-form/universal-browser-form.component";
 import {
   UniversalBrowserFormField
 } from "../../../../../../commons/universal-browser/universal-browser-form/model/universal-browser-form-field";
-import { ClassDto } from "../../model/class-dto";
+import { CertDto } from "../../model/cert-dto";
+import { Component } from "@angular/core";
 
 @Component({
-  selector: 'app-module-form',
+  selector: 'app-new-cert-form',
   templateUrl: '../../../../../../commons/universal-browser/universal-browser-form/universal-browser-form.component.html'
 })
-export class ClassFormComponent extends UniversalBrowserFormComponent<ClassFormComponent, ClassDto> {
+export class DashboardNewCertForm extends UniversalBrowserFormComponent<DashboardNewCertForm, CertDto> {
 
   getFormTitle(): string {
-    return 'Klasa'
+    return 'Nowy certyfikat'
   }
 
   protected initFormFields() {
     this.formFields = [
-      new UniversalBrowserFormField('name', 'Nazwa', 'text', true,false, false, true),
-      new UniversalBrowserFormField('content', 'Definicja', 'textarea')
+      new UniversalBrowserFormField('name', 'Adres', 'text', true, false, false, true),
     ];
   }
 }

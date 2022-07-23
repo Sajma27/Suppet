@@ -26,13 +26,13 @@ import { MatDialogModule } from "@angular/material/dialog";
 import { MatButtonModule } from "@angular/material/button";
 import { ClassFormComponent } from "./dashboard-classes/forms/class-form/class-form.component";
 import { ClassPickerComponent } from "./dashboard-classes/picker/class-picker.component";
-import {
-  ClassPickerParamsForm
-} from "./dashboard-classes/picker/class-params-form.ts/class-picker-params-form.component";
+import { ClassPickerParamsForm } from "./dashboard-classes/picker/class-params-form/class-picker-params-form.component";
+import { DashboardNewCertForm } from "./dashboard-certs/requested-certs/new-cert-form/dashboard-new-cert-form";
 
 const pickers = [
   ClassPickerComponent,
-  ClassPickerParamsForm
+  ClassPickerParamsForm,
+  DashboardNewCertForm
 ]
 
 const forms = [

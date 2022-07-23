@@ -4,7 +4,7 @@ import { UniversalBrowserAction } from "../../../../../commons/universal-browser
 import { ClassesService } from "../core/classes.service";
 import { UniversalBrowserRow } from "../../../../../commons/universal-browser/model/universal-browser-row";
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from "@angular/material/dialog";
-import { ClassPickerParamsForm } from "./class-params-form.ts/class-picker-params-form.component";
+import { ClassPickerParamsForm } from "./class-params-form/class-picker-params-form.component";
 import { AgentsService } from "../../dashboard-agents/core/agents.service";
 import { ClassDto } from "../model/class-dto";
 import { AgentDto } from "../../dashboard-agents/model/agent-dto";

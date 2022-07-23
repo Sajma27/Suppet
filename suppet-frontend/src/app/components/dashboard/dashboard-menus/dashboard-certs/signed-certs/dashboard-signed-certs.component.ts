@@ -10,6 +10,11 @@ import {
 import { UniversalBrowserRow } from "../../../../../commons/universal-browser/model/universal-browser-row";
 import { CertStates } from "../model/cert-states";
 import _ from "lodash";
+import { AgentsService } from "../../dashboard-agents/core/agents.service";
+import {
+  ActiveEnvironmentManager
+} from "../../../../../commons/common-components/active-environment-manager/active-environment-manager.service";
+import { DashboardCertsUtils } from "../utils/dashboard-certs-utils";
 
 @Component({
   selector: 'app-dashboard-signed-certs',
@@ -17,9 +22,10 @@ import _ from "lodash";
   styleUrls: ['../../abstract-dashboard-menus/basic-dashboard-browser-menu/basic-dashboard-browser-menu.component.scss']
 })
 export class DashboardSignedCertsComponent extends BasicDashboardBrowserMenuComponent<CertsBrowserService> {
-  private readonly READONLY_CERTS: string[] = ['puppet-master', 'puppet-master.home', 'puppet-db.home'];
 
-  constructor(service: CertsBrowserService) {
+  constructor(service: CertsBrowserService,
+              private agentsService: AgentsService,
+              private environmentManager: ActiveEnvironmentManager) {
     super(service);
     this.browserConfig.sortingDisabled = true;
     this.browserConfig.filteringDisabled = true;
@@ -33,46 +39,24 @@ export class DashboardSignedCertsComponent extends BasicDashboardBrowserMenuComp
   getActions(): UniversalBrowserAction[] {
     const actions: UniversalBrowserAction[] = [];
 
-    if (this.isSignActionVisible()) {
-      const signAction = new UniversalBrowserAsyncAction('Podpisz', 'check_circle',
-        (row: UniversalBrowserRow) => this.browserService.signCert(row.data.name),
-        (row: UniversalBrowserRow) => _.isNil(row) || row.data.state === CertStates.SIGNED || this.isReadonlyRow(row),
-        (row: UniversalBrowserRow) => 'Aktywacja certyfikatu: ' + row.data.name, true);
-      actions.push(signAction);
-    }
+    const assignToEnv = new UniversalBrowserAsyncAction('Przypisz do akt. środowiska', 'park',
+      (row: UniversalBrowserRow) => this.agentsService.changeAgentsEnvironment(row.data.name, this.environmentManager.activeEnvironment),
+      (row: UniversalBrowserRow) => _.isNil(row) || !this.environmentManager.hasActiveEnvironment() || DashboardCertsUtils.isReadonlyRow(row),
+      (row: UniversalBrowserRow) => 'Przypisywanie do akt. środowiska: ' + row.data.name, true)
+    actions.push(assignToEnv);
 
-    if (this.isRevokeActionVisible()) {
-      const revokeAction = new UniversalBrowserAsyncAction('Dezaktywuj', 'unpublished',
-        (row: UniversalBrowserRow) => this.browserService.revokeCert(row.data.name),
-        (row: UniversalBrowserRow) => _.isNil(row) || row.data.state === CertStates.REVOKED || this.isReadonlyRow(row),
-        (row: UniversalBrowserRow) => 'Dezaktywacja certyfikatu: ' + row.data.name, true);
-      actions.push(revokeAction);
-    }
+    const revokeAction = new UniversalBrowserAsyncAction('Dezaktywuj', 'unpublished',
+      (row: UniversalBrowserRow) => this.browserService.revokeCert(row.data.name),
+      (row: UniversalBrowserRow) => _.isNil(row) || row.data.state === CertStates.REVOKED || DashboardCertsUtils.isReadonlyRow(row),
+      (row: UniversalBrowserRow) => 'Dezaktywacja certyfikatu: ' + row.data.name, true);
+    actions.push(revokeAction);
 
-    if (this.isCleanActionVisible()) {
-      const cleanAction = new UniversalBrowserAsyncAction('Wyczyść', 'delete',
-        (row: UniversalBrowserRow) => this.browserService.cleanCert(row.data.name),
-        (row: UniversalBrowserRow) => _.isNil(row) || this.isReadonlyRow(row),
-        (row: UniversalBrowserRow) => 'Usuwanie certyfikatu: ' + row.data.name, true);
-      actions.push(cleanAction);
-    }
+    const cleanAction = new UniversalBrowserAsyncAction('Wyczyść', 'delete',
+      (row: UniversalBrowserRow) => this.browserService.cleanCert(row.data.name),
+      (row: UniversalBrowserRow) => _.isNil(row) || DashboardCertsUtils.isReadonlyRow(row),
+      (row: UniversalBrowserRow) => 'Usuwanie certyfikatu: ' + row.data.name, true);
+    actions.push(cleanAction);
 
     return actions;
-  }
-
-  protected isSignActionVisible(): boolean {
-    return false;
-  }
-
-  protected isRevokeActionVisible(): boolean {
-    return true;
-  }
-
-  protected isCleanActionVisible(): boolean {
-    return true;
-  }
-
-  private isReadonlyRow(row: UniversalBrowserRow): boolean {
-    return this.READONLY_CERTS.includes(row.data.name);
   }
 }

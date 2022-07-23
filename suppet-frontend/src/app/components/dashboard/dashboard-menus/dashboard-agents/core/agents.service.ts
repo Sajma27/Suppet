@@ -31,6 +31,10 @@ export class AgentsService extends AbstractBackendService {
     return this.http.get<GlobalProcessBackendResponse>(this.getApiUrl() + '/updateAgent', { params: { agent: agent } });
   }
 
+  changeAgentsEnvironment(agent: string, environment: string): Observable<GlobalProcessBackendResponse> {
+    return this.http.get<GlobalProcessBackendResponse>(this.getApiUrl() + '/changeAgentsEnvironment', { params: { agent, environment } });
+  }
+
   getAgentWithClasses(agent: string): Observable<AgentDto> {
     return this.http.get<AgentDto>(this.getApiUrl() + '/getAgentWithClasses', { params: { agent: agent, environment: this.environmentManager.activeEnvironment } });
   }
