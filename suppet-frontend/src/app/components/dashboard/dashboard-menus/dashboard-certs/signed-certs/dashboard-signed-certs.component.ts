@@ -9,6 +9,7 @@ import {
 } from "../../../../../commons/universal-browser/model/universal-browser-async-action";
 import { UniversalBrowserRow } from "../../../../../commons/universal-browser/model/universal-browser-row";
 import { CertStates } from "../model/cert-states";
+import _ from "lodash";
 
 @Component({
   selector: 'app-dashboard-signed-certs',
@@ -16,6 +17,7 @@ import { CertStates } from "../model/cert-states";
   styleUrls: ['../../abstract-dashboard-menus/basic-dashboard-browser-menu/basic-dashboard-browser-menu.component.scss']
 })
 export class DashboardSignedCertsComponent extends BasicDashboardBrowserMenuComponent<CertsBrowserService> {
+  private readonly READONLY_CERTS: string[] = ['puppet-master', 'puppet-master.home', 'puppet-db.home'];
 
   constructor(service: CertsBrowserService) {
     super(service);
@@ -34,7 +36,7 @@ export class DashboardSignedCertsComponent extends BasicDashboardBrowserMenuComp
     if (this.isSignActionVisible()) {
       const signAction = new UniversalBrowserAsyncAction('Podpisz', 'check_circle',
         (row: UniversalBrowserRow) => this.browserService.signCert(row.data.name),
-        (row: UniversalBrowserRow) => row.data.state === CertStates.SIGNED,
+        (row: UniversalBrowserRow) => _.isNil(row) || row.data.state === CertStates.SIGNED || this.isReadonlyRow(row),
         (row: UniversalBrowserRow) => 'Aktywacja certyfikatu: ' + row.data.name, true);
       actions.push(signAction);
     }
@@ -42,7 +44,7 @@ export class DashboardSignedCertsComponent extends BasicDashboardBrowserMenuComp
     if (this.isRevokeActionVisible()) {
       const revokeAction = new UniversalBrowserAsyncAction('Dezaktywuj', 'unpublished',
         (row: UniversalBrowserRow) => this.browserService.revokeCert(row.data.name),
-        (row: UniversalBrowserRow) => row.data.state === CertStates.REVOKED,
+        (row: UniversalBrowserRow) => _.isNil(row) || row.data.state === CertStates.REVOKED || this.isReadonlyRow(row),
         (row: UniversalBrowserRow) => 'Dezaktywacja certyfikatu: ' + row.data.name, true);
       actions.push(revokeAction);
     }
@@ -50,7 +52,8 @@ export class DashboardSignedCertsComponent extends BasicDashboardBrowserMenuComp
     if (this.isCleanActionVisible()) {
       const cleanAction = new UniversalBrowserAsyncAction('Wyczyść', 'delete',
         (row: UniversalBrowserRow) => this.browserService.cleanCert(row.data.name),
-        true, (row: UniversalBrowserRow) => 'Usuwanie certyfikatu: ' + row.data.name, true);
+        (row: UniversalBrowserRow) => _.isNil(row) || this.isReadonlyRow(row),
+        (row: UniversalBrowserRow) => 'Usuwanie certyfikatu: ' + row.data.name, true);
       actions.push(cleanAction);
     }
 
@@ -69,4 +72,7 @@ export class DashboardSignedCertsComponent extends BasicDashboardBrowserMenuComp
     return true;
   }
 
+  private isReadonlyRow(row: UniversalBrowserRow): boolean {
+    return this.READONLY_CERTS.includes(row.data.name);
+  }
 }

@@ -4,7 +4,7 @@
     <mat-label>Klasy agenta {{agentDto.name}}</mat-label>
     <textarea matInput [(ngModel)]="classesAsString" [disabled]="true" [rows]="5"></textarea>
   </mat-form-field>
-  <app-universal-browser [config]="browserConfig" [service]="classesService"></app-universal-browser>
+  <app-universal-browser id="classesBrowser" #classesBrowser [config]="browserConfig" [service]="classesService"></app-universal-browser>
 </div>
 <div mat-dialog-actions>
   <button mat-button (click)="onSaveClick()" class="main-button">Zapisz</button>

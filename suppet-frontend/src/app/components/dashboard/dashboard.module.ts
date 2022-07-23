@@ -11,6 +11,7 @@ import { MatDividerModule } from "@angular/material/divider";
 import { AppRoutingModule } from "../../app-routing.module";
 import { DashboardMenusModule, routes } from "./dashboard-menus/dashboard-menus.module";
 import { RouterModule } from "@angular/router";
+import { MatTooltipModule } from "@angular/material/tooltip";
 
 @NgModule({
   declarations: [
@@ -19,19 +20,20 @@ import { RouterModule } from "@angular/router";
   exports: [
     DashboardComponent
   ],
-  imports: [
-    CommonModule,
-    AuthenticationModule,
-    BrowserAnimationsModule,
-    MatToolbarModule,
-    MatSidenavModule,
-    MatButtonModule,
-    MatIconModule,
-    MatDividerModule,
-    AppRoutingModule,
-    DashboardMenusModule,
-    RouterModule.forRoot(routes)
-  ]
+    imports: [
+        CommonModule,
+        AuthenticationModule,
+        BrowserAnimationsModule,
+        MatToolbarModule,
+        MatSidenavModule,
+        MatButtonModule,
+        MatIconModule,
+        MatDividerModule,
+        AppRoutingModule,
+        DashboardMenusModule,
+        RouterModule.forRoot(routes),
+        MatTooltipModule
+    ]
 })
 export class DashboardModule {
 }

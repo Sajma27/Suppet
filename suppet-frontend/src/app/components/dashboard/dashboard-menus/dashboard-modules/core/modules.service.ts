@@ -9,13 +9,17 @@ import { Observable } from "rxjs";
 import {
   UniversalBrowserActionResult
 } from "../../../../../commons/universal-browser/model/universal-browser-action-result";
+import {
+  ActiveEnvironmentManager
+} from "../../../../../commons/common-components/active-environment-manager/active-environment-manager.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ModulesService extends AbstractUniversalBrowserCrudService<ModuleDto> {
 
-  constructor(http: HttpClient) {
+  constructor(http: HttpClient,
+              private environmentManager: ActiveEnvironmentManager) {
     super(http);
   }
 
@@ -31,8 +35,8 @@ export class ModulesService extends AbstractUniversalBrowserCrudService<ModuleDt
     return this.http.post<UniversalBrowserActionResult>(this.getApiUrl() + '/upgradeToNewest', this.getDtoFromRow(row));
   }
 
-  private getDtoFromRow(row: UniversalBrowserRow): ModuleDto {
-    return new ModuleDto(null, row.data.name, row.data.version);
+  protected getDtoFromRow(row: UniversalBrowserRow): ModuleDto {
+    return new ModuleDto(null, row.data.name, row.data.version, this.environmentManager.activeEnvironment);
   }
 
 }

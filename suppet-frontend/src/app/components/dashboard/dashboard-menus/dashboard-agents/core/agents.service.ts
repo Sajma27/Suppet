@@ -9,13 +9,17 @@ import {
   UniversalBrowserActionResult
 } from "../../../../../commons/universal-browser/model/universal-browser-action-result";
 import { AgentDto } from "../model/agent-dto";
+import {
+  ActiveEnvironmentManager
+} from "../../../../../commons/common-components/active-environment-manager/active-environment-manager.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AgentsService extends AbstractBackendService {
 
-  constructor(http: HttpClient) {
+  constructor(http: HttpClient,
+              private environmentManager: ActiveEnvironmentManager) {
     super(http);
   }
 
@@ -28,10 +32,11 @@ export class AgentsService extends AbstractBackendService {
   }
 
   getAgentWithClasses(agent: string): Observable<AgentDto> {
-    return this.http.get<AgentDto>(this.getApiUrl() + '/getAgentWithClasses', { params: { agent: agent } });
+    return this.http.get<AgentDto>(this.getApiUrl() + '/getAgentWithClasses', { params: { agent: agent, environment: this.environmentManager.activeEnvironment } });
   }
 
   updateAgentsClassesManifest(agent: AgentDto): Observable<UniversalBrowserActionResult> {
+    agent.environment = this.environmentManager.activeEnvironment;
     return this.http.post<UniversalBrowserActionResult>(this.getApiUrl() + '/updateAgentsClassesManifest', agent);
   }
 }

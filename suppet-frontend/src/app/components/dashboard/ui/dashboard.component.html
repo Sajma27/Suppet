@@ -4,43 +4,61 @@
       <img [src]="logoSrc"/>
 
       <mat-divider style="margin-top: 0"></mat-divider>
-      <button mat-button class="main-button" [routerLink]="menuTypes.ENVIRONMENTS" [routerLinkActive]="'main-button-clicked'">
+      <button mat-button class="main-button" [routerLink]="menuTypes.ENVIRONMENTS"
+              (click)="saveStartingMenu(menuTypes.ENVIRONMENTS)"
+              [routerLinkActive]="'main-button-clicked'">
         <mat-icon>forest</mat-icon>
         <span>Środowiska</span>
       </button>
       <mat-divider></mat-divider>
-      <button mat-button class="main-button" [routerLink]="menuTypes.AGENTS" [routerLinkActive]="'main-button-clicked'">
-        <mat-icon>people</mat-icon>
-        <span>Agenci</span>
-      </button>
+      <div [matTooltip]="!isEnvironmentSelected ? noEnvironmentTooltip : ''" matTooltipPosition="right">
+        <button mat-button class="main-button" [routerLink]="menuTypes.AGENTS"
+                (click)="saveStartingMenu(menuTypes.AGENTS)"
+                [routerLinkActive]="'main-button-clicked'"
+                [disabled]="!isEnvironmentSelected">
+          <mat-icon>people</mat-icon>
+          <span>Agenci</span>
+        </button>
+      </div>
       <mat-divider></mat-divider>
       <span class="menu-group-title">Certyfikaty</span>
-      <button mat-button class="main-button" [routerLink]="menuTypes.REQUESTED_CERTS" [routerLinkActive]="'main-button-clicked'">
+      <button mat-button class="main-button" [routerLink]="menuTypes.REQUESTED_CERTS"
+              (click)="saveStartingMenu(menuTypes.REQUESTED_CERTS)"
+              [routerLinkActive]="'main-button-clicked'">
         <mat-icon>gpp_good</mat-icon>
         <span>Nowe</span>
       </button>
-      <button mat-button class="main-button" [routerLink]="menuTypes.SIGNED_CERTS" [routerLinkActive]="'main-button-clicked'">
+      <button mat-button class="main-button" [routerLink]="menuTypes.SIGNED_CERTS"
+              (click)="saveStartingMenu(menuTypes.SIGNED_CERTS)"
+              [routerLinkActive]="'main-button-clicked'">
         <mat-icon>gpp_good</mat-icon>
         <span>Aktywne</span>
       </button>
-      <button mat-button class="main-button" [routerLink]="menuTypes.UNSIGNED_CERTS" [routerLinkActive]="'main-button-clicked'">
+      <button mat-button class="main-button" [routerLink]="menuTypes.UNSIGNED_CERTS"
+              (click)="saveStartingMenu(menuTypes.UNSIGNED_CERTS)"
+              [routerLinkActive]="'main-button-clicked'">
         <mat-icon>gpp_maybe</mat-icon>
         <span>Nieaktywne</span>
       </button>
       <mat-divider></mat-divider>
-      <button mat-button class="main-button" [routerLink]="menuTypes.TASKS" [routerLinkActive]="'main-button-clicked'">
-        <mat-icon>tasks</mat-icon>
-        <span>Zadania</span>
-      </button>
-      <mat-divider></mat-divider>
-      <button mat-button class="main-button" [routerLink]="menuTypes.MODULES" [routerLinkActive]="'main-button-clicked'">
-        <mat-icon>folder</mat-icon>
-        <span>Moduły</span>
-      </button>
-      <button mat-button class="main-button" [routerLink]="menuTypes.CLASSES" [routerLinkActive]="'main-button-clicked'">
-        <mat-icon>classes</mat-icon>
-        <span>Klasy</span>
-      </button>
+      <div [matTooltip]="!isEnvironmentSelected ? noEnvironmentTooltip : ''" matTooltipPosition="right">
+        <button mat-button class="main-button" [routerLink]="menuTypes.MODULES"
+                (click)="saveStartingMenu(menuTypes.MODULES)"
+                [routerLinkActive]="'main-button-clicked'"
+                [disabled]="!isEnvironmentSelected">
+          <mat-icon>folder</mat-icon>
+          <span>Moduły</span>
+        </button>
+      </div>
+      <div [matTooltip]="!isEnvironmentSelected ? noEnvironmentTooltip : ''" matTooltipPosition="right">
+        <button mat-button class="main-button" [routerLink]="menuTypes.CLASSES"
+                (click)="saveStartingMenu(menuTypes.CLASSES)"
+                [routerLinkActive]="'main-button-clicked'"
+                [disabled]="!isEnvironmentSelected">
+          <mat-icon>classes</mat-icon>
+          <span>Klasy</span>
+        </button>
+      </div>
     </div>
     <div class="account-section">
       <div style="width: 100%">

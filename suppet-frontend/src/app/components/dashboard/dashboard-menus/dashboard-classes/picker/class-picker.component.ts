@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, ViewChild } from '@angular/core';
 import { UniversalBrowserConfig } from "../../../../../commons/universal-browser/model/universal-browser-config";
 import { UniversalBrowserAction } from "../../../../../commons/universal-browser/model/universal-browser-action";
 import { ClassesService } from "../core/classes.service";
@@ -12,6 +12,7 @@ import _ from "lodash";
 import {
   GlobalProcessesUtils
 } from "../../../../../commons/common-components/global-processes-browser/core/global-processes.utils";
+import { UniversalBrowserComponent } from "../../../../../commons/universal-browser/ui/universal-browser.component";
 
 @Component({
   selector: 'app-class-picker',
@@ -26,6 +27,8 @@ export class ClassPickerComponent {
   get classesAsString(): string {
     return this._classesAsString;
   }
+
+  @ViewChild('classesBrowser') protected classesBrowser: UniversalBrowserComponent;
 
   readonly agentDto: AgentDto;
 
@@ -58,6 +61,8 @@ export class ClassPickerComponent {
         (row: UniversalBrowserRow) =>
           _.isNil(row) || _.isNil(this.agentDto.classes.find((classDto) => classDto.name === row.data.name))
       ),
+      new UniversalBrowserAction('Usuń nieistniejące', 'delete_forever',
+        () => this.removeAllNonexistent()),
       new UniversalBrowserAction('Usuń wszystkie', 'delete_forever',
         () => this.removeAllClasses())
     ];
@@ -117,6 +122,13 @@ export class ClassPickerComponent {
 
   private removeClass(row: UniversalBrowserRow) {
     this.agentDto.classes = this.agentDto.classes.filter(classDto => classDto.name !== row.data.name);
+    this.refreshClassesAsString();
+  }
+
+  private removeAllNonexistent() {
+    this.agentDto.classes = this.agentDto.classes.filter(
+      classDto => !_.isNil(this.classesBrowser.data.find(classRow => classRow.name === classDto.name))
+    );
     this.refreshClassesAsString();
   }
 

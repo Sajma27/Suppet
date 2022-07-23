@@ -11,11 +11,11 @@ export abstract class AbstractUniversalBrowserCrudService<DTO> extends AbstractU
   }
 
   get(row: UniversalBrowserRow): Observable<any> {
-    return this.http.post<any>(this.getApiUrl() + '/get', row.data as DTO);
+    return this.http.post<any>(this.getApiUrl() + '/get', this.getDtoFromRow(row));
   }
 
   add(row: UniversalBrowserRow): Observable<UniversalBrowserActionResult> {
-    return this.http.post<UniversalBrowserActionResult>(this.getApiUrl() + '/add', row.data as DTO);
+    return this.http.post<UniversalBrowserActionResult>(this.getApiUrl() + '/add', this.getDtoFromRow(row));
   }
 
   validateAdd(dto: DTO): Observable<UniversalBrowserActionResult> {
@@ -23,7 +23,7 @@ export abstract class AbstractUniversalBrowserCrudService<DTO> extends AbstractU
   }
 
   edit(row: UniversalBrowserRow): Observable<UniversalBrowserActionResult> {
-    return this.http.post<UniversalBrowserActionResult>(this.getApiUrl() + '/edit', row.data as DTO);
+    return this.http.post<UniversalBrowserActionResult>(this.getApiUrl() + '/edit', this.getDtoFromRow(row));
   }
 
   validateEdit(dto: DTO): Observable<UniversalBrowserActionResult> {
@@ -31,6 +31,10 @@ export abstract class AbstractUniversalBrowserCrudService<DTO> extends AbstractU
   }
 
   delete(row: UniversalBrowserRow): Observable<UniversalBrowserActionResult> {
-    return this.http.post<UniversalBrowserActionResult>(this.getApiUrl() + '/delete', row.data as DTO);
+    return this.http.post<UniversalBrowserActionResult>(this.getApiUrl() + '/delete', this.getDtoFromRow(row));
+  }
+
+  protected getDtoFromRow(row: UniversalBrowserRow): DTO {
+    return row.data as DTO;
   }
 }
