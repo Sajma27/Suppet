@@ -34,6 +34,10 @@ public class PuppetModulesService extends AbstractPuppetFilesBrowserCRUDService<
     }
 
     private void convertResultToJson(UniversalBrowserParams params, CommandLineProcessResult result) {
+        if (result.getData() == null || result.getData().isEmpty()) {
+            result.setData("[]");
+            return;
+        }
         result.setData(result.getData()
                 .replace(getLocationDir(params), "")
                 .replace("├── ", "{\"name\": \"")

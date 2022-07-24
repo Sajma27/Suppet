@@ -3,13 +3,11 @@ package com.dyplom.suppet.service.common;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -56,13 +54,13 @@ public class CommandLineUtils {
     }
 
     public static ArrayList<String> getSudoPuppetCommand(List<String> params) {
-        ArrayList<String> command =  new ArrayList<>(Arrays.asList("sudo", "/opt/puppetlabs/bin/puppet"));
+        ArrayList<String> command = new ArrayList<>(Arrays.asList("sudo", "/opt/puppetlabs/bin/puppet"));
         command.addAll(params);
         return command;
     }
 
     public static ArrayList<String> getSudoPuppetserverCommand(List<String> params) {
-        ArrayList<String> command =  new ArrayList<>(Arrays.asList("sudo", "/opt/puppetlabs/bin/puppetserver"));
+        ArrayList<String> command = new ArrayList<>(Arrays.asList("sudo", "/opt/puppetlabs/bin/puppetserver"));
         command.addAll(params);
         return command;
     }
@@ -75,18 +73,54 @@ public class CommandLineUtils {
         writer.write(content);
         writer.close();
 
-        Path path = Paths.get(filePath);
-        Set<PosixFilePermission> perms = PosixFilePermissions.fromString("rwxrwxrwx");
-        Files.setPosixFilePermissions(path, perms);
+        Path path = set777Permisions(filePath);
 
         String writtenContent = Files.readString(path);
         return writtenContent != null && writtenContent.equals(content);
+    }
+
+    public static boolean createDirectory(String dirPath) throws IOException {
+        if (dirPath == null) {
+            return false;
+        }
+        File newDir = new File(dirPath);
+        boolean dirCreated = newDir.mkdir();
+        if (!dirCreated) {
+            return false;
+        }
+        set777Permisions(dirPath);
+        return true;
+    }
+
+    public static boolean copyDirectory(String toBeCopiedDirPath, String newDirPath) throws IOException {
+        if (newDirPath == null || toBeCopiedDirPath == null) {
+            return false;
+        }
+        File sourceDirectory = new File(toBeCopiedDirPath);
+        File destinationDirectory = new File(newDirPath);
+        FileUtils.copyDirectory(sourceDirectory, destinationDirectory);
+        set777Permisions(newDirPath);
+        return true;
+    }
+
+    private static Path set777Permisions(String filePath) throws IOException {
+        Path path = Paths.get(filePath);
+        Set<PosixFilePermission> perms = PosixFilePermissions.fromString("rwxrwxrwx");
+        Files.setPosixFilePermissions(path, perms);
+        return path;
     }
 
     public static void deleteFile(String filePath) throws IOException {
         if (filePath != null) {
             Path path = Paths.get(filePath);
             Files.delete(path);
+        }
+    }
+
+    public static void deleteDirectory(String filePath) throws IOException {
+        if (filePath != null) {
+            File directory = new File(filePath);
+            FileUtils.deleteQuietly(directory);
         }
     }
 

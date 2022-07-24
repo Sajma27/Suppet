@@ -23,11 +23,14 @@ public abstract class AbstractPuppetFilesBrowserCRUDService<DTO extends BasePupp
     @Override
     public JsonNode fetchData(UniversalBrowserParams params, String additionalUrl) throws IOException, InterruptedException {
         File filesDir = new File(getLocationDir(params));
-        FilenameFilter filenameFilter = (dir, name) -> name != null && name.endsWith(".pp");
-        String[] filenames = filesDir.list(filenameFilter);
+        String[] filenames = filesDir.list(getFilenameFilter());
         filenames = filenames != null ? filenames : new String[]{};
         List<BasePuppetFile> files = Arrays.stream(filenames).map(BasePuppetFile::new).collect(Collectors.toList());
         return new ObjectMapper().valueToTree(files);
+    }
+
+    protected FilenameFilter getFilenameFilter() {
+        return (dir, name) -> name != null && name.endsWith(".pp");
     }
 
     @Override
