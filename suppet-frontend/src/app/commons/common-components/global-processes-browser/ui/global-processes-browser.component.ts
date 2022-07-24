@@ -11,7 +11,7 @@ import { GlobalProcess } from "../model/global-process";
 export class GlobalProcessesBrowserComponent implements OnDestroy {
 
   processes: GlobalProcess[];
-  columns: string[] = ['name', 'completed'];
+  columns: string[] = ['name', 'completed', 'delete-action'];
 
   private processesSub: Subscription;
 

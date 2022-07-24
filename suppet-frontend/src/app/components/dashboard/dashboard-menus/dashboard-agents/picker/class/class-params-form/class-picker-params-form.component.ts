@@ -1,8 +1,8 @@
 import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
-import { ClassParamDto } from "../../model/class-param-dto";
-import { ClassDto } from "../../model/class-dto";
+import { ClassDto } from "../../../../dashboard-classes/model/class-dto";
+import { ClassParamDto } from "../../../../dashboard-classes/model/class-param-dto";
 
 @Component({
   selector: 'app-class-picker-params-form',

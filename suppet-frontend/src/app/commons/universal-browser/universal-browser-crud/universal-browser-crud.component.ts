@@ -42,7 +42,8 @@ export class UniversalBrowserCrudComponent extends UniversalBrowserComponent {
       if (!this.config.hideEditAction) {
         formActions.push(new UniversalBrowserAsyncAction(
           'Edytuj', 'edit', (row: UniversalBrowserRow) => this.service.edit(row),
-          true, () => this.config.title + ': Edycja obiektu', true,
+          !_.isNil(this.config.editDisabledFunc) ? (row: UniversalBrowserRow) => this.config.editDisabledFunc(row) : true,
+          () => this.config.title + ': Edycja obiektu', true,
           this.config.formComponent, UniversalBrowserFormMode.EDIT,
           [], this.config.withFormsLoadingFromBackend,
           this.config.withValidation ? (dto: any) => this.service.validateEdit(dto) : null));
@@ -50,7 +51,8 @@ export class UniversalBrowserCrudComponent extends UniversalBrowserComponent {
       if (!this.config.hideDeleteAction) {
         formActions.push(new UniversalBrowserAsyncAction(
           'Usuń', 'delete', (row: UniversalBrowserRow) => this.service.delete(row),
-          true, () => this.config.title + ': Usuwanie obiektu', true,
+          !_.isNil(this.config.deleteDisabledFunc) ? (row: UniversalBrowserRow) => this.config.deleteDisabledFunc(row) : true,
+          () => this.config.title + ': Usuwanie obiektu', true,
           this.config.formComponent, UniversalBrowserFormMode.DELETE, [],
           this.config.withFormsLoadingFromBackend));
       }

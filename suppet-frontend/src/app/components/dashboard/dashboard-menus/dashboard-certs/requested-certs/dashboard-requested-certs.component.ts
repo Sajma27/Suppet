@@ -48,6 +48,11 @@ export class DashboardRequestedCertsComponent extends BasicDashboardBrowserMenuC
       (row: UniversalBrowserRow) => _.isNil(row) || row.data.state === CertStates.SIGNED || DashboardCertsUtils.isReadonlyRow(row),
       (row: UniversalBrowserRow) => 'Aktywacja certyfikatu: ' + row.data.name, true);
 
-    return [addNewCertAction, signAction];
+    const cleanAction = new UniversalBrowserAsyncAction('Wyczyść', 'delete',
+      (row: UniversalBrowserRow) => this.browserService.cleanCert(row.data.name),
+      (row: UniversalBrowserRow) => _.isNil(row) || DashboardCertsUtils.isReadonlyRow(row),
+      (row: UniversalBrowserRow) => 'Usuwanie certyfikatu: ' + row.data.name, true);
+
+    return [addNewCertAction, signAction, cleanAction];
   }
 }

@@ -13,7 +13,6 @@ import { PuppetDbFactsService } from "../../../../commons/puppet-db/facts/puppet
 import { QueryField } from "../../../../commons/universal-browser/core/query-field";
 import { UniversalBrowserComponent } from "../../../../commons/universal-browser/ui/universal-browser.component";
 import { MatDialog } from "@angular/material/dialog";
-import { ClassPickerComponent } from "../dashboard-classes/picker/class-picker.component";
 import _ from "lodash";
 import { DashboardAgentsConfigForm } from "./form/dashboard-agents-config-form";
 import {
@@ -31,6 +30,8 @@ import { map, tap } from "rxjs/operators";
 import {
   GlobalProcessBackendResponse
 } from "../../../../commons/common-components/global-processes-browser/model/global-process-backend-response";
+import { EnvironmentPickerComponent } from "./picker/environment/environment-picker.component";
+import { ClassPickerComponent } from "./picker/class/class-picker.component";
 
 @Component({
   selector: 'app-dashboard-agents',
@@ -69,6 +70,9 @@ export class DashboardAgentsComponent extends BasicDashboardBrowserMenuComponent
       new UniversalBrowserAction('Konfiguruj', 'settings',
         (row: UniversalBrowserRow) => this.getAgentsConfigAndOpenForm(row),
         (row: UniversalBrowserRow) => _.isNil(row) || DashboardAgentsComponent.NON_EDITABLE_AGENTS.includes(row.data.certname)),
+      new UniversalBrowserAction('Zmień środowisko', 'park',
+        (row: UniversalBrowserRow) => this.changeEnvironment(row),
+        (row: UniversalBrowserRow) => _.isNil(row) || DashboardAgentsComponent.NON_EDITABLE_AGENTS.includes(row.data.certname)),
       new UniversalBrowserAction('Przypisz klasy', 'class',
         (row: UniversalBrowserRow) => this.assignClasses(row),
         (row: UniversalBrowserRow) => _.isNil(row) || DashboardAgentsComponent.NON_EDITABLE_AGENTS.includes(row.data.certname)),
@@ -83,18 +87,18 @@ export class DashboardAgentsComponent extends BasicDashboardBrowserMenuComponent
 
   private getAgentsConfigAndOpenForm(row: UniversalBrowserRow): void {
     const getAgentsConfigAndOpenFormObservable = this.agentsService
-        .getAgentWithConfig(row.data.certname)
-        .pipe(
-          map((agent: AgentDto) => {
-            this.openConfigForm(agent, row);
-            return new GlobalProcessBackendResponse(0);
-          })
-        );
+      .getAgentWithConfig(row.data.certname)
+      .pipe(
+        map((agent: AgentDto) => {
+          this.openConfigForm(agent, row);
+          return new GlobalProcessBackendResponse(0);
+        })
+      );
     GlobalProcessesUtils.runProcess("Pobieranie konfiguracji agenta: " + row.data.certname, getAgentsConfigAndOpenFormObservable);
   }
 
   private openConfigForm(agent: AgentDto, row: UniversalBrowserRow): void {
-    row.data.environment = agent.config.environment;
+    row.data.environment = !_.isNil(agent.config.environment) ? agent.config.environment : row.data[this.browserConfig.environmentFieldName];
     row.data.runinterval = agent.config.runinterval;
     const configData: UniversalBrowserFormConfigData = new UniversalBrowserFormConfigData(
       row,
@@ -111,6 +115,18 @@ export class DashboardAgentsComponent extends BasicDashboardBrowserMenuComponent
     );
     this.dialog.open(DashboardAgentsConfigForm, {
       data: configData,
+      panelClass: 'universal-browser-form',
+      disableClose: true
+    });
+  }
+
+  private changeEnvironment(row: UniversalBrowserRow): void {
+    this.dialog.open(EnvironmentPickerComponent, {
+      data: {
+        agent: row.data.certname,
+        environment: row.data[this.browserConfig.environmentFieldName],
+        parentBrowserRefreshFunc: () => this.browser.refresh()
+      },
       panelClass: 'universal-browser-form',
       disableClose: true
     });

@@ -25,21 +25,29 @@ import { MatInputModule } from "@angular/material/input";
 import { MatDialogModule } from "@angular/material/dialog";
 import { MatButtonModule } from "@angular/material/button";
 import { ClassFormComponent } from "./dashboard-classes/forms/class-form/class-form.component";
-import { ClassPickerComponent } from "./dashboard-classes/picker/class-picker.component";
-import { ClassPickerParamsForm } from "./dashboard-classes/picker/class-params-form/class-picker-params-form.component";
 import { DashboardNewCertForm } from "./dashboard-certs/requested-certs/new-cert-form/dashboard-new-cert-form";
 import { DashboardAgentsConfigForm } from "./dashboard-agents/form/dashboard-agents-config-form";
+import { EnvironmentFormComponent } from "./dashboard-environments/forms/environment-form.component";
+import { CopyEnvironmentFormComponent } from "./dashboard-environments/forms/copy-environment-form.component";
+import { EnvironmentPickerComponent } from "./dashboard-agents/picker/environment/environment-picker.component";
+import { ClassPickerComponent } from "./dashboard-agents/picker/class/class-picker.component";
+import {
+  ClassPickerParamsForm
+} from "./dashboard-agents/picker/class/class-params-form/class-picker-params-form.component";
 
 const pickers = [
   ClassPickerComponent,
   ClassPickerParamsForm,
+  EnvironmentPickerComponent
 ]
 
 const forms = [
   ModuleFormComponent,
   ClassFormComponent,
   DashboardNewCertForm,
-  DashboardAgentsConfigForm
+  DashboardAgentsConfigForm,
+  EnvironmentFormComponent,
+  CopyEnvironmentFormComponent
 ];
 
 const components = [

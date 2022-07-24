@@ -1,26 +1,26 @@
+import { Component } from '@angular/core';
 import {
   UniversalBrowserFormComponent
 } from "../../../../../commons/universal-browser/universal-browser-form/universal-browser-form.component";
-import { AgentsConfig } from "../model/agents-config";
 import {
   UniversalBrowserFormField
 } from "../../../../../commons/universal-browser/universal-browser-form/model/universal-browser-form-field";
-import { Component } from "@angular/core";
+import { CopyEnvironmentDto } from "../model/copy-environment-dto";
 
 @Component({
-  selector: 'app-agents-config-form',
+  selector: 'app-module-form',
   templateUrl: '../../../../../commons/universal-browser/universal-browser-form/universal-browser-form.component.html'
 })
-export class DashboardAgentsConfigForm extends UniversalBrowserFormComponent<DashboardAgentsConfigForm, AgentsConfig> {
+export class CopyEnvironmentFormComponent extends UniversalBrowserFormComponent<CopyEnvironmentFormComponent, CopyEnvironmentDto> {
 
   getFormTitle(): string {
-    return 'Konfiguracja agenta';
+    return 'Środowisko'
   }
 
   protected initFormFields() {
     this.formFields = [
-      new UniversalBrowserFormField('environment', 'Środowisko', 'text', true, true),
-      new UniversalBrowserFormField('runinterval', 'Interwał aktualizacji', 'text', false),
+      new UniversalBrowserFormField('name', 'Nazwa', 'text', true, true),
+      new UniversalBrowserFormField('newEnvName', 'Nazwa nowego środowiska', 'text', true),
     ];
   }
 

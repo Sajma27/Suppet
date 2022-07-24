@@ -1,18 +1,18 @@
 import { Component, Inject, ViewChild } from '@angular/core';
-import { UniversalBrowserConfig } from "../../../../../commons/universal-browser/model/universal-browser-config";
-import { UniversalBrowserAction } from "../../../../../commons/universal-browser/model/universal-browser-action";
-import { ClassesService } from "../core/classes.service";
-import { UniversalBrowserRow } from "../../../../../commons/universal-browser/model/universal-browser-row";
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from "@angular/material/dialog";
+import { UniversalBrowserComponent } from 'src/app/commons/universal-browser/ui/universal-browser.component';
+import { UniversalBrowserConfig } from "../../../../../../commons/universal-browser/model/universal-browser-config";
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { ClassesService } from '../../../dashboard-classes/core/classes.service';
+import { AgentsService } from '../../core/agents.service';
 import { ClassPickerParamsForm } from "./class-params-form/class-picker-params-form.component";
-import { AgentsService } from "../../dashboard-agents/core/agents.service";
-import { ClassDto } from "../model/class-dto";
-import { AgentDto } from "../../dashboard-agents/model/agent-dto";
+import { UniversalBrowserAction } from "../../../../../../commons/universal-browser/model/universal-browser-action";
+import { UniversalBrowserRow } from "../../../../../../commons/universal-browser/model/universal-browser-row";
+import { ClassDto } from "../../../dashboard-classes/model/class-dto";
+import { AgentDto } from '../../model/agent-dto';
 import _ from "lodash";
 import {
   GlobalProcessesUtils
-} from "../../../../../commons/common-components/global-processes-browser/core/global-processes.utils";
-import { UniversalBrowserComponent } from "../../../../../commons/universal-browser/ui/universal-browser.component";
+} from "../../../../../../commons/common-components/global-processes-browser/core/global-processes.utils";
 
 @Component({
   selector: 'app-class-picker',
@@ -50,9 +50,10 @@ export class ClassPickerComponent {
           _.isNil(row) || !_.isNil(this.agentDto.classes.find((classDto) => classDto.name === row.data.name))
       ),
       new UniversalBrowserAction('Edytuj', 'edit',
-        (row: UniversalBrowserRow) => this.editClass(row),
+        (row: UniversalBrowserRow) =>
+          this.editClass(row, this.agentDto.classes.find((classDto: ClassDto) => classDto.name === row.data.name)),
         (row: UniversalBrowserRow) => {
-          const existingClassAssignment: ClassDto = this.agentDto.classes.find((classDto) => classDto.name === row.data.name);
+          const existingClassAssignment: ClassDto = this.agentDto.classes.find((classDto: ClassDto) => classDto.name === row.data.name);
           return _.isNil(row) || _.isNil(existingClassAssignment) || existingClassAssignment.params?.length <= 0;
         }
       ),
@@ -97,16 +98,17 @@ export class ClassPickerComponent {
     });
   }
 
-  private editClass(row: UniversalBrowserRow) {
-    this.classesService.get(row).subscribe((classDto: ClassDto) => {
-      if (classDto.params?.length > 0) {
+  private editClass(row: UniversalBrowserRow, classDto: ClassDto) {
+    if (classDto.params?.length > 0) {
+      this.classesService.get(row).subscribe((classDtoWithoutParamsValues: ClassDto) => {
+        classDto.content = classDtoWithoutParamsValues.content;
         this.dialog.open(ClassPickerParamsForm, {
           data: { classDto: classDto, saveCallback: (classDto: ClassDto) => this.onEditClass(classDto) },
           panelClass: 'universal-browser-form',
           disableClose: true
         });
-      }
-    });
+      });
+    }
   }
 
   private addClass(classDto: ClassDto) {

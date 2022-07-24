@@ -133,11 +133,11 @@ export class UniversalBrowserFormComponent<FORM, DTO> implements OnInit {
     return "OK";
   }
 
-  getDtoField(fieldName: string) {
+  getDtoField(fieldName: string): string {
     if (this.config.mode === UniversalBrowserFormMode.NEW) {
       return null;
     }
-    return this.config.row.data[fieldName as keyof DTO];
+    return this.config.row.data[fieldName];
   }
 
   isSubmitBtnDisabled(): boolean {
@@ -165,7 +165,7 @@ export class UniversalBrowserFormComponent<FORM, DTO> implements OnInit {
           field.disabled = true;
           break;
         case UniversalBrowserFormMode.CUSTOM:
-          field.disabled = this.formDisabled || this.config.disabledFields.includes(field.fieldName);
+          field.disabled = this.formDisabled || field.disabled || this.config.disabledFields.includes(field.fieldName);
           break;
       }
     }

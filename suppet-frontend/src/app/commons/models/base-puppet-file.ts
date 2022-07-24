@@ -1,7 +1,7 @@
 export class BasePuppetFile {
   content: string;
   name: string;
-  environment: string = "production";
+  environment: string;
 
   constructor(content: string, name: string, environment: string) {
     this.content = content;
