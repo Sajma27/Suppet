@@ -8,6 +8,7 @@ public class Agent {
     private String name;
     private ArrayList<PuppetClass> classes;
     private String environment;
+    private AgentsConfig config;
 
     public Agent() {
     }
@@ -16,6 +17,11 @@ public class Agent {
         this.name = name;
         this.classes = classes;
         this.environment = environment;
+    }
+
+    public Agent(String name, AgentsConfig config) {
+        this.name = name;
+        this.config = config;
     }
 
     public String getName() {
@@ -40,5 +46,13 @@ public class Agent {
 
     public void setEnvironment(String environment) {
         this.environment = environment;
+    }
+
+    public AgentsConfig getConfig() {
+        return config;
+    }
+
+    public void setConfig(AgentsConfig config) {
+        this.config = config;
     }
 }
