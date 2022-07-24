@@ -11,7 +11,7 @@
     </div>
     <div class="bottom-container">
       <div class="browser-wrapper">
-        <app-universal-browser [config]="getBrowserConfig()" [service]="browserService"></app-universal-browser>
+        <app-universal-browser [config]="getBrowserConfig()" [service]="browserService" #browser></app-universal-browser>
         <app-universal-browser *ngIf="showSubBrowser" [config]="subBrowserConfig" [service]="subBrowserService"
                                id="subBrowser" #subBrowser></app-universal-browser>
       </div>

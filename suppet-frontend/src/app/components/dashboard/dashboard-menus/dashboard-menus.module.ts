@@ -28,16 +28,18 @@ import { ClassFormComponent } from "./dashboard-classes/forms/class-form/class-f
 import { ClassPickerComponent } from "./dashboard-classes/picker/class-picker.component";
 import { ClassPickerParamsForm } from "./dashboard-classes/picker/class-params-form/class-picker-params-form.component";
 import { DashboardNewCertForm } from "./dashboard-certs/requested-certs/new-cert-form/dashboard-new-cert-form";
+import { DashboardAgentsConfigForm } from "./dashboard-agents/form/dashboard-agents-config-form";
 
 const pickers = [
   ClassPickerComponent,
   ClassPickerParamsForm,
-  DashboardNewCertForm
 ]
 
 const forms = [
   ModuleFormComponent,
-  ClassFormComponent
+  ClassFormComponent,
+  DashboardNewCertForm,
+  DashboardAgentsConfigForm
 ];
 
 const components = [

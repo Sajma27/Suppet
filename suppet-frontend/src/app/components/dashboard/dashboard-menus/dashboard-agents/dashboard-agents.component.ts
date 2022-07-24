@@ -15,6 +15,22 @@ import { UniversalBrowserComponent } from "../../../../commons/universal-browser
 import { MatDialog } from "@angular/material/dialog";
 import { ClassPickerComponent } from "../dashboard-classes/picker/class-picker.component";
 import _ from "lodash";
+import { DashboardAgentsConfigForm } from "./form/dashboard-agents-config-form";
+import {
+  UniversalBrowserFormMode
+} from "../../../../commons/universal-browser/universal-browser-form/model/universal-browser-form-mode";
+import {
+  UniversalBrowserFormConfigData
+} from "../../../../commons/universal-browser/universal-browser-form/model/universal-browser-form-config-data";
+import { AgentDto } from "./model/agent-dto";
+import { AgentsConfig } from "./model/agents-config";
+import {
+  GlobalProcessesUtils
+} from "../../../../commons/common-components/global-processes-browser/core/global-processes.utils";
+import { map, tap } from "rxjs/operators";
+import {
+  GlobalProcessBackendResponse
+} from "../../../../commons/common-components/global-processes-browser/model/global-process-backend-response";
 
 @Component({
   selector: 'app-dashboard-agents',
@@ -24,6 +40,7 @@ import _ from "lodash";
 export class DashboardAgentsComponent extends BasicDashboardBrowserMenuComponent<PuppetDbNodesService> implements OnInit {
   private static NON_EDITABLE_AGENTS: string[] = ['puppet-master.home', 'puppet-db.home'];
 
+  @ViewChild('browser') protected browser: UniversalBrowserComponent;
   @ViewChild('subBrowser') protected subBrowser: UniversalBrowserComponent;
 
   constructor(service: PuppetDbNodesService,
@@ -49,6 +66,9 @@ export class DashboardAgentsComponent extends BasicDashboardBrowserMenuComponent
 
   getActions(): UniversalBrowserAction[] {
     return [
+      new UniversalBrowserAction('Konfiguruj', 'settings',
+        (row: UniversalBrowserRow) => this.getAgentsConfigAndOpenForm(row),
+        (row: UniversalBrowserRow) => _.isNil(row) || DashboardAgentsComponent.NON_EDITABLE_AGENTS.includes(row.data.certname)),
       new UniversalBrowserAction('Przypisz klasy', 'class',
         (row: UniversalBrowserRow) => this.assignClasses(row),
         (row: UniversalBrowserRow) => _.isNil(row) || DashboardAgentsComponent.NON_EDITABLE_AGENTS.includes(row.data.certname)),
@@ -59,6 +79,41 @@ export class DashboardAgentsComponent extends BasicDashboardBrowserMenuComponent
       new UniversalBrowserAction('Pokaż fakty', 'category',
         (row: UniversalBrowserRow) => this.onShowFacts(row), true)
     ];
+  }
+
+  private getAgentsConfigAndOpenForm(row: UniversalBrowserRow): void {
+    const getAgentsConfigAndOpenFormObservable = this.agentsService
+        .getAgentWithConfig(row.data.certname)
+        .pipe(
+          map((agent: AgentDto) => {
+            this.openConfigForm(agent, row);
+            return new GlobalProcessBackendResponse(0);
+          })
+        );
+    GlobalProcessesUtils.runProcess("Pobieranie konfiguracji agenta: " + row.data.certname, getAgentsConfigAndOpenFormObservable);
+  }
+
+  private openConfigForm(agent: AgentDto, row: UniversalBrowserRow): void {
+    row.data.environment = agent.config.environment;
+    row.data.runinterval = agent.config.runinterval;
+    const configData: UniversalBrowserFormConfigData = new UniversalBrowserFormConfigData(
+      row,
+      UniversalBrowserFormMode.EDIT,
+      [],
+      (config: AgentsConfig) => {
+        agent.config = config;
+        GlobalProcessesUtils.runProcess(
+          'Aktualizacja konfiguracji agenta: ' + agent.name,
+          this.agentsService.setAgentsConfig(agent).pipe(tap(() => this.browser?.refresh()))
+        );
+      },
+      null
+    );
+    this.dialog.open(DashboardAgentsConfigForm, {
+      data: configData,
+      panelClass: 'universal-browser-form',
+      disableClose: true
+    });
   }
 
   private assignClasses(row: UniversalBrowserRow): void {
