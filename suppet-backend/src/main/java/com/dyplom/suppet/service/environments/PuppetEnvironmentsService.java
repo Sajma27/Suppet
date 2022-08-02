@@ -63,7 +63,7 @@ public class PuppetEnvironmentsService extends AbstractPuppetFilesBrowserCRUDSer
                 return false;
             }
         }
-        return CommandLineUtils.writeContentToFile("", envManifestsDirPath + "/default.pp");
+        return CommandLineUtils.writeContentToFile("node default {}", envManifestsDirPath + "/default.pp");
     }
 
     @Override

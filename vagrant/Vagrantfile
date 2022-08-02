@@ -1,6 +1,6 @@
 BOX_IMAGE_UBUNTU_18 = "bento/ubuntu-18.04"
 BOX_IMAGE_UBUNTU_20 = "bento/ubuntu-20.04"
-AGENTS_COUNT = 1
+AGENTS_COUNT = 2
 
 IP_BASE = "192.168.56.12"
 PUPPET_DB_IP = "192.168.56.110"
@@ -78,7 +78,7 @@ Vagrant.configure("2") do |config|
 #	end
 	
 	(1..AGENTS_COUNT).each do |i|
-		config.vm.define "puppet-agent-#{i}" do |agent_config|
+		config.vm.define "#{PUPPET_AGENT_NAME_BASE}#{i}" do |agent_config|
 			agent_config.vm.box = BOX_IMAGE_UBUNTU_20
 			agent_config.vm.hostname = "#{PUPPET_AGENT_NAME_BASE}#{i}"
 			agent_config.vm.network "private_network", ip: "#{IP_BASE}#{i}"
