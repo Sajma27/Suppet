@@ -21,7 +21,7 @@
 
           </div>
           <div *ngIf="element.error" class="status-row-wrapper">
-            <mat-icon [matTooltip]="element.errorMessage" class="red-icon">error</mat-icon>
+            <mat-icon [matTooltip]="element.errorMessage" class="red-icon" (click)="onErrorClicked(element.errorMessage)">error</mat-icon>
           </div>
           <common-spinner *ngIf="!element.completed && !element.error" class="status-row-wrapper" [diameter]="25"></common-spinner>
         </td>

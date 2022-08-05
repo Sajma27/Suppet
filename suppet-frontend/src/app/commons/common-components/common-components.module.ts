@@ -7,6 +7,7 @@ import { MatIconModule } from "@angular/material/icon";
 import { MatTableModule } from "@angular/material/table";
 import { MatButtonModule } from "@angular/material/button";
 import { MatTooltipModule } from "@angular/material/tooltip";
+import { ErrorMessageDialogModule } from "./error-message-dialog/error-message-dialog.module";
 
 const components = [SpinnerComponent, GlobalProcessesBrowserComponent];
 
@@ -19,7 +20,8 @@ const components = [SpinnerComponent, GlobalProcessesBrowserComponent];
     MatIconModule,
     MatTableModule,
     MatButtonModule,
-    MatTooltipModule
+    MatTooltipModule,
+    ErrorMessageDialogModule
   ]
 })
 export class CommonComponentsModule { }

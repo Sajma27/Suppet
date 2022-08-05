@@ -2,6 +2,8 @@ import { Component, OnDestroy } from '@angular/core';
 import { GlobalProcessesUtils } from "../core/global-processes.utils";
 import { Subscription } from "rxjs";
 import { GlobalProcess } from "../model/global-process";
+import { MatDialog } from "@angular/material/dialog";
+import { ErrorMessageDialogComponent } from "../../error-message-dialog/ui/error-message-dialog.component";
 
 @Component({
   selector: 'app-dashboard-processes',
@@ -15,7 +17,7 @@ export class GlobalProcessesBrowserComponent implements OnDestroy {
 
   private processesSub: Subscription;
 
-  constructor() {
+  constructor(private dialog: MatDialog) {
     this.processes = [...GlobalProcessesUtils.getProcesses()];
     this.processesSub = GlobalProcessesUtils.getProcessesAsObservable()
       .subscribe((processes) => this.processes = [...processes]);
@@ -31,6 +33,13 @@ export class GlobalProcessesBrowserComponent implements OnDestroy {
 
   ngOnDestroy(): void {
     this.processesSub?.unsubscribe();
+  }
+
+  onErrorClicked(errorMessage: string): void {
+    this.dialog.open(ErrorMessageDialogComponent, {
+      data: { errorMessage },
+      panelClass: 'universal-browser-form'
+    });
   }
 
 }
