@@ -43,7 +43,8 @@ public class PuppetAgentsService {
     public BrowserActionResult updateAgent(String agent) throws IOException, InterruptedException {
         agent = getAgentWithoutDomain(agent);
         CommandLineProcessResult result = runCommandWithBolt(agent, "sudo /opt/puppetlabs/bin/puppet agent -t");
-        if (result.getResult() != 0 && result.getData().contains("Applied catalog in")) {
+
+        if ("".equals(result.getErrorMessage()) && result.getData().contains("Applied catalog in")) {
             return new BrowserActionResult(0);
         }
         return new BrowserActionResult(result);

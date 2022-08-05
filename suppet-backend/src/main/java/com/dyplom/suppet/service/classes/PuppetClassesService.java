@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 
 @Service
 public class PuppetClassesService extends AbstractPuppetFilesBrowserCRUDService<PuppetClass> {
+    private static final String PARAM_TYPE_PREFIX = "==>";
 
     @Override
     protected UniversalBrowserHeader[] getHeaders() {
@@ -64,7 +65,7 @@ public class PuppetClassesService extends AbstractPuppetFilesBrowserCRUDService<
         try {
             return PuppetParamType.valueOf(type);
         } catch (IllegalArgumentException e) {
-            return PuppetParamType.STRING;
+            return PuppetParamType.ANY;
         }
     }
 
@@ -82,7 +83,7 @@ public class PuppetClassesService extends AbstractPuppetFilesBrowserCRUDService<
 
     private void addTypesToClassContentVariables(PuppetClass puppetClass) {
         for (PuppetParam param : puppetClass.getParams()) {
-            String paramNameWithType = param.getName() + "::" + param.getType();
+            String paramNameWithType = param.getName() + PARAM_TYPE_PREFIX + param.getType();
             String paramName = param.getName().replace("$", "");
             puppetClass.setContent(
                     puppetClass.getContent().replaceAll(
@@ -137,12 +138,12 @@ public class PuppetClassesService extends AbstractPuppetFilesBrowserCRUDService<
     }
 
     private ArrayList<PuppetParam> getPuppetClassParamsWithTypes(Set<PuppetParam> params, String content) {
-        Pattern pattern = Pattern.compile("\\$([A-Z]|[a-z])\\w+(::\\w+)?");
+        Pattern pattern = Pattern.compile("\\$([A-Z]|[a-z])\\w+(" + PARAM_TYPE_PREFIX + "\\w+)?");
         Matcher matcher = pattern.matcher(content);
         while (matcher.find()) {
             String param = matcher.group();
-            if (param.contains("::")) {
-                String[] paramAndType = param.split("::");
+            if (param.contains(PARAM_TYPE_PREFIX)) {
+                String[] paramAndType = param.split(PARAM_TYPE_PREFIX);
                 params.add(new PuppetParam(paramAndType[0], null, getParamType(paramAndType[1])));
             } else {
                 params.add(new PuppetParam(param, null, PuppetParamType.ANY));
@@ -171,7 +172,7 @@ public class PuppetClassesService extends AbstractPuppetFilesBrowserCRUDService<
     }
 
     private String getClassContentWithoutVariablesTypes(PuppetClass puppetClass) {
-        return puppetClass.getContent().replaceAll("(::\\w+)", "").trim();
+        return puppetClass.getContent().replaceAll("(" + PARAM_TYPE_PREFIX + "\\w+)", "").trim();
     }
 
     private String getPuppetClassContentSuffix() {

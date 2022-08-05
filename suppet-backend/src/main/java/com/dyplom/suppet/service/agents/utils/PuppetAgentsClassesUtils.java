@@ -36,7 +36,12 @@ public class PuppetAgentsClassesUtils {
     private static void addParamToCurrentClass(PuppetClass currentClass, String manifestsLine) {
         String[] paramParts = manifestsLine.split(PARAM_TO_VALUE_CONNECTOR);
         if (paramParts.length == 2) {
-            String paramValue = paramParts[1].replaceAll("[\",{}]", "").trim();
+            String paramValue = paramParts[1].replaceAll("[\"{}]", "").trim();
+            if (paramParts[1].contains("[") && paramParts[1].contains("]")) {
+                paramValue = paramValue.replaceAll("],", "]").trim();
+            } else {
+                paramValue = paramValue.replaceAll(",", "").trim();
+            }
             currentClass.getParams().add(new PuppetParam(paramParts[0].trim(), paramValue, getPuppetParamValueType(paramValue)));
         }
     }
@@ -67,7 +72,7 @@ public class PuppetAgentsClassesUtils {
         } else if ("true".equals(paramValue) || "false".equals(paramValue)) {
             return PuppetParamType.BOOLEAN;
         }
-        return PuppetParamType.STRING;
+        return PuppetParamType.ANY;
     }
 
     public static PuppetManifest getClassManifestForAgent(Agent agent) {
