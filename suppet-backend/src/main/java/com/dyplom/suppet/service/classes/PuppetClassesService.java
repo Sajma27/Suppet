@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 @Service
 public class PuppetClassesService extends AbstractPuppetFilesBrowserCRUDService<PuppetClass> {
     private static final String PARAM_TYPE_PREFIX = "==>";
+    private static final String NO_PARAMS = "NO PARAMS";
 
     @Override
     protected UniversalBrowserHeader[] getHeaders() {
@@ -116,10 +117,13 @@ public class PuppetClassesService extends AbstractPuppetFilesBrowserCRUDService<
                 getClassContentWithoutVariablesTypes(puppetClass) +
                 getPuppetClassContentSuffix()
         );
+        if (contentWithParamsOff(puppetClass.getContent())) {
+            puppetClass.setContent(puppetClass.getContent().replace(NO_PARAMS, ""));
+        }
     }
 
     private ArrayList<PuppetParam> getPuppetClassParams(String content) {
-        if (content == null) {
+        if (content == null || content.isBlank() || contentWithParamsOff(content)) {
             return new ArrayList<>();
         }
         Set<PuppetParam> stringParams = getPuppetClassStringParams(content);
@@ -163,6 +167,9 @@ public class PuppetClassesService extends AbstractPuppetFilesBrowserCRUDService<
     }
 
     private String getPuppetClassContentPrefix(PuppetClass puppetClass) {
+        if (contentWithParamsOff(puppetClass.getContent())) {
+            return "class " + puppetClass.getName() + " () {\n";
+        }
         String paramsNames = puppetClass
                 .getParams()
                 .stream()
@@ -172,10 +179,17 @@ public class PuppetClassesService extends AbstractPuppetFilesBrowserCRUDService<
     }
 
     private String getClassContentWithoutVariablesTypes(PuppetClass puppetClass) {
+        if (contentWithParamsOff(puppetClass.getContent())) {
+            return puppetClass.getContent().trim();
+        }
         return puppetClass.getContent().replaceAll("(" + PARAM_TYPE_PREFIX + "\\w+)", "").trim();
     }
 
     private String getPuppetClassContentSuffix() {
         return "\n}";
+    }
+
+    private boolean contentWithParamsOff(String content) {
+        return content == null || content.contains(NO_PARAMS);
     }
 }
