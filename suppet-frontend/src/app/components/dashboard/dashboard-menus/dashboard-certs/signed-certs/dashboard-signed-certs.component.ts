@@ -36,6 +36,10 @@ export class DashboardSignedCertsComponent extends BasicDashboardBrowserMenuComp
     return 'Aktywne certyfikaty';
   }
 
+  getDescription(): string {
+    return "Panel pozwala na przypisywanie agentów do aktywnego środowiska oraz deaktywację i czyszczenie podpisanych ceryfikatów.";
+  }
+
   getActions(): UniversalBrowserAction[] {
     const actions: UniversalBrowserAction[] = [];
 

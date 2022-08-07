@@ -41,6 +41,10 @@ export class DashboardEnvironmentsComponent extends BasicDashboardBrowserCrudMen
     return 'Środowiska';
   }
 
+  getDescription(): string {
+    return "Panel pozwala na tworzenie, usuwanie, kopiowanie środowisk oraz ustawianie aktywnego środowiska.";
+  }
+
   getActions(): UniversalBrowserAction[] {
     return [
       new UniversalBrowserAction('Ustaw środowisko', 'park',

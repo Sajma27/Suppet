@@ -19,6 +19,7 @@ export class DashboardNewCertForm extends UniversalBrowserFormComponent<Dashboar
 
   protected initFormFields() {
     this.formFields = [
+      new UniversalBrowserFormField('ip', 'IP', 'text', true, false, false, true),
       new UniversalBrowserFormField('name', 'Adres', 'text', true, false, false, true),
     ];
   }

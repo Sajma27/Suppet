@@ -34,6 +34,7 @@
 
 .processes {
   flex-grow: 1;
+  max-height: 100%;
 }
 
 .title {
@@ -45,9 +46,12 @@
 }
 
 .description {
+  margin-top: 20px;
   flex-grow: 1;
   font-size: medium;
-  font-weight: bold;
+  font-weight: normal;
+  width: 75%;
+  text-align: center;
 }
 
 .top-container {

@@ -40,6 +40,21 @@ public class PuppetAgentsService {
         this.agentsClassesService = agentsClassesService;
     }
 
+    public BrowserActionResult addToHostsAndUpdateAgent(String ip, String agent) throws IOException, InterruptedException {
+        String agentWithoutDomain = getAgentWithoutDomain(agent);
+        ArrayList<String> command = new ArrayList<>(Arrays.asList(
+                "/bin/sh",
+                "-c",
+                "echo '" + ip + " " + agentWithoutDomain + " " + agentWithoutDomain + ".home' | sudo tee -a /etc/hosts"
+        ));
+        Process p = CommandLineUtils.getProcess(command);
+        CommandLineProcessResult result = CommandLineUtils.getDataFromProcess(p);
+        if (result.getErrorMessage() == null || !result.getErrorMessage().isEmpty()) {
+            return new BrowserActionResult(result);
+        }
+        return updateAgent(ip);
+    }
+
     public BrowserActionResult updateAgent(String agent) throws IOException, InterruptedException {
         agent = getAgentWithoutDomain(agent);
         CommandLineProcessResult result = runCommandWithBolt(agent, "sudo /opt/puppetlabs/bin/puppet agent -t");

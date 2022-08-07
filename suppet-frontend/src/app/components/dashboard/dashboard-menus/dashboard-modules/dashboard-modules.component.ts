@@ -32,6 +32,10 @@ export class DashboardModulesComponent extends BasicDashboardBrowserCrudMenuComp
     return 'Moduły';
   }
 
+  getDescription(): string {
+    return "Panel pozwala na instalowanie, aktualizowanie i usuwanie modułów technologii Puppet.\n Moduły można znaleźć na stronie forge.puppet.com.";
+  }
+
   getActions(): UniversalBrowserAction[] {
     return [
       new UniversalBrowserAsyncAction(

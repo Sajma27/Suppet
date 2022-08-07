@@ -66,10 +66,14 @@ public class CommandLineUtils {
     }
 
     public static boolean writeContentToFile(String content, String filePath) throws IOException {
+        return writeContentToFile(content, filePath, false);
+    }
+
+    public static boolean writeContentToFile(String content, String filePath, boolean append) throws IOException {
         if (content == null || filePath == null) {
             return false;
         }
-        FileWriter writer = new FileWriter(filePath, false);
+        FileWriter writer = new FileWriter(filePath, append);
         writer.write(content);
         writer.close();
 

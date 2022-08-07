@@ -24,6 +24,10 @@ export class DashboardClassesComponent extends BasicDashboardBrowserCrudMenuComp
     return 'Klasy';
   }
 
+  getDescription(): string {
+    return "Panel pozwala na tworzenie, edycję oraz usuwanie klas aktywnego środowiska.";
+  }
+
   getActions(): UniversalBrowserAction[] {
     return [];
   }

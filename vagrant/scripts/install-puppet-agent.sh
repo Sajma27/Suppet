@@ -5,4 +5,3 @@ sudo apt update -y
 sudo apt install -y puppet-agent
 sudo echo "$1 puppet" >> /etc/hosts
 
-sudo puppet agent -t 

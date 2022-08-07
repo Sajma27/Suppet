@@ -61,6 +61,10 @@ export class DashboardAgentsComponent extends BasicDashboardBrowserMenuComponent
     return 'Agenci';
   }
 
+  getDescription(): string {
+    return "Panel pozwala na konfigurowanie, aktualizowanie oraz podgląd faktów agentów.";
+  }
+
   getSubBrowserTitle(): string {
     return 'Fakty';
   }

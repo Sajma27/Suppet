@@ -30,6 +30,10 @@ export class DashboardUnsignedCertsComponent extends BasicDashboardBrowserMenuCo
     return 'Nieaktywne certyfikaty';
   }
 
+  getDescription(): string {
+    return "Panel pozwala na czyszczenie dezaktywowanych ceryfikatów.";
+  }
+
   getActions(): UniversalBrowserAction[] {
     const cleanAction = new UniversalBrowserAsyncAction('Wyczyść', 'delete',
       (row: UniversalBrowserRow) => this.browserService.cleanCert(row.data.name),

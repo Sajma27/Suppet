@@ -37,9 +37,13 @@ export class DashboardRequestedCertsComponent extends BasicDashboardBrowserMenuC
     return 'Nowe certyfikaty';
   }
 
+  getDescription(): string {
+    return "Panel pozwala na dodawnie certyfikatów nowych agentów oraz podpisywanie i czyszczenie niepodpisanych ceryfikatów.";
+  }
+
   getActions(): UniversalBrowserAction[] {
     const addNewCertAction: UniversalBrowserAsyncAction = new UniversalBrowserAsyncAction(
-      'Dodaj nowy certyfikat', 'add', (row: UniversalBrowserRow) => this.agentsService.updateAgent(row.data.name),
+      'Dodaj nowy certyfikat', 'add', (row: UniversalBrowserRow) => this.agentsService.addToHostsAndUpdateAgent(row.data.ip, row.data.name),
       false, () => this.getTitle() + ': Dodawanie certyfikatu', true,
       DashboardNewCertForm, UniversalBrowserFormMode.NEW);
 
