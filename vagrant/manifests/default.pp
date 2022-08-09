@@ -31,3 +31,5 @@ node 'puppet-db.home' {
 
   class { 'puppetdb': }
 }
+
+node default {}

@@ -1,0 +1,60 @@
+exec { "apt-get update":
+    command => "/usr/bin/apt-get update"
+}
+
+
+package { ['apache2', 'php7.4', 'libapache2-mod-php']: ensure => 'installed' }
+
+
+package { ['graphviz', 'aspell', 'ghostscript', 'clamav', 'php7.4-pspell']: ensure => 'installed' }
+
+
+package { ['php7.4-curl', 'php7.4-gd', 'php7.4-intl', 'php7.4-mysql', 'php-mysql']: ensure => 'installed' }
+
+
+package { ['php7.4-xml', 'php7.4-xmlrpc', 'php7.4-ldap', 'php7.4-zip', 'php7.4-soap', 'php7.4-mbstring']: ensure => 'installed' }
+
+
+package { 'git': ensure => 'installed' }
+
+
+exec { "apt-get update2":
+    command => "/usr/bin/apt-get update"
+}
+
+vcsrepo { '/opt/moodle':
+  ensure   => present,
+  provider => git,
+  source   => 'git://git.moodle.org/moodle.git',
+  revision => $moodleBranch==>STRING,
+}
+
+file {'/var/www/html/moodle' :
+        ensure  => directory,
+        mode    => '0577',
+        recurse => true,
+        replace => true,
+        source  => "/opt/moodle",
+        max_files => 40000
+    }
+
+file {'/var/moodledata' :
+        ensure  => directory,
+        owner => www-data,
+        mode    => '777'
+    }
+	
+	
+include mysql::server
+
+mysql::db { 'moodle':
+  user            => 'moodleAdmin',
+  password        => 'moodleAdmin',
+  host            => 'localhost',
+  grant           => ['SELECT', 'INSERT', 'UPDATE', 'DELETE', 'CREATE', 'CREATE TEMPORARY TABLES', 'DROP', 'INDEX', 'ALTER'],
+}
+
+service { 'apache2':
+	ensure => running,
+    name => 'apache2'
+}

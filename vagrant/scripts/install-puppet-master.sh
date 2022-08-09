@@ -38,11 +38,17 @@ sudo chmod -R 770 etc/puppetlabs
 sudo puppet module install puppetlabs-puppetdb --version 7.10.0
 
 sudo cp /vagrant/manifests/default.pp /etc/puppetlabs/code/environments/production/manifests/default.pp
-sudo cp /vagrant/manifests/agents.pp /etc/puppetlabs/code/environments/production/manifests/agents.pp
-sudo cp -r /vagrant/manifests/agents /etc/puppetlabs/code/environments/production/manifests/agents
 
+sudo mkdir /etc/puppetlabs/code/environments/production/modules
+sudo mkdir /etc/puppetlabs/code/environments/production/manifests
 sudo mkdir /etc/puppetlabs/code/environments/production/manifests/classes
-sudo chmod a+rwx /etc/puppetlabs/code/environments/production/manifests/classes
+sudo mkdir /etc/puppetlabs/code/environments/production/manifests/agents
+sudo mkdir /etc/puppetlabs/code/environments/production/manifests/agents/classes
 
+sudo chmod a+rwx /etc/puppetlabs/code/environments/production/modules
+sudo chmod a+rwx /etc/puppetlabs/code/environments/production/manifests
+sudo chmod a+rwx /etc/puppetlabs/code/environments/production/manifests/classes
+sudo chmod a+rwx /etc/puppetlabs/code/environments/production/manifests/agents
+sudo chmod a+rwx /etc/puppetlabs/code/environments/production/manifests/agents/classes
 
 sudo puppet agent -t
