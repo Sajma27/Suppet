@@ -8,7 +8,7 @@ import com.dyplom.suppet.service.common.BrowserActionResult;
 import com.dyplom.suppet.service.common.CommandLineProcessResult;
 import com.dyplom.suppet.service.common.CommandLineUtils;
 import com.dyplom.suppet.service.manifests.model.PuppetManifest;
-import com.dyplom.suppet.service.puppetdb.validator.PuppetValidationException;
+import com.dyplom.suppet.service.common.validator.PuppetValidationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

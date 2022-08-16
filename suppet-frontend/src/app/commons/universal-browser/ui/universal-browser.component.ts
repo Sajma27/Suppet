@@ -12,11 +12,9 @@ import { flatMap } from "rxjs/internal/operators";
 import { UniversalBrowserRow } from "../model/universal-browser-row";
 import { UniversalBrowserHeaderTypes } from "../model/universal-browser-header-types";
 import { Observable } from "rxjs";
-import {
-  ActiveEnvironmentManager
-} from "../../common-components/active-environment-manager/active-environment-manager.service";
 import { UniversalBrowserParams } from "../model/universal-browser-params";
 import _ from "lodash";
+import { ActiveEnvironmentManager } from "../../active-environment-manager/active-environment-manager.service";
 
 @Component({
   selector: 'app-universal-browser',

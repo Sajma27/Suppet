@@ -7,7 +7,7 @@ import { ClassDto } from "../model/class-dto";
 import { UniversalBrowserRow } from "../../../../../commons/universal-browser/model/universal-browser-row";
 import {
   ActiveEnvironmentManager
-} from "../../../../../commons/common-components/active-environment-manager/active-environment-manager.service";
+} from "../../../../../commons/active-environment-manager/active-environment-manager.service";
 
 @Injectable({
   providedIn: 'root'

@@ -4,7 +4,6 @@
 import auth_config from '../../auth_config.json';
 
 const apiHostUrl: string =  'http://192.168.56.120:8080';
-// const apiHostUrl: string = 'http://localhost:8080';
 
 export const environment = {
   production: false,
@@ -14,7 +13,6 @@ export const environment = {
     clientId: auth_config.clientId,
     redirectUri: window.location.origin,
     audience: 'https://suppet.eu.auth0.com/api/v2/',
-    // scope: 'read:current_user',
     httpInterceptor: {
       allowedList: [apiHostUrl + '/*']
     }

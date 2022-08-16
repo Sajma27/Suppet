@@ -1,15 +1,12 @@
-BOX_IMAGE_UBUNTU_18 = "bento/ubuntu-18.04"
 BOX_IMAGE_UBUNTU_20 = "bento/ubuntu-20.04"
 AGENTS_COUNT = 3
 
 IP_BASE = "192.168.56.12"
 PUPPET_DB_IP = "192.168.56.110"
-POSTGRES_DB_IP = "192.168.56.111"
 PUPPET_MASTER_IP = IP_BASE + "0"
 
 PUPPET_MASTER_NAME = "puppet-master"
 PUPPET_DB_NAME = "puppet-db"
-POSTGRES_DB_NAME = "postgres-db"
 PUPPET_AGENT_NAME_BASE = "puppet-agent-"
 
 Vagrant.configure("2") do |config|
@@ -68,8 +65,8 @@ Vagrant.configure("2") do |config|
 			agent_config.vm.network "private_network", ip: "#{IP_BASE}#{i}"
 
 			agent_config.vm.provider "virtualbox" do |v|
-				v.memory = 3072
-				v.cpus = 3
+				v.memory = 2048
+				v.cpus = 2
 			end
 			
 			agent_config.vm.provision "shell" do |s|

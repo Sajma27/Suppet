@@ -1,8 +1,8 @@
 package com.dyplom.suppet.service.common;
 
 import com.dyplom.suppet.api.common.UniversalBrowserParams;
-import com.dyplom.suppet.service.puppetdb.validator.PuppetValidationException;
-import com.dyplom.suppet.service.puppetdb.validator.PuppetValidator;
+import com.dyplom.suppet.service.common.validator.PuppetValidationException;
+import com.dyplom.suppet.service.common.validator.PuppetValidator;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 

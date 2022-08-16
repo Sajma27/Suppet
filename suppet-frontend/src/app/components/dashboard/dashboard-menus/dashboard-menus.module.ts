@@ -5,7 +5,6 @@ import { DashboardAgentsComponent } from './dashboard-agents/dashboard-agents.co
 import { DashboardCatalogsComponent } from './dashboard-catalogs/dashboard-catalogs.component';
 import { DashboardClassesComponent } from './dashboard-classes/dashboard-classes.component';
 import { DashboardManifestsComponent } from './dashboard-manifests/dashboard-manifests.component';
-import { PuppetManifestEditorModule } from "../puppet-manifest-editor/puppet-manifest-editor.module";
 import { UniversalBrowserModule } from "../../../commons/universal-browser/universal-browser.module";
 import { CommonComponentsModule } from "../../../commons/common-components/common-components.module";
 import { DashboardSignedCertsComponent } from "./dashboard-certs/signed-certs/dashboard-signed-certs.component";
@@ -79,7 +78,6 @@ export const routes: Routes = [
   exports: components,
   imports: [
     CommonModule,
-    PuppetManifestEditorModule,
     UniversalBrowserModule,
     CommonComponentsModule,
     ReactiveFormsModule,

@@ -11,10 +11,10 @@ import { UniversalBrowserRow } from "../../../../../commons/universal-browser/mo
 import { CertStates } from "../model/cert-states";
 import _ from "lodash";
 import { AgentsService } from "../../dashboard-agents/core/agents.service";
+import { DashboardCertsUtils } from "../utils/dashboard-certs-utils";
 import {
   ActiveEnvironmentManager
-} from "../../../../../commons/common-components/active-environment-manager/active-environment-manager.service";
-import { DashboardCertsUtils } from "../utils/dashboard-certs-utils";
+} from "../../../../../commons/active-environment-manager/active-environment-manager.service";
 
 @Component({
   selector: 'app-dashboard-signed-certs',

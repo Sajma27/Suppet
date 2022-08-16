@@ -4,11 +4,11 @@ import { take } from "rxjs/operators";
 import { DashboardMenus } from "../dashboard-menus/model/dashboard-menus";
 import _ from "lodash";
 import { Router } from "@angular/router";
-import {
-  ActiveEnvironmentManager
-} from "../../../commons/common-components/active-environment-manager/active-environment-manager.service";
 import { Subscription } from "rxjs";
 import { CookieService } from "ngx-cookie-service";
+import {
+  ActiveEnvironmentManager
+} from "../../../commons/active-environment-manager/active-environment-manager.service";
 
 @Component({
   selector: 'app-dashboard',

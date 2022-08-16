@@ -14,7 +14,6 @@ import java.util.Objects;
 
 @Service
 public class PuppetCertsService extends AbstractBrowserService {
-    private final Logger log = LoggerFactory.getLogger("PuppetCertsService");
 
     @Override
     protected UniversalBrowserHeader[] getHeaders() {

@@ -2,9 +2,6 @@ import { Component } from '@angular/core';
 import { UniversalBrowserAction } from "../../../../commons/universal-browser/model/universal-browser-action";
 import { UniversalBrowserRow } from "../../../../commons/universal-browser/model/universal-browser-row";
 import {
-  ActiveEnvironmentManager
-} from "../../../../commons/common-components/active-environment-manager/active-environment-manager.service";
-import {
   BasicDashboardBrowserCrudMenuComponent
 } from "../abstract-dashboard-menus/basic-dashboard-browser-crud-menu/basic-dashboard-browser-crud-menu.component";
 import { EnvironmentsService } from "./core/environments-service";
@@ -17,6 +14,9 @@ import {
   GlobalProcessesUtils
 } from "../../../../commons/common-components/global-processes-browser/core/global-processes.utils";
 import _ from "lodash";
+import {
+  ActiveEnvironmentManager
+} from "../../../../commons/active-environment-manager/active-environment-manager.service";
 
 @Component({
   selector: 'app-dashboard-environments',

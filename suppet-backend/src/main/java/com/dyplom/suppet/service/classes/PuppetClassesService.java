@@ -6,7 +6,7 @@ import com.dyplom.suppet.service.classes.model.enums.PuppetParamType;
 import com.dyplom.suppet.service.common.AbstractPuppetFilesBrowserCRUDService;
 import com.dyplom.suppet.service.common.BasePuppetFile;
 import com.dyplom.suppet.service.common.UniversalBrowserHeader;
-import com.dyplom.suppet.service.puppetdb.validator.PuppetValidationException;
+import com.dyplom.suppet.service.common.validator.PuppetValidationException;
 import org.springframework.stereotype.Service;
 
 import java.util.*;

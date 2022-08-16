@@ -11,7 +11,7 @@ import {
 } from "../../../../../commons/universal-browser/model/universal-browser-action-result";
 import {
   ActiveEnvironmentManager
-} from "../../../../../commons/common-components/active-environment-manager/active-environment-manager.service";
+} from "../../../../../commons/active-environment-manager/active-environment-manager.service";
 
 @Injectable({
   providedIn: 'root'

@@ -11,7 +11,7 @@ import {
 import { AgentDto } from "../model/agent-dto";
 import {
   ActiveEnvironmentManager
-} from "../../../../../commons/common-components/active-environment-manager/active-environment-manager.service";
+} from "../../../../../commons/active-environment-manager/active-environment-manager.service";
 
 @Injectable({
   providedIn: 'root'
