@@ -4,6 +4,9 @@ import {
 } from "../abstract-dashboard-menus/basic-dashboard-browser-menu/basic-dashboard-browser-menu.component";
 import { UniversalBrowserAction } from "../../../../commons/universal-browser/model/universal-browser-action";
 import { ManifestsService } from "./core/manifests.service";
+import {
+  GlobalProcessesManager
+} from "../../../../commons/common-components/global-processes-browser/core/global-processes.manager";
 
 @Component({
   selector: 'app-dashboard-manifests',
@@ -12,8 +15,8 @@ import { ManifestsService } from "./core/manifests.service";
 })
 export class DashboardManifestsComponent extends BasicDashboardBrowserMenuComponent<ManifestsService> implements OnInit {
 
-  constructor(service: ManifestsService) {
-    super(service);
+  constructor(service: ManifestsService, processesManager: GlobalProcessesManager) {
+    super(service, processesManager);
   }
 
   ngOnInit(): void {

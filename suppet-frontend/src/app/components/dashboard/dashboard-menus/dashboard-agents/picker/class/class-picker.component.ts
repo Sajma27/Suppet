@@ -11,8 +11,8 @@ import { ClassDto } from "../../../dashboard-classes/model/class-dto";
 import { AgentDto } from '../../model/agent-dto';
 import _ from "lodash";
 import {
-  GlobalProcessesUtils
-} from "../../../../../../commons/common-components/global-processes-browser/core/global-processes.utils";
+  GlobalProcessesManager
+} from "../../../../../../commons/common-components/global-processes-browser/core/global-processes.manager";
 
 @Component({
   selector: 'app-class-picker',
@@ -40,7 +40,8 @@ export class ClassPickerComponent {
               @Inject(MAT_DIALOG_DATA) data: { agent: string },
               readonly classesService: ClassesService,
               private readonly classesAgents: AgentsService,
-              private dialog: MatDialog) {
+              private dialog: MatDialog,
+              private processesManager: GlobalProcessesManager) {
     this.browserConfig.usingTotalRowCount = false;
     this.browserConfig.title = "Klasy";
     this.browserConfig.actions = [
@@ -76,7 +77,7 @@ export class ClassPickerComponent {
   }
 
   onSaveClick(): void {
-    GlobalProcessesUtils.runProcess('Przypisywanie klas agentowi ' + this.agentDto.name, this.classesAgents.updateAgentsClassesManifest(this.agentDto));
+    this.processesManager.runProcess('Przypisywanie klas agentowi ' + this.agentDto.name, this.classesAgents.updateAgentsClassesManifest(this.agentDto));
     this.dialogRef.close();
   }
 

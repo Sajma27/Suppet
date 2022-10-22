@@ -11,8 +11,8 @@ import {
 } from "../../../../commons/universal-browser/universal-browser-form/model/universal-browser-form-mode";
 import { EnvironmentFormComponent } from "./forms/environment-form.component";
 import {
-  GlobalProcessesUtils
-} from "../../../../commons/common-components/global-processes-browser/core/global-processes.utils";
+  GlobalProcessesManager
+} from "../../../../commons/common-components/global-processes-browser/core/global-processes.manager";
 import _ from "lodash";
 import {
   ActiveEnvironmentManager
@@ -27,8 +27,9 @@ export class DashboardEnvironmentsComponent extends BasicDashboardBrowserCrudMen
   private readonly READONLY_ENVS: string[] = ['production'];
 
   constructor(service: EnvironmentsService,
-              private environmentManager: ActiveEnvironmentManager) {
-    super(service);
+              private environmentManager: ActiveEnvironmentManager,
+              processesManager: GlobalProcessesManager) {
+    super(service, processesManager);
     this.browserConfig.environmentFieldName = null;
     this.browserConfig.formComponent = EnvironmentFormComponent;
     this.browserConfig.hideEditAction = true;
@@ -52,7 +53,7 @@ export class DashboardEnvironmentsComponent extends BasicDashboardBrowserCrudMen
         true),
       new UniversalBrowserAction('Kopiuj', 'folder_copy',
         (row: UniversalBrowserRow) =>
-          GlobalProcessesUtils.runProcess('Kopiowanie środowiska: ' + row.data.name, this.browserService.copy(row)),
+          this.processesManager.runProcess('Kopiowanie środowiska: ' + row.data.name, this.browserService.copy(row)),
         (row: UniversalBrowserRow) => this.rowIsNilOrReadonly(row),
         true, CopyEnvironmentFormComponent, UniversalBrowserFormMode.CUSTOM)
     ];

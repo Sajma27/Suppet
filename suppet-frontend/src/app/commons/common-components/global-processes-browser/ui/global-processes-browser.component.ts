@@ -1,5 +1,5 @@
 import { Component, OnDestroy } from '@angular/core';
-import { GlobalProcessesUtils } from "../core/global-processes.utils";
+import { GlobalProcessesManager } from "../core/global-processes.manager";
 import { Subscription } from "rxjs";
 import { GlobalProcess } from "../model/global-process";
 import { MatDialog } from "@angular/material/dialog";
@@ -17,18 +17,18 @@ export class GlobalProcessesBrowserComponent implements OnDestroy {
 
   private processesSub: Subscription;
 
-  constructor(private dialog: MatDialog) {
-    this.processes = [...GlobalProcessesUtils.getProcesses()];
-    this.processesSub = GlobalProcessesUtils.getProcessesAsObservable()
+  constructor(private processesManager: GlobalProcessesManager, private dialog: MatDialog) {
+    this.processes = [...this.processesManager.getProcesses()];
+    this.processesSub = this.processesManager.getProcessesAsObservable()
       .subscribe((processes) => this.processes = [...processes]);
   }
 
   removeProcess(idx: number) {
-    GlobalProcessesUtils.removeProcess(idx);
+    this.processesManager.removeProcess(idx);
   }
 
   removeCompletedProcesses() {
-    GlobalProcessesUtils.removeCompletedProcesses();
+    this.processesManager.removeCompletedProcesses();
   }
 
   ngOnDestroy(): void {

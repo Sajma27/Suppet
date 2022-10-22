@@ -4,6 +4,9 @@ import {
 } from "../../../../../commons/universal-browser/core/abstract-universal-browser.service";
 import { UniversalBrowserAction } from "../../../../../commons/universal-browser/model/universal-browser-action";
 import _ from "lodash";
+import {
+  GlobalProcessesManager
+} from "../../../../../commons/common-components/global-processes-browser/core/global-processes.manager";
 
 export abstract class BasicDashboardBrowserMenuComponent<SERVICE extends AbstractUniversalBrowserService, CONFIG extends UniversalBrowserConfig = UniversalBrowserConfig> {
 
@@ -14,7 +17,9 @@ export abstract class BasicDashboardBrowserMenuComponent<SERVICE extends Abstrac
 
   protected readonly browserConfig: CONFIG = new UniversalBrowserConfig() as CONFIG;
 
-  protected constructor(public readonly browserService: SERVICE, public readonly subBrowserService: AbstractUniversalBrowserService = null) {
+  protected constructor(public readonly browserService: SERVICE,
+                        protected readonly processesManager: GlobalProcessesManager,
+                        public readonly subBrowserService: AbstractUniversalBrowserService = null) {
     this.initProperties();
     this.showSubBrowser = !_.isNil(subBrowserService);
   }

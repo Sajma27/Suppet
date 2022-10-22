@@ -5,6 +5,9 @@ import {
   BasicDashboardBrowserCrudMenuComponent
 } from "../abstract-dashboard-menus/basic-dashboard-browser-crud-menu/basic-dashboard-browser-crud-menu.component";
 import { ClassFormComponent } from "./forms/class-form/class-form.component";
+import {
+  GlobalProcessesManager
+} from "../../../../commons/common-components/global-processes-browser/core/global-processes.manager";
 
 @Component({
   selector: 'app-dashboard-classes',
@@ -13,8 +16,8 @@ import { ClassFormComponent } from "./forms/class-form/class-form.component";
 })
 export class DashboardClassesComponent extends BasicDashboardBrowserCrudMenuComponent<ClassesService> {
 
-  constructor(service: ClassesService) {
-    super(service);
+  constructor(service: ClassesService, processesManager: GlobalProcessesManager) {
+    super(service, processesManager);
     this.browserConfig.formComponent = ClassFormComponent;
     this.browserConfig.withFormsLoadingFromBackend = true;
     this.browserConfig.usingTotalRowCount = false;

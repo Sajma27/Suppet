@@ -8,8 +8,8 @@ import { UniversalBrowserRow } from "../../../../../../commons/universal-browser
 import _ from "lodash";
 import { UniversalBrowserAction } from "../../../../../../commons/universal-browser/model/universal-browser-action";
 import {
-  GlobalProcessesUtils
-} from "../../../../../../commons/common-components/global-processes-browser/core/global-processes.utils";
+  GlobalProcessesManager
+} from "../../../../../../commons/common-components/global-processes-browser/core/global-processes.manager";
 import { tap } from "rxjs/operators";
 
 
@@ -28,7 +28,8 @@ export class EnvironmentPickerComponent {
   constructor(protected dialogRef: MatDialogRef<EnvironmentPickerComponent>,
               @Inject(MAT_DIALOG_DATA) data: { agent: string, environment: string, parentBrowserRefreshFunc: () => void },
               readonly environmentsService: EnvironmentsService,
-              private readonly agentsService: AgentsService) {
+              private readonly agentsService: AgentsService,
+              private processesManager: GlobalProcessesManager) {
     this.dialogRef = dialogRef;
     this.browserConfig.usingTotalRowCount = false;
     this.browserConfig.title = "Środowiska";
@@ -45,7 +46,7 @@ export class EnvironmentPickerComponent {
   }
 
   onSaveClick(): void {
-    GlobalProcessesUtils.runProcess('Zmiana środowiska "' + this.agentDto.name + '" na: ' + this.agentDto.environment,
+    this.processesManager.runProcess('Zmiana środowiska "' + this.agentDto.name + '" na: ' + this.agentDto.environment,
       this.agentsService.changeAgentsEnvironment(this.agentDto.name, this.agentDto.environment).pipe(
         tap(() => this.parentBrowserRefreshFunc())
       ));

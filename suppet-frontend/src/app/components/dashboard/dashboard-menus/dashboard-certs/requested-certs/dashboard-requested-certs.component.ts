@@ -19,6 +19,9 @@ import { DashboardCertsUtils } from "../utils/dashboard-certs-utils";
 import {
   BasicDashboardBrowserMenuComponent
 } from "../../abstract-dashboard-menus/basic-dashboard-browser-menu/basic-dashboard-browser-menu.component";
+import {
+  GlobalProcessesManager
+} from "../../../../../commons/common-components/global-processes-browser/core/global-processes.manager";
 
 @Component({
   selector: 'app-dashboard-requested-certs',
@@ -28,8 +31,9 @@ import {
 export class DashboardRequestedCertsComponent extends BasicDashboardBrowserMenuComponent<CertsBrowserService> {
 
   constructor(service: CertsBrowserService,
-              private agentsService: AgentsService) {
-    super(service);
+              private agentsService: AgentsService,
+              processesManager: GlobalProcessesManager) {
+    super(service, processesManager);
     this.browserConfig.params.additionalParams.push(new UniversalBrowserAdditionalParam('requested', 'true'));
   }
 
@@ -43,16 +47,16 @@ export class DashboardRequestedCertsComponent extends BasicDashboardBrowserMenuC
 
   getActions(): UniversalBrowserAction[] {
     const addNewCertAction: UniversalBrowserAsyncAction = new UniversalBrowserAsyncAction(
-      'Dodaj nowy certyfikat', 'add', (row: UniversalBrowserRow) => this.agentsService.addToHostsAndUpdateAgent(row.data.ip, row.data.name),
+      this.processesManager, 'Dodaj nowy certyfikat', 'add', (row: UniversalBrowserRow) => this.agentsService.addToHostsAndUpdateAgent(row.data.ip, row.data.name),
       false, () => this.getTitle() + ': Dodawanie certyfikatu', true,
       DashboardNewCertForm, UniversalBrowserFormMode.NEW);
 
-    const signAction = new UniversalBrowserAsyncAction('Podpisz', 'check_circle',
+    const signAction = new UniversalBrowserAsyncAction(this.processesManager, 'Podpisz', 'check_circle',
       (row: UniversalBrowserRow) => this.browserService.signCert(row.data.name),
       (row: UniversalBrowserRow) => _.isNil(row) || row.data.state === CertStates.SIGNED || DashboardCertsUtils.isReadonlyRow(row),
       (row: UniversalBrowserRow) => 'Aktywacja certyfikatu: ' + row.data.name, true);
 
-    const cleanAction = new UniversalBrowserAsyncAction('Wyczyść', 'delete',
+    const cleanAction = new UniversalBrowserAsyncAction(this.processesManager, 'Wyczyść', 'delete',
       (row: UniversalBrowserRow) => this.browserService.cleanCert(row.data.name),
       (row: UniversalBrowserRow) => _.isNil(row) || DashboardCertsUtils.isReadonlyRow(row),
       (row: UniversalBrowserRow) => 'Usuwanie certyfikatu: ' + row.data.name, true);

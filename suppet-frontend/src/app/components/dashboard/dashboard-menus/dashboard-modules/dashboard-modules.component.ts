@@ -12,6 +12,9 @@ import {
 import {
   BasicDashboardBrowserCrudMenuComponent
 } from "../abstract-dashboard-menus/basic-dashboard-browser-crud-menu/basic-dashboard-browser-crud-menu.component";
+import {
+  GlobalProcessesManager
+} from "../../../../commons/common-components/global-processes-browser/core/global-processes.manager";
 
 @Component({
   selector: 'app-dashboard-classes',
@@ -20,8 +23,9 @@ import {
 })
 export class DashboardModulesComponent extends BasicDashboardBrowserCrudMenuComponent<ModulesService> {
 
-  constructor(service: ModulesService) {
-    super(service);
+  constructor(service: ModulesService,
+              processesManager: GlobalProcessesManager) {
+    super(service, processesManager);
     this.browserConfig.formComponent = ModuleFormComponent;
     this.browserConfig.hideEditAction = true;
     this.browserConfig.withValidation = false;
@@ -39,12 +43,12 @@ export class DashboardModulesComponent extends BasicDashboardBrowserCrudMenuComp
   getActions(): UniversalBrowserAction[] {
     return [
       new UniversalBrowserAsyncAction(
-        'Aktualizuj', 'update',
+        this.processesManager, 'Aktualizuj', 'update',
         (row: UniversalBrowserRow) => this.browserService.upgrade(row), true,
         (row: UniversalBrowserRow) => 'Aktualizacja modułu: ' + row.data.name, true,
         ModuleFormComponent, UniversalBrowserFormMode.EDIT),
       new UniversalBrowserAsyncAction(
-        'Akt. do najnowszej wersji', 'update',
+        this.processesManager, 'Akt. do najnowszej wersji', 'update',
         (row: UniversalBrowserRow) => this.browserService.upgradeToNewest(row), true,
         (row: UniversalBrowserRow) => 'Aktualizacja modułu: ' + row.data.name, true)
     ];

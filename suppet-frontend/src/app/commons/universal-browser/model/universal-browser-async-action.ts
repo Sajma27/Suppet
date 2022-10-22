@@ -1,5 +1,5 @@
 import { tap } from "rxjs/operators";
-import { GlobalProcessesUtils } from "../../common-components/global-processes-browser/core/global-processes.utils";
+import { GlobalProcessesManager } from "../../common-components/global-processes-browser/core/global-processes.manager";
 import { Observable } from "rxjs";
 import { UniversalBrowserRow } from "./universal-browser-row";
 import { booleanFuncOrValue, UniversalBrowserAction } from "./universal-browser-action";
@@ -16,7 +16,8 @@ export class UniversalBrowserAsyncAction extends UniversalBrowserAction {
   private disabledRowsIds: Set<number> = new Set<number>();
   private readonly getProcessLabel: Function;
 
-  constructor(name: string, icon: string, callback: (row: UniversalBrowserRow) => Observable<GlobalProcessBackendResponse>,
+  constructor(private processesManager: GlobalProcessesManager, name: string, icon: string,
+              callback: (row: UniversalBrowserRow) => Observable<GlobalProcessBackendResponse>,
               disabledOnNoRow: booleanFuncOrValue = false, getProcessLabel: (row: UniversalBrowserRow) => string = null,
               refreshOnCallback: boolean = false, formComponent: Type<UniversalBrowserFormComponent<any, any>> = null,
               formMode: UniversalBrowserFormMode = UniversalBrowserFormMode.CUSTOM, disabledFormFields: string[] = [],
@@ -51,7 +52,7 @@ export class UniversalBrowserAsyncAction extends UniversalBrowserAction {
     return (row: UniversalBrowserRow) => {
       this.disableRow(row);
       const asyncCallback: Observable<any> = callback(row).pipe(tap(() => this.afterCallbackFunction(row), () => this.afterCallbackFunction(row)));
-      GlobalProcessesUtils.runProcess(this.getProcessLabel(row), asyncCallback);
+      this.processesManager.runProcess(this.getProcessLabel(row), asyncCallback);
     }
   }
 

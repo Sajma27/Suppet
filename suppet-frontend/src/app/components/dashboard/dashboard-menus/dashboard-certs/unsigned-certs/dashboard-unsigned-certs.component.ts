@@ -13,6 +13,9 @@ import {
 import { UniversalBrowserRow } from "../../../../../commons/universal-browser/model/universal-browser-row";
 import _ from "lodash";
 import { DashboardCertsUtils } from "../utils/dashboard-certs-utils";
+import {
+  GlobalProcessesManager
+} from "../../../../../commons/common-components/global-processes-browser/core/global-processes.manager";
 
 @Component({
   selector: 'app-dashboard-unsigned-certs',
@@ -21,8 +24,9 @@ import { DashboardCertsUtils } from "../utils/dashboard-certs-utils";
 })
 export class DashboardUnsignedCertsComponent extends BasicDashboardBrowserMenuComponent<CertsBrowserService> {
 
-  constructor(service: CertsBrowserService) {
-    super(service);
+  constructor(service: CertsBrowserService,
+              processesManager: GlobalProcessesManager) {
+    super(service, processesManager);
     this.browserConfig.params.additionalParams.push(new UniversalBrowserAdditionalParam('revoked', 'true'));
   }
 
@@ -35,7 +39,7 @@ export class DashboardUnsignedCertsComponent extends BasicDashboardBrowserMenuCo
   }
 
   getActions(): UniversalBrowserAction[] {
-    const cleanAction = new UniversalBrowserAsyncAction('Wyczyść', 'delete',
+    const cleanAction = new UniversalBrowserAsyncAction(this.processesManager, 'Wyczyść', 'delete',
       (row: UniversalBrowserRow) => this.browserService.cleanCert(row.data.name),
       (row: UniversalBrowserRow) => _.isNil(row) || DashboardCertsUtils.isReadonlyRow(row),
       (row: UniversalBrowserRow) => 'Usuwanie certyfikatu: ' + row.data.name, true);

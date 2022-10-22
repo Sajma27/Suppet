@@ -8,6 +8,8 @@ import { AbstractUniversalBrowserCrudService } from "../core/abstract-universal-
 import { UniversalBrowserFormMode } from "../universal-browser-form/model/universal-browser-form-mode";
 import { UniversalBrowserAction } from "../model/universal-browser-action";
 import { Observable } from "rxjs";
+import { GlobalProcessesManager } from "../../common-components/global-processes-browser/core/global-processes.manager";
+import { ActiveEnvironmentManager } from "../../active-environment-manager/active-environment-manager.service";
 
 @Component({
   selector: 'app-universal-browser-crud',
@@ -18,6 +20,11 @@ export class UniversalBrowserCrudComponent extends UniversalBrowserComponent {
 
   @Input() service: AbstractUniversalBrowserCrudService<any>;
   @Input() config: UniversalBrowserCrudConfig;
+
+  constructor(private processesManager: GlobalProcessesManager,
+              public environmentManager: ActiveEnvironmentManager) {
+    super(environmentManager);
+  }
 
   ngOnInit(): void {
     this.addFormActions();
@@ -33,7 +40,7 @@ export class UniversalBrowserCrudComponent extends UniversalBrowserComponent {
       const formActions: UniversalBrowserAction[] = [];
       if (!this.config.hideNewAction) {
         formActions.push(new UniversalBrowserAsyncAction(
-          'Dodaj', 'add', (row: UniversalBrowserRow) => this.service.add(row),
+          this.processesManager, 'Dodaj', 'add', (row: UniversalBrowserRow) => this.service.add(row),
           false, () => this.config.title + ': Dodawnie nowego obiektu', true,
           this.config.formComponent, UniversalBrowserFormMode.NEW,
           [], false,
@@ -41,7 +48,7 @@ export class UniversalBrowserCrudComponent extends UniversalBrowserComponent {
       }
       if (!this.config.hideEditAction) {
         formActions.push(new UniversalBrowserAsyncAction(
-          'Edytuj', 'edit', (row: UniversalBrowserRow) => this.service.edit(row),
+          this.processesManager, 'Edytuj', 'edit', (row: UniversalBrowserRow) => this.service.edit(row),
           !_.isNil(this.config.editDisabledFunc) ? (row: UniversalBrowserRow) => this.config.editDisabledFunc(row) : true,
           () => this.config.title + ': Edycja obiektu', true,
           this.config.formComponent, UniversalBrowserFormMode.EDIT,
@@ -50,7 +57,7 @@ export class UniversalBrowserCrudComponent extends UniversalBrowserComponent {
       }
       if (!this.config.hideDeleteAction) {
         formActions.push(new UniversalBrowserAsyncAction(
-          'Usuń', 'delete', (row: UniversalBrowserRow) => this.service.delete(row),
+          this.processesManager, 'Usuń', 'delete', (row: UniversalBrowserRow) => this.service.delete(row),
           !_.isNil(this.config.deleteDisabledFunc) ? (row: UniversalBrowserRow) => this.config.deleteDisabledFunc(row) : true,
           () => this.config.title + ': Usuwanie obiektu', true,
           this.config.formComponent, UniversalBrowserFormMode.DELETE, [],

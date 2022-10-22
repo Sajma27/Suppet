@@ -24,8 +24,8 @@ import {
 import { AgentDto } from "./model/agent-dto";
 import { AgentsConfig } from "./model/agents-config";
 import {
-  GlobalProcessesUtils
-} from "../../../../commons/common-components/global-processes-browser/core/global-processes.utils";
+  GlobalProcessesManager
+} from "../../../../commons/common-components/global-processes-browser/core/global-processes.manager";
 import { map, tap } from "rxjs/operators";
 import {
   GlobalProcessBackendResponse
@@ -46,9 +46,10 @@ export class DashboardAgentsComponent extends BasicDashboardBrowserMenuComponent
 
   constructor(service: PuppetDbNodesService,
               subBrowserService: PuppetDbFactsService,
+              processesManager: GlobalProcessesManager,
               private agentsService: AgentsService,
               private dialog: MatDialog) {
-    super(service, subBrowserService);
+    super(service, processesManager, subBrowserService);
     this.subBrowserConfig.params.limit = 50;
     this.browserConfig.environmentFieldName = 'catalog_environment';
   }
@@ -80,7 +81,7 @@ export class DashboardAgentsComponent extends BasicDashboardBrowserMenuComponent
       new UniversalBrowserAction('Przypisz klasy', 'class',
         (row: UniversalBrowserRow) => this.assignClasses(row),
         (row: UniversalBrowserRow) => _.isNil(row) || DashboardAgentsComponent.NON_EDITABLE_AGENTS.includes(row.data.certname)),
-      new UniversalBrowserAsyncAction('Aktualizuj', 'update',
+      new UniversalBrowserAsyncAction(this.processesManager, 'Aktualizuj', 'update',
         (row: UniversalBrowserRow) => this.agentsService.updateAgent(row.data.certname),
         (row: UniversalBrowserRow) => !row,
         (row: UniversalBrowserRow) => 'Aktualizacja agenta: ' + row.data.certname, true),
@@ -98,7 +99,7 @@ export class DashboardAgentsComponent extends BasicDashboardBrowserMenuComponent
           return new GlobalProcessBackendResponse(0);
         })
       );
-    GlobalProcessesUtils.runProcess("Pobieranie konfiguracji agenta: " + row.data.certname, getAgentsConfigAndOpenFormObservable);
+    this.processesManager.runProcess("Pobieranie konfiguracji agenta: " + row.data.certname, getAgentsConfigAndOpenFormObservable);
   }
 
   private openConfigForm(agent: AgentDto, row: UniversalBrowserRow): void {
@@ -110,7 +111,7 @@ export class DashboardAgentsComponent extends BasicDashboardBrowserMenuComponent
       [],
       (config: AgentsConfig) => {
         agent.config = config;
-        GlobalProcessesUtils.runProcess(
+        this.processesManager.runProcess(
           'Aktualizacja konfiguracji agenta: ' + agent.name,
           this.agentsService.setAgentsConfig(agent).pipe(tap(() => this.browser?.refresh()))
         );

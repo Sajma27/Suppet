@@ -15,6 +15,9 @@ import { DashboardCertsUtils } from "../utils/dashboard-certs-utils";
 import {
   ActiveEnvironmentManager
 } from "../../../../../commons/active-environment-manager/active-environment-manager.service";
+import {
+  GlobalProcessesManager
+} from "../../../../../commons/common-components/global-processes-browser/core/global-processes.manager";
 
 @Component({
   selector: 'app-dashboard-signed-certs',
@@ -25,8 +28,9 @@ export class DashboardSignedCertsComponent extends BasicDashboardBrowserMenuComp
 
   constructor(service: CertsBrowserService,
               private agentsService: AgentsService,
-              private environmentManager: ActiveEnvironmentManager) {
-    super(service);
+              private environmentManager: ActiveEnvironmentManager,
+              processesManager: GlobalProcessesManager) {
+    super(service, processesManager);
     this.browserConfig.sortingDisabled = true;
     this.browserConfig.filteringDisabled = true;
     this.browserConfig.usingTotalRowCount = false;
@@ -43,19 +47,19 @@ export class DashboardSignedCertsComponent extends BasicDashboardBrowserMenuComp
   getActions(): UniversalBrowserAction[] {
     const actions: UniversalBrowserAction[] = [];
 
-    const assignToEnv = new UniversalBrowserAsyncAction('Przypisz do akt. środowiska', 'park',
+    const assignToEnv = new UniversalBrowserAsyncAction(this.processesManager, 'Przypisz do akt. środowiska', 'park',
       (row: UniversalBrowserRow) => this.agentsService.changeAgentsEnvironment(row.data.name, this.environmentManager.activeEnvironment),
       (row: UniversalBrowserRow) => _.isNil(row) || !this.environmentManager.hasActiveEnvironment() || DashboardCertsUtils.isReadonlyRow(row),
       (row: UniversalBrowserRow) => 'Przypisywanie do akt. środowiska: ' + row.data.name, true)
     actions.push(assignToEnv);
 
-    const revokeAction = new UniversalBrowserAsyncAction('Dezaktywuj', 'unpublished',
+    const revokeAction = new UniversalBrowserAsyncAction(this.processesManager, 'Dezaktywuj', 'unpublished',
       (row: UniversalBrowserRow) => this.browserService.revokeCert(row.data.name),
       (row: UniversalBrowserRow) => _.isNil(row) || row.data.state === CertStates.REVOKED || DashboardCertsUtils.isReadonlyRow(row),
       (row: UniversalBrowserRow) => 'Dezaktywacja certyfikatu: ' + row.data.name, true);
     actions.push(revokeAction);
 
-    const cleanAction = new UniversalBrowserAsyncAction('Wyczyść', 'delete',
+    const cleanAction = new UniversalBrowserAsyncAction(this.processesManager, 'Wyczyść', 'delete',
       (row: UniversalBrowserRow) => this.browserService.cleanCert(row.data.name),
       (row: UniversalBrowserRow) => _.isNil(row) || DashboardCertsUtils.isReadonlyRow(row),
       (row: UniversalBrowserRow) => 'Usuwanie certyfikatu: ' + row.data.name, true);
