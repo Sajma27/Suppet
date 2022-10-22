@@ -5,8 +5,6 @@ import { UniversalBrowserHeader } from "../model/universal-browser-header";
 import { UniversalBrowserAction } from "../model/universal-browser-action";
 import { UniversalBrowserFullDto } from "../model/universal-browser-full-dto";
 import { AbstractUniversalBrowserService } from "../core/abstract-universal-browser.service";
-import { QueryField } from "../core/query-field";
-import { OrderByField } from "../core/order-by-field";
 import { Sort } from "@angular/material/sort";
 import { flatMap } from "rxjs/internal/operators";
 import { UniversalBrowserRow } from "../model/universal-browser-row";
@@ -15,6 +13,8 @@ import { Observable } from "rxjs";
 import { UniversalBrowserParams } from "../model/universal-browser-params";
 import _ from "lodash";
 import { ActiveEnvironmentManager } from "../../active-environment-manager/active-environment-manager.service";
+import { QueryField } from "../model/query-field";
+import { OrderByField } from "../model/order-by-field";
 
 @Component({
   selector: 'app-universal-browser',

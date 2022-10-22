@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { UniversalBrowserConfig } from "../model/universal-browser-config";
-import { QueryField } from "../core/query-field";
 import { UniversalBrowserHeader } from "../model/universal-browser-header";
+import { QueryField } from "../model/query-field";
 
 @Component({
   selector: 'app-universal-browser-filters',

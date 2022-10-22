@@ -10,7 +10,7 @@ import {
   UniversalBrowserAsyncAction
 } from "../../../../commons/universal-browser/model/universal-browser-async-action";
 import { PuppetDbFactsService } from "../../../../commons/puppet-db/facts/puppet-db-facts.service";
-import { QueryField } from "../../../../commons/universal-browser/core/query-field";
+import { QueryField } from "../../../../commons/universal-browser/model/query-field";
 import { UniversalBrowserComponent } from "../../../../commons/universal-browser/ui/universal-browser.component";
 import { MatDialog } from "@angular/material/dialog";
 import _ from "lodash";

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { dateOperators, numberOperators, operators, QueryField, stringOperators } from "../../core/query-field";
+import { dateOperators, numberOperators, operators, QueryField, stringOperators } from "../../model/query-field";
 import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { UniversalBrowserHeader } from "../../model/universal-browser-header";
 import { Subscription } from "rxjs";

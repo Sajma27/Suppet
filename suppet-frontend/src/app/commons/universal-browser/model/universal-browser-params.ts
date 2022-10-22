@@ -1,6 +1,6 @@
-import { QueryField } from "../core/query-field";
-import { OrderByField } from "../core/order-by-field";
 import { UniversalBrowserAdditionalParam } from "./universal-browser-additional-param";
+import { QueryField } from "./query-field";
+import { OrderByField } from "./order-by-field";
 
 export class UniversalBrowserParams {
   query: QueryField[] = [];
